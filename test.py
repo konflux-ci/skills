@@ -91,14 +91,19 @@ def invoke_claude(prompt: str, skill_content: str, model: str = "haiku") -> str:
     Invoke Claude CLI with the given prompt and skill content.
 
     Uses --append-system-prompt to inject the skill content.
-    Allows tool execution with --dangerously-skip-permissions.
+    Allows only safe read-only tools and subagent creation.
     """
     # Invoke claude CLI with skill content appended to system prompt
     cmd = [
         "claude",
         "--print",
         "--model", model,
-        "--dangerously-skip-permissions",
+        "--allow", "Read(*)",
+        "--allow", "Grep(*)",
+        "--allow", "Glob(*)",
+        "--allow", "WebFetch(*)",
+        "--allow", "WebSearch(*)",
+        "--allow", "Task(*)",
         "--append-system-prompt", skill_content,
         prompt
     ]
