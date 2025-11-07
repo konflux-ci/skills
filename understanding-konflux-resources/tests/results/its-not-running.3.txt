@@ -1,14 +1,24 @@
 # skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-Let me help you diagnose this further. Could you provide me with:
-1. The namespace you're using
-2. The output of `kubectl get integrationtestscenarios -n <your-namespace>`
-3. The output of `kubectl get snapshots -n <your-namespace>`
-4. The details of your IntegrationTestScenario YAML
+Based on the comprehensive troubleshooting guide, I have a few specific questions to help diagnose why your IntegrationTestScenario (ITS) is not running:
 
-This will help me pinpoint exactly why your Integration Test Scenario is not running after builds complete. The most common issues are:
+1. Can you confirm the namespace where your:
+   - Application is created
+   - Component is created
+   - IntegrationTestScenario is created
+
+2. Have you verified that a Snapshot was automatically created after your Component build completed?
+
+3. Can you share the output of these kubectl commands in your tenant namespace:
+   ```bash
+   kubectl get integrationtestscenarios
+   kubectl get snapshots
+   kubectl get components
+   ```
+
+The most common reasons an ITS doesn't run are:
 - Incorrect namespace placement
-- Missing or incorrect Application reference
-- Tekton pipeline not configured
-- IntegrationTestScenario created after the build
+- No Snapshot created
+- ITS not referencing the correct Application
+- Missing or misconfigured Tekton pipeline
 
-Would you like to share those details so I can help you troubleshoot?
+Providing those details will help me pinpoint exactly why your IntegrationTestScenario is not triggering after builds.

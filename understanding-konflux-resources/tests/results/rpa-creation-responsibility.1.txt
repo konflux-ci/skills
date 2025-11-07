@@ -1,29 +1,21 @@
 # skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-Based on the "Understanding Konflux Resources" skill, the platform engineer creates the ReleasePlanAdmission (RPA). 
+Based on the "Understanding Konflux Resources" guide, you do NOT create the ReleasePlanAdmission (RPA). 
 
-Specifically, from the resource table in the skill:
+The RPA is specifically created by the **Platform Engineer**, not by the application developer. It is placed in the **managed namespace** and contains release pipeline credentials and configuration.
 
-| Resource | Who Creates | Namespace |
-|----------|-------------|-----------|
-| ReleasePlanAdmission | Platform Engineer | **Managed** |
+Here's the key information from the reference:
 
-The key points are:
-- YOU (as a developer/user) create the ReleasePlan in your tenant namespace
-- The PLATFORM ENGINEER creates the ReleasePlanAdmission in the managed namespace
-- The RPA contains release pipeline credentials and is kept in a restricted, controlled namespace
+| Resource | Who Creates | Namespace | Key Point |
+|----------|-------------|-----------|-----------|
+| ReleasePlanAdmission (RPA) | Platform Engineer | **Managed** | Contains secrets |
 
-Here's a practical example from the skill:
+As a developer, your role is to:
+1. Create a ReleasePlan (RP) in your tenant namespace
+2. Request the platform team to create the corresponding ReleasePlanAdmission in the managed namespace
 
-```
-In Tenant Namespace (you create):
-- ReleasePlan: "prod-release-plan"
-  - Points to Application
-  - References target workspace
+This separation ensures that:
+- Developers can request releases
+- Sensitive credentials remain isolated in a controlled namespace
+- Platform engineers manage access and security for release pipelines
 
-In Managed Namespace (Platform Engineer creates):
-- ReleasePlanAdmission: "prod-admission"
-  - Contains production credentials
-  - Defines release pipeline
-```
-
-This separation ensures that sensitive release credentials are isolated from development teams while still allowing developers to request releases.
+So to directly answer your question: No, you do not create the RPA. That's the responsibility of the platform engineering team.

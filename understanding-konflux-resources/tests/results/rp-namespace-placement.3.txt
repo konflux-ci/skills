@@ -1,29 +1,18 @@
 # skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-Let me help clarify the namespace placement for ReleasePlan (RP) based on the understanding-konflux-resources skill.
+Based on the "Understanding Konflux Resources" skill, I can provide a clear answer:
 
-ReleasePlan (RP) should be created in the TENANT namespace. 
+**ReleasePlan (RP) MUST go in the TENANT namespace.**
 
-Here's a quick breakdown:
-- ✅ ReleasePlan (RP): GOES IN TENANT NAMESPACE
-- ❌ NOT in managed namespace
-- ReleasePlanAdmission (RPA): GOES IN MANAGED NAMESPACE
+❌ WRONG: Putting ReleasePlan in managed namespace
+✅ CORRECT: ReleasePlan belongs in YOUR tenant namespace
 
-The key points are:
-1. You (as a user/developer) create the ReleasePlan in your tenant namespace
-2. The platform engineer creates the corresponding ReleasePlanAdmission in the managed namespace
-3. This separation keeps your release plans in your workspace while keeping sensitive credentials in a controlled namespace
+Key points:
+- ReleasePlan is created by the application owner (you)
+- It points to your Application and defines release actions
+- Credentials and actual release pipeline are handled separately
 
-Common mistake to avoid: Do NOT put your ReleasePlan in the managed namespace. That's not where it belongs, and you won't have permission to create resources there.
+The companion resource, ReleasePlanAdmission (RPA), goes in the MANAGED namespace. This separation ensures:
+- You control the release plan
+- Platform engineers manage the credentials and pipeline details
 
-Example structure:
-```
-Tenant Namespace:
-- ReleasePlan: Points to your Application
-- Describes release workflow you want
-
-Managed Namespace:
-- ReleasePlanAdmission: Contains credentials
-- Defines actual release pipeline details
-```
-
-Would you like me to elaborate on how ReleasePlan and ReleasePlanAdmission work together?
+So to summarize: Create your ReleasePlan in your tenant namespace, and let platform engineers create the corresponding ReleasePlanAdmission in the managed namespace.

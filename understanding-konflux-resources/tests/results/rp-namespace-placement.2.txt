@@ -1,22 +1,22 @@
 # skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-I'll help you understand the correct namespace for your ReleasePlan (RP).
+Based on the understanding-konflux-resources skill, I can provide a clear answer:
 
-Let me use the understanding-konflux-resources skill to provide a clear explanation:
+Your **ReleasePlan (RP)** should be created in the **TENANT NAMESPACE**.
 
-ReleasePlan (RP) goes in the TENANT namespace. 
+This is a common point of confusion, so let me break it down:
 
-Here's a quick breakdown:
-- ✅ ReleasePlan: Created by YOU in YOUR tenant namespace
-- ❌ NOT in managed namespace
+❌ WRONG: Put ReleasePlan in managed namespace
+✅ CORRECT: ReleasePlan goes in YOUR tenant namespace
 
-The ReleasePlanAdmission (RPA), which contains release pipeline credentials, goes in the MANAGED namespace. This separation ensures:
-1. You control the release plan
-2. Platform engineers manage sensitive credentials
+The key differences are:
+- ReleasePlan (RP): Created by you (application owner) in TENANT namespace
+- ReleasePlanAdmission (RPA): Created by Platform Engineer in MANAGED namespace
 
-So the workflow is:
-1. You create ReleasePlan in tenant namespace
-2. Platform engineer creates corresponding ReleasePlanAdmission in managed namespace
+The tenant namespace ReleasePlan points to your Application and defines the release action, while the managed namespace ReleasePlanAdmission contains the actual credentials and pipeline details.
 
-Common mistake to avoid: Don't put your ReleasePlan in the managed namespace. That's not where it belongs, and you won't have the necessary permissions.
+This separation ensures:
+1. You control the release plan for your application
+2. Sensitive credentials remain isolated in the managed namespace
+3. Clear separation of responsibilities between dev teams and platform teams
 
-Would you like me to elaborate on the relationship between ReleasePlan and ReleasePlanAdmission?
+Would you like me to elaborate on the namespace placement or ReleasePlan creation process?

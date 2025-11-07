@@ -1,25 +1,30 @@
 # skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-To help diagnose your specific issue, I'll need some more information:
+Based on the diagnostic exploration, here are the key steps I recommend for troubleshooting why your IntegrationTestScenario (ITS) is not running:
 
-1. Can you share the namespace where your Application, Component, and IntegrationTestScenario are created?
-2. Do you have the YAML configuration for your IntegrationTestScenario?
-3. Have you checked if a Snapshot was created after your build?
+1. **Verify ITS Configuration**
+   - Run: `kubectl get integrationtestscenario -n <your-namespace>`
+   - Check the details of your ITS resource
+   - Ensure the `.spec.application` exactly matches your Application name
+   - Confirm `.spec.components` list is complete and accurate
 
-Key things to check immediately:
-- Confirm all resources (App, Component, ITS) are in the SAME namespace
-- Verify the ITS was created BEFORE or DURING the build process
-- Check that a Snapshot was successfully created
+2. **Check Snapshot Creation**
+   - Run: `kubectl get snapshots -n <your-namespace>`
+   - Verify a Snapshot exists after your build completes
+   - Confirm the Snapshot references the correct Component
 
-I recommend running these commands in your cluster:
-```bash
-# Check IntegrationTestScenarios
-kubectl get integrationtestscenarios -n <your-tenant-namespace>
+3. **Inspect Build Status**
+   - Run: `tkn pipelinerun list -n <your-namespace>`
+   - Ensure your build PipelineRun completed successfully
+   - Look for a 'Succeeded' status
 
-# Check Snapshots
-kubectl get snapshots -n <your-tenant-namespace>
+4. **Examine ITS Events**
+   - Run: `kubectl describe integrationtestscenario <its-name> -n <your-namespace>`
+   - Look for any error messages or event logs explaining why the test isn't running
 
-# Describe your ITS to see any potential configuration issues
-kubectl describe integrationtestscenario <its-name> -n <your-tenant-namespace>
-```
+Common reasons for ITS not running include:
+- Incorrect Application or Component references
+- Snapshot not created or invalid
+- Insufficient permissions
+- Misconfigured Tekton pipeline
 
-Could you provide the output of these commands or share more details about your setup?
+Would you like me to help you diagnose the specific issue by checking these details? If you can share the output of these commands (with sensitive information redacted), I can provide more targeted advice.

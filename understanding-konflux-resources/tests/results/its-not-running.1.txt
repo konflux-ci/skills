@@ -1,22 +1,30 @@
 # skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-Based on the exploration, I recommend you check the following:
+Based on the comprehensive troubleshooting analysis, here are the key things to check for why your IntegrationTestScenario (ITS) is not running:
 
-1. Namespace Verification
-   - Confirm your IntegrationTestScenario (ITS) is in the SAME tenant namespace as your Application and Component
-   
-2. Resource Configuration
-   - Ensure your ITS explicitly references the correct Application name
-   - Verify you have a Tekton pipeline configured that the ITS can reference
+1. **ITS Configuration**
+   - Verify the ITS exists: `oc get integrationtestscenarios`
+   - Confirm it references the correct Application name
+   - Check that the ITS spec correctly matches your Component and Application
 
-3. Snapshot Check
-   - Run `kubectl get snapshots -n <your-tenant-namespace>` to confirm Snapshots are being created after builds
+2. **Snapshot Verification**
+   - Ensure a Snapshot was created after your build: `oc get snapshots`
+   - Check if the Snapshot has the correct labels
+   - Verify the Snapshot is linked to your Application and Component
 
-Could you provide me with:
-1. The namespace you're using
-2. The name of your Application
-3. The name of your IntegrationTestScenario
-4. Output of `kubectl get snapshots -n <namespace>`
+3. **Pipeline and Permissions**
+   - Confirm the referenced Tekton pipeline exists: `oc get pipelines`
+   - Check for any RBAC (Role-Based Access Control) issues
+   - Review cluster events for any blocking conditions: `oc get events`
 
-This will help me precisely diagnose why your ITS is not running after builds complete.
+Common reasons an ITS might not run:
+- ❌ Incorrect Application or Component reference
+- ❌ No Snapshot created
+- ❌ Missing pipeline configuration
+- ❌ Namespace or permission problems
 
-Would you like to share those details so I can help you troubleshoot?
+To diagnose further, I recommend:
+1. Run `oc describe integrationtestscenario <its-name>` to get detailed information
+2. Check `oc get events` to see if there are any error messages
+3. Verify your Snapshot creation with `oc get snapshots`
+
+Would you like me to help you walk through checking these specific points? Could you share the output of `oc get integrationtestscenarios` and `oc get snapshots` so I can provide more targeted advice?

@@ -98,12 +98,7 @@ def invoke_claude(prompt: str, skill_content: str, model: str = "haiku") -> str:
         "claude",
         "--print",
         "--model", model,
-        "--allow", "Read(*)",
-        "--allow", "Grep(*)",
-        "--allow", "Glob(*)",
-        "--allow", "WebFetch(*)",
-        "--allow", "WebSearch(*)",
-        "--allow", "Task(*)",
+        "--tools", "Read,Grep,Glob,WebFetch,WebSearch,Task",
         "--append-system-prompt", skill_content,
         prompt
     ]

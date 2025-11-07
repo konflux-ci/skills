@@ -1,15 +1,28 @@
 # skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-I'll help you diagnose the specific issue. Could you provide me with more details:
+Let me help you investigate your specific situation. Could you provide more details:
 
-1. Can you share the YAML for your IntegrationTestScenario?
-2. What namespace are your Application, Component, and IntegrationTestScenario in?
-3. Have you confirmed that Snapshots are being created after your builds?
+1. Can you share the contents of your IntegrationTestScenario (ITS) resource?
+2. What namespace is your ITS defined in?
+3. Have you successfully built your Component?
+4. Have you checked the events or conditions of your ITS?
 
-I recommend running these commands to get more information:
+A few quick commands you can run to help diagnose:
 ```bash
-kubectl get integrationtestscenarios -n <your-tenant-namespace>
-kubectl get snapshots -n <your-tenant-namespace>
-kubectl describe integrationtestscenario <its-name> -n <your-tenant-namespace>
+# List your IntegrationTestScenarios
+oc get integrationtestscenarios
+
+# Describe the ITS to see its current state
+oc describe integrationtestscenario <its-name>
+
+# Check recent events
+oc get events
 ```
 
-These will help us pinpoint exactly why your IntegrationTestScenario isn't triggering after builds.
+The most common reasons an ITS doesn't trigger are:
+- Incorrect labels
+- Mismatched namespace
+- Build not completing successfully
+- Snapshot not created
+- Tekton pipeline issues
+
+I'll be happy to help you pinpoint and resolve the specific issue preventing your ITS from running.

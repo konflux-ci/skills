@@ -1,46 +1,26 @@
 # skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-Based on the comprehensive troubleshooting guide, here are the key steps to diagnose why your IntegrationTestScenario (ITS) isn't triggering after builds:
+Based on the comprehensive diagnostic guide, I recommend you go through these specific troubleshooting steps:
 
-1. **Namespace Verification**
+1. Verify ITS Namespace
    ```bash
-   kubectl get its -n <your-tenant-namespace>
-   ```
-   - Confirm your ITS exists in the CORRECT namespace
-   - Ensure it's in the tenant namespace, NOT the managed namespace
-
-2. **Snapshot Validation**
-   ```bash
-   kubectl get snapshots -n <your-tenant-namespace>
-   ```
-   - Verify snapshots are being created after builds
-   - Check if the ITS references the correct Application/Components
-
-3. **Common Reasons ITS Might Not Run:
-   - ❌ Incorrect namespace for ITS
-   - ❌ No snapshots generated
-   - ❌ Misconfigured pipeline references
-   - ❌ Insufficient permissions
-   - ❌ ITS not linked to your Application
-
-4. **Detailed Diagnostics**
-   ```bash
-   # Describe your snapshot to check its status
-   kubectl describe snapshot <snapshot-name> -n <your-tenant-namespace>
-
-   # Check ITS details
-   kubectl describe its <its-name> -n <your-tenant-namespace>
+   oc get integrationtestscenario -n <your-tenant-namespace>
    ```
 
-5. **Verification Checklist**
-   - [ ] ITS is in tenant namespace
-   - [ ] Snapshot exists after build
-   - [ ] Pipeline referenced by ITS is valid
-   - [ ] Service account has required permissions
-   - [ ] ITS correctly references your Application
+2. Check Snapshot Creation
+   ```bash
+   oc get snapshots -n <your-tenant-namespace>
+   ```
 
-Would you like me to help you go through these diagnostic steps? Could you provide:
-1. The namespace you're using
-2. The name of your IntegrationTestScenario
-3. The output of `kubectl get snapshots` and `kubectl get its`
+3. Examine Build Status
+   ```bash
+   oc get builds -n <your-tenant-namespace>
+   ```
 
-This will help me pinpoint exactly why your ITS isn't triggering.
+Can you run these commands and share the output? This will help me pinpoint exactly why your IntegrationTestScenario isn't triggering. 
+
+Specific things I'll be looking for:
+- Are snapshots being created after builds?
+- Is your ITS in the correct namespace?
+- Do the builds complete successfully?
+
+Would you like to proceed with these diagnostic steps?

@@ -1,25 +1,33 @@
 # skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-Let me help clarify that for you using the understanding-konflux-resources skill.
+Based on the Konflux resource guidelines, I'll help clarify the namespace placement for ReleasePlan (RP).
 
-According to the skill, a ReleasePlan (RP) should be created in the TENANT namespace. 
+**ReleasePlan (RP) goes in the TENANT namespace**
 
-Here's the key detail from the resource reference:
+Here's a quick breakdown:
+- ✅ ReleasePlan: Created in YOUR tenant namespace
+- ❌ NOT in managed namespace
+- ReleasePlanAdmission (RPA): Created in MANAGED namespace by platform engineers
 
+Key points:
+- ReleasePlan is a user-created resource that maps an Application to a release action
+- It belongs to the application owner (you)
+- Platform team handles credentials and pipeline details via ReleasePlanAdmission in the managed namespace
+
+Example scenario:
 ```
-In Tenant Namespace:
+Tenant Namespace (You create):
 - ReleasePlan: "prod-release-plan"
-  - Points to Application
-  - References target workspace
+  - Points to your Application
+  - Defines release workflow
+
+Managed Namespace (Platform team creates):
+- ReleasePlanAdmission: "prod-admission"
+  - Contains production credentials
+  - Defines actual release pipeline
 ```
 
-The common mistake is putting the ReleasePlan in the managed namespace. The ReleasePlan (which you create) goes in YOUR tenant namespace, while the ReleasePlanAdmission (RPA), which contains credentials, goes in the managed namespace.
-
-To break it down:
-- ✅ ReleasePlan (RP): Created by you in TENANT namespace
-- ✅ ReleasePlanAdmission (RPA): Created by Platform Engineer in MANAGED namespace
-
-This separation ensures that:
-1. You can define your release plans in your own namespace
-2. Sensitive credentials are kept in a controlled, managed namespace
+Common mistake to avoid:
+❌ "I'll put my ReleasePlan in the managed namespace for security"
+✅ "I'll create my ReleasePlan in my tenant namespace, and the platform team will create the corresponding ReleasePlanAdmission"
 
 Would you like me to elaborate on the relationship between ReleasePlan and ReleasePlanAdmission?
