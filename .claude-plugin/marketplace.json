@@ -1,0 +1,18 @@
+{
+  "name": "konflux-skills",
+  "owner": {
+    "name": "Konflux CI",
+    "email": "noreply@konflux-ci.dev"
+  },
+  "plugins": [
+    {
+      "name": "understanding-konflux-resources",
+      "source": "understanding-konflux-resources",
+      "description": "Quick reference for Konflux CI/CD Custom Resources - helps users understand Applications, Components, Snapshots, IntegrationTestScenarios, ReleasePlans, namespace placement, and common confusions",
+      "version": "1.0.0",
+      "author": {
+        "name": "Konflux CI Team"
+      }
+    }
+  ]
+}
