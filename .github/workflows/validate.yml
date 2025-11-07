@@ -1,0 +1,19 @@
+name: Validate Marketplace
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Validate with claudelint
+        run: |
+          docker run -v $(pwd):/workspace -w /workspace ghcr.io/stbenjam/claudelint:latest --strict
