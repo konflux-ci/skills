@@ -105,10 +105,31 @@ Recommended next skills based on original research:
    - Feature request in issue tracker
    - Prevents arch-specific pitfalls
 
+### Development and Validation
+
+Before committing changes to this repository, ensure the marketplace schema is valid:
+
+```bash
+# Run validation using Make (recommended)
+make validate
+
+# Or run directly with Docker/Podman
+docker run --rm -v $(pwd):/workspace:Z -w /workspace ghcr.io/stbenjam/claudelint:latest --strict
+```
+
+The validation checks:
+- ✅ Marketplace schema validity
+- ✅ Plugin source paths (must start with `./`)
+- ✅ Required fields in marketplace.json
+- ✅ JSON syntax correctness
+
+**CI/CD**: GitHub Actions automatically validates all PRs and commits to main using claudelint in strict mode.
+
 ### Repository Status
 
 - ✅ First skill committed and signed
 - ✅ Follows TDD for documentation
 - ✅ All tests passing
+- ✅ Automated validation via GitHub Actions
 - ✅ Ready for users
 - 🎯 Foundation for future Konflux skills
