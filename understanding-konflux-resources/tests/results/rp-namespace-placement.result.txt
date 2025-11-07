@@ -1,0 +1,25 @@
+Based on the skill content for understanding-konflux-resources, I can confidently answer your question:
+
+Your ReleasePlan (RP) should be created in YOUR TENANT namespace.
+
+The skill explicitly highlights this point with a clear example:
+❌ WRONG: "Put ReleasePlan in managed namespace for security"
+✅ CORRECT: ReleasePlan goes in YOUR tenant namespace.
+
+To elaborate, the ReleasePlan is a resource created by the application owner (you) and maps an Application to a release action. It belongs specifically in the tenant namespace, which is the namespace associated with your team or project.
+
+In contrast, the ReleasePlanAdmission (RPA), which contains release pipeline credentials and secrets, goes in the managed namespace. This separation ensures that sensitive information is appropriately secured while keeping your release planning configuration in your own namespace.
+
+INTERPRETATION:
+1. Abbreviations:
+   - RP = ReleasePlan
+   - RPA = ReleasePlanAdmission
+   - Tenant namespace = The namespace belonging to your team/project
+
+2. Skill Sections Used:
+   - Quick Reference table
+   - ❌/✅ example demonstrating correct namespace placement
+   - Descriptions of who creates each resource
+
+3. Confidence Level: High (100%)
+   The skill provides a clear, direct answer to the namespace placement question, with explicit guidance and an illustrative example.

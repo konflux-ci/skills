@@ -8,8 +8,8 @@
     {
       "name": "understanding-konflux-resources",
       "source": "./understanding-konflux-resources",
-      "description": "Quick reference for Konflux CI/CD Custom Resources - helps users understand Applications, Components, Snapshots, IntegrationTestScenarios, ReleasePlans, namespace placement, and common confusions",
-      "version": "1.0.0",
+      "description": "Quick reference for Konflux CI/CD Custom Resources (RP, RPA, ITS) - helps users understand Applications, Components, Snapshots, IntegrationTestScenarios, ReleasePlans, namespace placement, common abbreviations, and confusions",
+      "version": "1.0.1",
       "author": {
         "name": "Konflux CI Team"
       }

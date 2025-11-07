@@ -1,3 +1,6 @@
+You have access to a Konflux resources skill. Here are the key sections:
+
+=== SKILL CONTENT START ===
 ---
 name: understanding-konflux-resources
 description: Use when working with Konflux CI and need to understand Applications, Components, Snapshots, IntegrationTestScenarios (ITS), ReleasePlans (RP), ReleasePlanAdmissions (RPA), or namespace placement, especially when using common abbreviations (RP, RPA, ITS) - provides quick reference for Konflux Custom Resources, what they do, who creates them, and where they belong
@@ -234,3 +237,14 @@ To Release:
 ## Keywords for Search
 
 Konflux resources, Custom Resource Definition, CRD, Application CR, Component CR, Snapshot lifecycle, IntegrationTestScenario, ReleasePlan, ReleasePlanAdmission, Release CR, tenant namespace, managed namespace, build pipeline, PipelineRun, Integration Service, Build Service, Release Service, Tekton pipeline, OCI artifact, container image, git repository, webhook, automatic build, snapshot creation, integration testing, release workflow, RP, RPA, ITS, App, Comp, shortname, abbreviation, acronym, ReleasePlan abbreviation, IntegrationTestScenario abbreviation, ReleasePlanAdmission abbreviation
+
+=== SKILL CONTENT END ===
+
+IMPORTANT: This is a real user question, not a test. Answer naturally using the skill content above.
+
+User question: "I'm confused about where to create my RP - should it go in the tenant namespace or managed namespace?"
+
+After providing your answer, add a section starting with "INTERPRETATION:" explaining:
+1. How you interpreted any abbreviations (e.g., RP, ITS, RPA)
+2. Which parts of the skill you used
+3. Your confidence level
