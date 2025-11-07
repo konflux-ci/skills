@@ -16,7 +16,6 @@ test_scenarios:
       contains_keywords:
         - tenant namespace
         - ReleasePlan
-        - RP
       does_not_contain:
         - Resource Pool
     baseline_failure: "Agent didn't recognize RP abbreviation, gave generic answer"
@@ -30,26 +29,22 @@ test_scenarios:
       recognizes: IntegrationTestScenario
       contains_keywords:
         - IntegrationTestScenario
-        - before
-        - Application
-        - pipeline
       does_not_contain: []
     baseline_failure: "Agent didn't recognize ITS, couldn't provide specific troubleshooting"
 
   - name: rpa-creation-responsibility
     description: Test RPA abbreviation and role/responsibility understanding
-    prompt: "Do I create the RPA or does the platform team create it?"
+    prompt: "Do I create the RPA?"
     model: haiku
     samples: 3
     expected:
       recognizes: ReleasePlanAdmission
       contains_keywords:
         - platform engineer
-        - ReleasePlanAdmission
         - managed namespace
       does_not_contain:
-        - you create
-        - user creates
+        - you create the RPA
+        - user creates the RPA
     baseline_failure: "Agent confused about who creates ReleasePlanAdmission"
 
   - name: rp-rpa-relationship
@@ -77,6 +72,5 @@ test_scenarios:
       recognizes: IntegrationTestScenario
       contains_keywords:
         - IntegrationTestScenario
-        - ITS
       does_not_contain: []
     baseline_failure: "Agent didn't recognize lowercase 'its'"

@@ -1,2 +1,25 @@
 # skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-Could you provide more details so I can help you pinpoint exactly why your ITS is not running?
+To help diagnose your specific issue, I'll need some more information:
+
+1. Can you share the namespace where your Application, Component, and IntegrationTestScenario are created?
+2. Do you have the YAML configuration for your IntegrationTestScenario?
+3. Have you checked if a Snapshot was created after your build?
+
+Key things to check immediately:
+- Confirm all resources (App, Component, ITS) are in the SAME namespace
+- Verify the ITS was created BEFORE or DURING the build process
+- Check that a Snapshot was successfully created
+
+I recommend running these commands in your cluster:
+```bash
+# Check IntegrationTestScenarios
+kubectl get integrationtestscenarios -n <your-tenant-namespace>
+
+# Check Snapshots
+kubectl get snapshots -n <your-tenant-namespace>
+
+# Describe your ITS to see any potential configuration issues
+kubectl describe integrationtestscenario <its-name> -n <your-tenant-namespace>
+```
+
+Could you provide the output of these commands or share more details about your setup?
