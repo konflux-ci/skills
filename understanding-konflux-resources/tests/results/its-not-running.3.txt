@@ -1,0 +1,14 @@
+# skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
+Let me help you diagnose this further. Could you provide me with:
+1. The namespace you're using
+2. The output of `kubectl get integrationtestscenarios -n <your-namespace>`
+3. The output of `kubectl get snapshots -n <your-namespace>`
+4. The details of your IntegrationTestScenario YAML
+
+This will help me pinpoint exactly why your Integration Test Scenario is not running after builds complete. The most common issues are:
+- Incorrect namespace placement
+- Missing or incorrect Application reference
+- Tekton pipeline not configured
+- IntegrationTestScenario created after the build
+
+Would you like to share those details so I can help you troubleshoot?

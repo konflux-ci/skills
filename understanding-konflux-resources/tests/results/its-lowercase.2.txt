@@ -1,0 +1,13 @@
+# skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
+Based on the comprehensive diagnostic guide, I can help you troubleshoot why your IntegrationTestScenario (ITS) isn't triggering. However, to provide the most accurate assistance, I'll need a bit more information from you:
+
+1. Can you share the output of `kubectl get its -n <your-namespace>`?
+2. Can you show me the YAML of your IntegrationTestScenario?
+3. Can you confirm the namespace where your Application, Component, and IntegrationTestScenario are located?
+
+A few quick things to check:
+- Verify the ITS is in the SAME namespace as your Application
+- Confirm that Snapshots are being created after your builds
+- Check that your Tekton pipeline is properly configured
+
+Would you like to provide those details so I can help you diagnose the specific issue?

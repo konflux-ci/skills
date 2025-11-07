@@ -1,0 +1,14 @@
+# skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
+To directly answer your questions:
+
+1. **How does the RPA reference the RP?**
+   The ReleasePlanAdmission (RPA) explicitly references the ReleasePlan (RP) by its name, but crucially, this reference is made across different namespaces. The RPA will have a configuration that points to the specific ReleasePlan in the tenant namespace.
+
+2. **Do they need to be in the same namespace?**
+   **No, they absolutely should NOT be in the same namespace.** 
+   - The ReleasePlan (RP) must be in the TENANT namespace
+   - The ReleasePlanAdmission (RPA) must be in the MANAGED namespace
+
+This separation is intentional for security reasons, allowing application owners to define release strategies while platform engineers manage the actual release credentials and pipeline configurations.
+
+Would you like me to elaborate on any part of this explanation or provide more details about how these resources interact?

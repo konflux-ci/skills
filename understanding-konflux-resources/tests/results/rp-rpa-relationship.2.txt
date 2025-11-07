@@ -1,0 +1,45 @@
+# skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
+Let me use the understanding-konflux-resources skill to provide a detailed explanation.
+
+No, the ReleasePlan (RP) and ReleasePlanAdmission (RPA) do NOT need to be in the same namespace. In fact, they are intentionally placed in different namespaces by design:
+
+- **ReleasePlan (RP)** is created in the **TENANT namespace**
+  - Created by the application owner
+  - Defines the release strategy for an Application
+  - Contains high-level release configuration
+
+- **ReleasePlanAdmission (RPA)** is created in the **MANAGED namespace**
+  - Created by Platform Engineers
+  - Contains actual release credentials and pipeline details
+  - Provides the technical implementation of the release
+
+The reference between RP and RPA is typically made through matching labels or names. The RPA will have a specification that points to or matches the ReleasePlan, allowing it to implement the release strategy defined in the tenant namespace.
+
+Here's a conceptual example of how they relate:
+
+```
+Tenant Namespace:
+- ReleasePlan: "my-app-prod-release"
+  - Specifies: Which Application to release
+  - Defines: Release strategy/targets
+
+Managed Namespace:
+- ReleasePlanAdmission: "my-app-prod-release-admission"
+  - References: "my-app-prod-release"
+  - Contains: Actual credentials
+  - Defines: Specific release pipeline details
+```
+
+Key points:
+- Different namespaces (tenant vs managed)
+- RPA implements the RP
+- Separation of concerns: 
+  - Tenant defines WHAT to release
+  - Platform defines HOW to release
+
+This design ensures:
+1. Developers can request releases
+2. Platform engineers control release credentials
+3. Secure separation of configuration and secrets
+
+Would you like me to elaborate on any part of this explanation?

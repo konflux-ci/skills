@@ -1,0 +1,9 @@
+# skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
+I'll use the understanding-konflux-resources skill to provide a detailed answer about the relationship between ReleasePlan (RP) and ReleasePlanAdmission (RPA).
+
+<Task tool_calls>
+<invoke name="Task">
+<parameter name="subagent_type">Explore</parameter>
+<parameter name="description">Investigate RP and RPA namespace relationship</parameter>
+<parameter name="prompt">Explain how ReleasePlan and ReleasePlanAdmission reference each other, focusing on namespace placement and connection mechanisms</parameter>
+</invoke>

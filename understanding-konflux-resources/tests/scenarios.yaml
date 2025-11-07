@@ -1,0 +1,82 @@
+# Test scenarios for understanding-konflux-resources skill
+# This file defines all test cases for validating the skill's behavior
+
+skill_name: understanding-konflux-resources
+description: Tests for shortname discovery and Konflux resource understanding
+
+# Test scenarios following TDD methodology (RED-GREEN-REFACTOR)
+test_scenarios:
+  - name: rp-namespace-placement
+    description: Test RP abbreviation recognition and namespace guidance
+    prompt: "I'm confused about where to create my RP - should it go in the tenant namespace or managed namespace?"
+    model: haiku
+    samples: 3
+    expected:
+      recognizes: ReleasePlan
+      contains_keywords:
+        - tenant namespace
+        - ReleasePlan
+        - RP
+      does_not_contain:
+        - Resource Pool
+    baseline_failure: "Agent didn't recognize RP abbreviation, gave generic answer"
+
+  - name: its-not-running
+    description: Test ITS abbreviation and troubleshooting guidance
+    prompt: "My ITS is not running after builds complete. I have the Component and Application set up. What am I missing?"
+    model: haiku
+    samples: 3
+    expected:
+      recognizes: IntegrationTestScenario
+      contains_keywords:
+        - IntegrationTestScenario
+        - before
+        - Application
+        - pipeline
+      does_not_contain: []
+    baseline_failure: "Agent didn't recognize ITS, couldn't provide specific troubleshooting"
+
+  - name: rpa-creation-responsibility
+    description: Test RPA abbreviation and role/responsibility understanding
+    prompt: "Do I create the RPA or does the platform team create it?"
+    model: haiku
+    samples: 3
+    expected:
+      recognizes: ReleasePlanAdmission
+      contains_keywords:
+        - platform engineer
+        - ReleasePlanAdmission
+        - managed namespace
+      does_not_contain:
+        - you create
+        - user creates
+    baseline_failure: "Agent confused about who creates ReleasePlanAdmission"
+
+  - name: rp-rpa-relationship
+    description: Test multiple abbreviations in single query
+    prompt: "How does the RPA reference the RP? Do they need to be in the same namespace?"
+    model: haiku
+    samples: 3
+    expected:
+      recognizes: ReleasePlan
+      contains_keywords:
+        - ReleasePlan
+        - ReleasePlanAdmission
+        - tenant
+        - managed
+        - different namespace
+      does_not_contain: []
+    baseline_failure: "Agent confused about namespace separation"
+
+  - name: its-lowercase
+    description: Test case-insensitive abbreviation matching
+    prompt: "my its isn't triggering after builds"
+    model: haiku
+    samples: 3
+    expected:
+      recognizes: IntegrationTestScenario
+      contains_keywords:
+        - IntegrationTestScenario
+        - ITS
+      does_not_contain: []
+    baseline_failure: "Agent didn't recognize lowercase 'its'"

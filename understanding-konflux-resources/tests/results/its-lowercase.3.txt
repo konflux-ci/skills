@@ -1,0 +1,15 @@
+# skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
+I'll help you diagnose the specific issue. Could you provide me with more details:
+
+1. Can you share the YAML for your IntegrationTestScenario?
+2. What namespace are your Application, Component, and IntegrationTestScenario in?
+3. Have you confirmed that Snapshots are being created after your builds?
+
+I recommend running these commands to get more information:
+```bash
+kubectl get integrationtestscenarios -n <your-tenant-namespace>
+kubectl get snapshots -n <your-tenant-namespace>
+kubectl describe integrationtestscenario <its-name> -n <your-tenant-namespace>
+```
+
+These will help us pinpoint exactly why your IntegrationTestScenario isn't triggering after builds.

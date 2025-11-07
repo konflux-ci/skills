@@ -1,0 +1,22 @@
+# skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
+Based on the exploration, I recommend you check the following:
+
+1. Namespace Verification
+   - Confirm your IntegrationTestScenario (ITS) is in the SAME tenant namespace as your Application and Component
+   
+2. Resource Configuration
+   - Ensure your ITS explicitly references the correct Application name
+   - Verify you have a Tekton pipeline configured that the ITS can reference
+
+3. Snapshot Check
+   - Run `kubectl get snapshots -n <your-tenant-namespace>` to confirm Snapshots are being created after builds
+
+Could you provide me with:
+1. The namespace you're using
+2. The name of your Application
+3. The name of your IntegrationTestScenario
+4. Output of `kubectl get snapshots -n <namespace>`
+
+This will help me precisely diagnose why your ITS is not running after builds complete.
+
+Would you like to share those details so I can help you troubleshoot?

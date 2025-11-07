@@ -1,0 +1,46 @@
+# skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
+Based on the comprehensive troubleshooting guide, here are the key steps to diagnose why your IntegrationTestScenario (ITS) isn't triggering after builds:
+
+1. **Namespace Verification**
+   ```bash
+   kubectl get its -n <your-tenant-namespace>
+   ```
+   - Confirm your ITS exists in the CORRECT namespace
+   - Ensure it's in the tenant namespace, NOT the managed namespace
+
+2. **Snapshot Validation**
+   ```bash
+   kubectl get snapshots -n <your-tenant-namespace>
+   ```
+   - Verify snapshots are being created after builds
+   - Check if the ITS references the correct Application/Components
+
+3. **Common Reasons ITS Might Not Run:
+   - ❌ Incorrect namespace for ITS
+   - ❌ No snapshots generated
+   - ❌ Misconfigured pipeline references
+   - ❌ Insufficient permissions
+   - ❌ ITS not linked to your Application
+
+4. **Detailed Diagnostics**
+   ```bash
+   # Describe your snapshot to check its status
+   kubectl describe snapshot <snapshot-name> -n <your-tenant-namespace>
+
+   # Check ITS details
+   kubectl describe its <its-name> -n <your-tenant-namespace>
+   ```
+
+5. **Verification Checklist**
+   - [ ] ITS is in tenant namespace
+   - [ ] Snapshot exists after build
+   - [ ] Pipeline referenced by ITS is valid
+   - [ ] Service account has required permissions
+   - [ ] ITS correctly references your Application
+
+Would you like me to help you go through these diagnostic steps? Could you provide:
+1. The namespace you're using
+2. The name of your IntegrationTestScenario
+3. The output of `kubectl get snapshots` and `kubectl get its`
+
+This will help me pinpoint exactly why your ITS isn't triggering.

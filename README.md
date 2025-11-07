@@ -107,23 +107,35 @@ Recommended next skills based on original research:
 
 ### Development and Validation
 
-Before committing changes to this repository, ensure the marketplace schema is valid:
+Before committing changes to this repository, ensure both schema and skill tests are valid:
 
 ```bash
-# Run validation using Make (recommended)
+# Run full test suite (linting + skill tests)
+make test
+
+# Run just linting
 make validate
 
-# Or run directly with Docker/Podman
-docker run --rm -v $(pwd):/workspace:Z -w /workspace ghcr.io/stbenjam/claudelint:latest --strict
+# Run just skill tests
+make test-only
+
+# List all available tests
+make test-list
 ```
 
 The validation checks:
-- ✅ Marketplace schema validity
+- ✅ Marketplace schema validity (claudelint)
 - ✅ Plugin source paths (must start with `./`)
 - ✅ Required fields in marketplace.json
 - ✅ JSON syntax correctness
+- ✅ Skill test scenarios (declarative YAML-based)
 
-**CI/CD**: GitHub Actions automatically validates all PRs and commits to main using claudelint in strict mode.
+**Testing Infrastructure**: See [TESTING.md](TESTING.md) for details on the centralized, declarative test runner that discovers and validates all skills.
+
+**CI/CD**: GitHub Actions automatically validates all PRs and commits to main:
+- ✅ Runs claudelint in strict mode
+- ✅ Validates all skill test scenarios (checks existing test results)
+- ✅ Fails if any committed test results don't pass validation
 
 ### Repository Status
 

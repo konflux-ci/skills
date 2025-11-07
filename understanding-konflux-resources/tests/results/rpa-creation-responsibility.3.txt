@@ -1,0 +1,26 @@
+# skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
+Based on the "Understanding Konflux Resources" section in the context, the **platform engineer creates the ReleasePlanAdmission (RPA)**, while you (as a user) create the ReleasePlan.
+
+Specifically, from the Quick Reference table:
+- ReleasePlanAdmission (RPA): Created by **Platform Engineer**
+- Namespace: **Managed** namespace
+- Key Point: Contains release pipeline credentials
+
+The documentation provides a clear explanation of the separation of responsibilities:
+- You (in the tenant namespace) create the ReleasePlan
+- Platform Engineer (in the managed namespace) creates the ReleasePlanAdmission
+
+Here's a quote that directly addresses this:
+```
+In Tenant Namespace:
+- ReleasePlan: "prod-release-plan"
+  - Points to Application
+  - References target workspace
+
+In Managed Namespace (Platform Engineer creates):
+- ReleasePlanAdmission: "prod-admission"
+  - Contains production credentials
+  - Defines release pipeline
+```
+
+The reason for this separation is to keep release credentials isolated from dev teams while still allowing developers to request releases. The platform team manages the sensitive credentials and release pipeline configuration in the managed namespace.

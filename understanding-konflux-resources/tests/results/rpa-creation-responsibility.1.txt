@@ -1,0 +1,29 @@
+# skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
+Based on the "Understanding Konflux Resources" skill, the platform engineer creates the ReleasePlanAdmission (RPA). 
+
+Specifically, from the resource table in the skill:
+
+| Resource | Who Creates | Namespace |
+|----------|-------------|-----------|
+| ReleasePlanAdmission | Platform Engineer | **Managed** |
+
+The key points are:
+- YOU (as a developer/user) create the ReleasePlan in your tenant namespace
+- The PLATFORM ENGINEER creates the ReleasePlanAdmission in the managed namespace
+- The RPA contains release pipeline credentials and is kept in a restricted, controlled namespace
+
+Here's a practical example from the skill:
+
+```
+In Tenant Namespace (you create):
+- ReleasePlan: "prod-release-plan"
+  - Points to Application
+  - References target workspace
+
+In Managed Namespace (Platform Engineer creates):
+- ReleasePlanAdmission: "prod-admission"
+  - Contains production credentials
+  - Defines release pipeline
+```
+
+This separation ensures that sensitive release credentials are isolated from development teams while still allowing developers to request releases.

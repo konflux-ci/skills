@@ -1,0 +1,25 @@
+# skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
+I'll provide a detailed answer using the understanding-konflux-resources skill.
+
+According to the resource breakdown, **the platform engineer creates the ReleasePlanAdmission (RPA)**. 
+
+Specifically, from the "Quick Reference" table:
+- ReleasePlanAdmission (RPA) is created by "Platform Engineer"
+- It is placed in the **Managed** namespace
+- Contains release pipeline credentials
+
+The key distinction is:
+- YOU (as a developer/user) create the ReleasePlan (RP) in your tenant namespace
+- The PLATFORM TEAM creates the ReleasePlanAdmission (RPA) in the managed namespace
+
+This separation ensures that:
+- Developers can request releases
+- Sensitive credentials remain isolated
+- Platform teams control release pipeline access
+
+Example workflow:
+1. You create a ReleasePlan in your tenant namespace
+2. Platform engineer creates corresponding ReleasePlanAdmission in managed namespace
+3. This allows you to trigger releases while keeping credentials secure
+
+So to directly answer your question: The platform team creates the ReleasePlanAdmission (RPA), not you.

@@ -1,4 +1,4 @@
-name: Validate Marketplace
+name: Validate and Test
 
 on:
   push:
@@ -14,6 +14,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
       - name: Validate with claudelint
         run: |
           docker run -v $(pwd):/workspace -w /workspace ghcr.io/stbenjam/claudelint:latest --strict
+
+      - name: Run skill tests (validation only)
+        run: |
+          python3 test-runner.py --validate
