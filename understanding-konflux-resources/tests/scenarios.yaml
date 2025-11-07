@@ -72,5 +72,6 @@ test_scenarios:
       recognizes: IntegrationTestScenario
       contains_keywords:
         - IntegrationTestScenario
+        - ITS
       does_not_contain: []
     baseline_failure: "Agent didn't recognize lowercase 'its'"
