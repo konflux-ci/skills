@@ -1,6 +1,6 @@
 ---
 name: understanding-konflux-resources
-description: Use when working with Konflux CI and need to understand Applications, Components, Snapshots, IntegrationTestScenarios, ReleasePlans, or namespace placement - provides quick reference for Konflux Custom Resources, what they do, who creates them, and where they belong
+description: Use when working with Konflux CI and need to understand Applications, Components, Snapshots, IntegrationTestScenarios (ITS), ReleasePlans (RP), ReleasePlanAdmissions (RPA), or namespace placement, especially when using common abbreviations (RP, RPA, ITS) - provides quick reference for Konflux Custom Resources, what they do, who creates them, and where they belong
 ---
 
 # Understanding Konflux Resources
@@ -10,6 +10,8 @@ description: Use when working with Konflux CI and need to understand Application
 Konflux uses Kubernetes Custom Resources (CRs) to manage CI/CD workflows. Understanding which resource to use, who creates it, and where it belongs prevents common configuration errors.
 
 **Core principle:** Some resources YOU create, others Konflux creates automatically. Knowing the difference prevents manual work that's already automated.
+
+**Common abbreviations:** RP (ReleasePlan), RPA (ReleasePlanAdmission), ITS (IntegrationTestScenario), App (Application), Comp (Component)
 
 **CRITICAL:** Konflux has specific resource names. Do NOT invent resource names like "ApplicationSource", "DevBuildTemplate", "BuildConfig", etc. Use ONLY the resources listed in the table below.
 
@@ -25,15 +27,15 @@ Use this skill when:
 
 ## Quick Reference: Konflux Custom Resources
 
-| Resource | Purpose | Who Creates | Namespace | Key Point |
-|----------|---------|-------------|-----------|-----------|
-| **Application** | Groups related Components that deploy together (NO git URL, NO builds) | User | Tenant | Just a label for grouping |
-| **Component** | Defines how to build artifact from git repo/branch (HAS git URL) | User | Tenant | This is what builds your code |
-| **Snapshot** | Immutable set of component artifact references | **Konflux** (Integration Service) | Tenant | AUTO-CREATED after builds |
-| **IntegrationTestScenario** | Defines test to run against snapshot | User | Tenant | Tests run after build |
-| **ReleasePlan** | Maps Application to release action | User | **Tenant** | Created by app owner |
-| **ReleasePlanAdmission** | Defines release pipeline + credentials | Platform Engineer | **Managed** | Contains secrets |
-| **Release** | Request to release specific snapshot | User | Tenant | References snapshot + plan |
+| Resource | Abbrev | Purpose | Who Creates | Namespace | Key Point |
+|----------|--------|---------|-------------|-----------|-----------|
+| **Application** | App | Groups related Components that deploy together (NO git URL, NO builds) | User | Tenant | Just a label for grouping |
+| **Component** | Comp | Defines how to build artifact from git repo/branch (HAS git URL) | User | Tenant | This is what builds your code |
+| **Snapshot** | - | Immutable set of component artifact references | **Konflux** (Integration Service) | Tenant | AUTO-CREATED after builds |
+| **IntegrationTestScenario** | ITS | Defines test to run against snapshot | User | Tenant | Tests run after build |
+| **ReleasePlan** | RP | Maps Application to release action | User | **Tenant** | Created by app owner |
+| **ReleasePlanAdmission** | RPA | Defines release pipeline + credentials | Platform Engineer | **Managed** | Contains secrets |
+| **Release** | - | Request to release specific snapshot | User | Tenant | References snapshot + plan |
 
 ## Common Confusions - Read This First
 
@@ -231,4 +233,4 @@ To Release:
 
 ## Keywords for Search
 
-Konflux resources, Custom Resource Definition, CRD, Application CR, Component CR, Snapshot lifecycle, IntegrationTestScenario, ReleasePlan, ReleasePlanAdmission, Release CR, tenant namespace, managed namespace, build pipeline, PipelineRun, Integration Service, Build Service, Release Service, Tekton pipeline, OCI artifact, container image, git repository, webhook, automatic build, snapshot creation, integration testing, release workflow
+Konflux resources, Custom Resource Definition, CRD, Application CR, Component CR, Snapshot lifecycle, IntegrationTestScenario, ReleasePlan, ReleasePlanAdmission, Release CR, tenant namespace, managed namespace, build pipeline, PipelineRun, Integration Service, Build Service, Release Service, Tekton pipeline, OCI artifact, container image, git repository, webhook, automatic build, snapshot creation, integration testing, release workflow, RP, RPA, ITS, App, Comp, shortname, abbreviation, acronym, ReleasePlan abbreviation, IntegrationTestScenario abbreviation, ReleasePlanAdmission abbreviation
