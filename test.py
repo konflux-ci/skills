@@ -289,6 +289,12 @@ def test_results(skill_dir: Path, current_digest: str) -> bool:
     all_passed = True
     scenarios = scenarios_data.get("test_scenarios", [])
 
+    # Track statistics for summary
+    total_scenarios = len(scenarios)
+    passed_scenarios = 0
+    total_samples = 0
+    passed_samples = 0
+
     for scenario in scenarios:
         name = scenario["name"]
         samples = scenario.get("samples", 1)
@@ -296,11 +302,14 @@ def test_results(skill_dir: Path, current_digest: str) -> bool:
 
         # Track if this scenario passes (all samples must pass)
         scenario_passed = True
+        scenario_sample_count = 0
 
         # Print scenario header (will update with prefix after testing)
         scenario_failures = []
 
         for i in range(1, samples + 1):
+            total_samples += 1
+            scenario_sample_count += 1
             result_file = results_dir / f"{name}.{i}.txt"
 
             if not result_file.exists():
@@ -342,16 +351,41 @@ def test_results(skill_dir: Path, current_digest: str) -> bool:
                 all_passed = False
             else:
                 scenario_failures.append(f"    Sample {i}: ✓")
+                passed_samples += 1
 
         # Print scenario with colored prefix
         if scenario_passed:
             print(f"  {COLOR_GREEN}PASS{COLOR_RESET} Scenario: {name}")
+            passed_scenarios += 1
         else:
             print(f"  {COLOR_RED}FAIL{COLOR_RESET} Scenario: {name}")
 
         # Print all sample results
         for line in scenario_failures:
             print(line)
+
+    # Print summary
+    print("\n" + "=" * 70)
+    print(f"{COLOR_GREEN if all_passed else COLOR_RED}TEST SUMMARY{COLOR_RESET}")
+    print("=" * 70)
+
+    failed_scenarios = total_scenarios - passed_scenarios
+    failed_samples = total_samples - passed_samples
+
+    print(f"Scenarios: {COLOR_GREEN}{passed_scenarios} passed{COLOR_RESET}, "
+          f"{COLOR_RED if failed_scenarios > 0 else COLOR_GREEN}{failed_scenarios} failed{COLOR_RESET}, "
+          f"{total_scenarios} total")
+
+    print(f"Samples:   {COLOR_GREEN}{passed_samples} passed{COLOR_RESET}, "
+          f"{COLOR_RED if failed_samples > 0 else COLOR_GREEN}{failed_samples} failed{COLOR_RESET}, "
+          f"{total_samples} total")
+
+    if all_passed:
+        print(f"\n{COLOR_GREEN}✓ All tests passed!{COLOR_RESET}")
+    else:
+        print(f"\n{COLOR_RED}✗ Some tests failed{COLOR_RESET}")
+
+    print("=" * 70)
 
     return all_passed
 
