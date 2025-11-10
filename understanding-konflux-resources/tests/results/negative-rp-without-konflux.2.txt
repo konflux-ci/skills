@@ -1,9 +1,8 @@
-# skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-I apologize, but I don't have enough context to determine where you should create your RP (I assume you mean Pull Request or Repository). To help you effectively, I'll need more information about the specific project you're working on. 
+# skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
+I apologize, but I cannot provide guidance on creating an RP (I assume you mean "Repository" or "Pull Request") without more context about the specific project you're working on. To help you effectively, I would need to know:
 
-Could you provide more details such as:
-- What project are you working on?
-- Are you using GitHub, GitLab, or another version control platform?
-- Do you already have a repository set up?
+1. What project are you working on?
+2. Are you starting a new project or contributing to an existing one?
+3. Do you have a specific platform in mind (GitHub, GitLab, Bitbucket, etc.)?
 
-If you can share more context about the project and its current setup, I'll be happy to guide you on creating a pull request or setting up a repository.
+Could you provide more details about the project and your specific goal? This will help me give you accurate and helpful advice about creating a repository or pull request.

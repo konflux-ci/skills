@@ -1,27 +1,28 @@
-# skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-Based on the comprehensive diagnostic report, it seems we need more specific information to pinpoint the exact reason why your Konflux pipeline isn't triggering after builds. 
+# skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
+I apologize, but I need more specific information to diagnose why your Konflux pipeline isn't triggering after builds. The pipeline trigger could be failing due to various reasons such as:
 
-I've prepared a systematic approach to help you troubleshoot:
+1. Misconfigured trigger settings
+2. Permission issues
+3. EventListener problems
+4. Build status not meeting trigger conditions
+5. Networking or webhook configuration errors
 
-1. Could you provide the following information:
-   - The namespace you're using in Konflux
-   - The output of `kubectl get builds -n <your-namespace>`
-   - The output of `kubectl get pipelineruns -n <your-namespace>`
-   - Contents of your `.tekton/` directory
+Could you please provide:
+- The project repository URL
+- The specific build system you're using (GitHub Actions, OpenShift Pipelines, etc.)
+- Any error messages you've seen
+- The contents of your `.tekton/` directory (if possible)
+- Recent build logs or pipeline run statuses
 
-2. Can you confirm:
-   - Are the builds completing successfully?
-   - Have you recently changed any pipeline configuration?
-   - Are there any error messages in the Konflux dashboard or logs?
+The more details you can share, the more accurately I can help you troubleshoot the issue. If you're comfortable, you can run the following commands and share the output:
 
-The diagnostic report I generated covers the most common reasons why pipelines might not trigger, including:
-- Misconfigured pipeline triggers
-- Webhook integration issues
-- RBAC/Permission problems
-- EventListener configuration
-- Build annotation problems
-- Namespace resource constraints
+```bash
+# Check Tekton pipeline configurations
+ls -la .tekton/
 
-Without more specific details, I can't definitively say what's causing your issue. The more information you can provide, the more precisely I can help you resolve the pipeline triggering problem.
+# Check recent PipelineRuns (if using OpenShift/Kubernetes)
+oc get pipelineruns
 
-Would you like to share the additional details I requested?
+# Check build logs
+# (Command depends on your specific build system)
+```

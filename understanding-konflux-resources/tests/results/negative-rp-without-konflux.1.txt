@@ -1,16 +1,9 @@
-# skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-I apologize, but I cannot provide a specific recommendation about creating an RP (I assume you mean "Repository" or "Pull Request") without more context about the specific project you're working on. 
+# skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
+I apologize, but I noticed that you haven't provided any context about the specific project you're referring to. Without knowing which project you're working on, I can't advise you on where to create a pull request (PR or RP).
 
-To help you effectively, I'll need more information:
-- What project are you working on?
-- Are you starting a new project or contributing to an existing one?
-- Do you have a specific repository or version control system in mind?
+To help you effectively, I would need more information:
+1. What is the name of the project?
+2. Where is the project hosted (GitHub, GitLab, etc.)?
+3. Do you have the project repository URL?
 
-If you're looking to create a pull request (PR), the typical process involves:
-1. Forking the repository (if you're not a direct contributor)
-2. Creating a new branch for your changes
-3. Making your modifications
-4. Pushing the branch to your fork
-5. Opening a pull request from your branch to the main project repository
-
-Could you provide more details about the project and your specific goal? This will help me give you precise guidance on creating your repository or pull request.
+Could you provide more details about the project so I can give you accurate guidance on creating a pull request?

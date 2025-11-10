@@ -1,34 +1,20 @@
-# skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-Based on the diagnostic results, I can see that there are multiple potential reasons why your Integrated Test Suite (ITS) might not be running after builds complete in Konflux. 
+# skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
+Based on the comprehensive analysis, the most likely reason your Issue Tracking System (ITS) is not running after builds complete is the absence of an `IntegrationTestScenario` resource. 
 
-The agent has outlined several key areas to investigate:
+Key points:
+1. Having a Component and Application is not enough
+2. You need to explicitly define an `IntegrationTestScenario`
+3. This resource tells Konflux how and when to run integration tests
 
-1. **IntegrationTestScenario Configuration**
-   - Ensure you have created an IntegrationTestScenario Custom Resource (CR)
-   - Verify it's correctly linked to your Application
+To proceed, I recommend you:
+1. Confirm the existence of an IntegrationTestScenario:
+```bash
+kubectl get integrationtestscenarios -n <your-namespace>
+```
 
-2. **Test Pipeline Definition**
-   - Check that your test pipeline is valid
-   - Confirm it has the required parameters (like SNAPSHOT)
+If this returns no results, you'll need to create an IntegrationTestScenario. I can help you draft one, but I'll need a bit more information:
+- What is your application name?
+- Do you have a specific test pipeline defined in your repository?
+- What is the URL of your repository?
 
-3. **Component-Application Binding**
-   - Verify the Component is correctly referenced in the Application
-
-4. **Snapshot Creation**
-   - Confirm that Snapshots are being created after builds
-
-To move forward, I need you to provide some additional information:
-
-1. Can you confirm you have an IntegrationTestScenario created?
-2. What is the namespace where your Konflux resources are deployed?
-3. Can you share the output of the following commands:
-   ```bash
-   kubectl get integrationtestscenarios -n <your-namespace>
-   kubectl get applications -n <your-namespace>
-   kubectl get components -n <your-namespace>
-   kubectl get snapshots -n <your-namespace> --sort-by=.metadata.creationTimestamp | tail -5
-   ```
-
-With this information, I can help you diagnose exactly why your ITS is not running and provide specific steps to resolve the issue.
-
-Would you like me to elaborate on any of these potential causes or help you investigate further?
+Could you provide those details so I can help you create the correct IntegrationTestScenario configuration?

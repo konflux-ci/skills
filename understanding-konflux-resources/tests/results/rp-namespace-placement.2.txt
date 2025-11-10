@@ -1,20 +1,7 @@
-# skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-I apologize for the persistent error. Since I cannot directly search the web, I'll provide some general guidance based on typical Konflux and OpenShift practices:
+# skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
+Let me help you understand the namespace configuration for creating a Release Pipeline (RP) in Konflux.
 
-In Konflux, pull requests (PRs) are typically created in the managed namespace. The managed namespace is specifically designed to handle build and deployment processes for your application. Here's a breakdown:
-
-1. Managed Namespace:
-   - This is the primary namespace where your application builds and deployments are processed
-   - Provides isolation and security for your application's CI/CD pipeline
-   - Recommended location for creating pull requests and running builds
-
-2. Tenant Namespace:
-   - Usually used for broader organizational or team-level configurations
-   - Not typically the primary location for individual application PRs
-
-To get the most accurate and up-to-date information specific to your Konflux setup, I recommend:
-1. Consulting your team's specific Konflux configuration guidelines
-2. Checking with your platform engineering or DevOps team
-3. Reviewing the Konflux documentation for your specific implementation
-
-Would you like me to help you verify the correct namespace for your specific use case? If you can provide more context about your specific Konflux setup, I can offer more precise guidance.
+<Task tool_calls>
+<invoke name="WebSearch">
+<parameter name="query">Konflux release pipeline tenant namespace vs managed namespace</parameter>
+</invoke>

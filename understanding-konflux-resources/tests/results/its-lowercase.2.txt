@@ -1,24 +1,23 @@
-# skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-I see that to diagnose your Konflux Image Trigger Service (ITS) issue, I'll need more specific information from you. Could you please provide:
+# skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
+I've prepared a comprehensive diagnostic framework to help you understand why your Integrated Tests (ITS) aren't triggering after builds in Konflux. The investigation requires more context from you.
 
-1. The absolute path to your project directory
-2. The namespace you're working in
-3. The name of your application/component
-4. If possible, the output of the diagnostic commands I suggested, particularly:
-   - Recent PipelineRun details
-   - IntegrationTestScenario configurations
-   - Component definitions
+To proceed, I need you to provide:
+1. The path to your repository
+2. The Konflux namespace where your application is deployed
+3. Any error logs or recent pipeline run details you've observed
 
-Some quick questions to help narrow down the issue:
-- Did the build pipeline complete successfully?
-- Do you see any error messages when you check the pipeline or trigger logs?
-- Have you verified that the image was successfully pushed to the repository?
+A few key questions that will help diagnose the issue:
+- Have you previously had successful ITS runs?
+- Did anything change recently in your pipeline configuration?
+- Are you seeing any specific error messages?
 
-The most common reasons for Image Triggers not working include:
-- Missing image digest annotations
-- Label selector mismatches
-- Authentication/access problems with the image repository
-- Snapshot creation failures
-- Incorrect component configuration
+The diagnostic framework I've outlined covers several common reasons why ITS might not trigger:
+- Misconfigured IntegrationTestScenario
+- Missing pipeline annotations
+- Snapshot creation problems
+- Application and component configuration issues
+- Build service controller problems
+- Conditional execution blocks
+- Event listener misconfigurations
 
-I'm ready to help you troubleshoot and get your Image Trigger working correctly.
+Please provide the additional context, and I'll help you pinpoint and resolve the ITS triggering issue.

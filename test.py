@@ -22,8 +22,8 @@ from typing import Dict, List, Optional, Tuple
 import yaml
 
 # Number of parallel workers for generation
-# Set to 1 due to file handle limits when using --plugin-dir
-# (Each plugin-dir creates many file watchers)
+# Must be 1: --plugin-dir creates file watchers inside Claude (Node.js)
+# Running multiple instances in parallel exhausts inotify watches
 PARALLEL_WORKERS = 1
 
 # ANSI color codes
@@ -114,6 +114,7 @@ def invoke_claude(prompt: str, skill_dir: Path, model: str = "haiku") -> str:
             capture_output=True,
             text=True,
             check=True,
+            close_fds=True,  # Prevent inheriting file descriptors
             cwd="/tmp"  # Run from /tmp to avoid picking up CLAUDE.md from repo
         )
         return result.stdout
