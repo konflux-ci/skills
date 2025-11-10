@@ -6,6 +6,30 @@ This repository contains Claude Code skills to help users work with the Konflux 
 
 **Target audience:** Developers and platform engineers using Konflux for continuous integration, testing, and release management.
 
+## Testing Approach: Realistic Skill Discovery
+
+**Solution:** Tests verify that Claude will **discover and invoke** skills in realistic scenarios using `--plugin-dir`.
+
+**How it works:**
+1. Invoke `claude --print --plugin-dir /path/to/repo` with prompt via **stdin**
+2. Claude loads skills from the plugin directory automatically
+3. Tests run from `/tmp` to avoid picking up `CLAUDE.md` from the repository
+4. Each test is isolated (no shared state between runs)
+
+**Key insight:**
+When using `--plugin-dir`, the prompt **must be passed via stdin**, not as a command-line argument. Using `subprocess.run(cmd, input=prompt)` in Python achieves this.
+
+**Benefits:**
+- ✅ Tests real skill discovery (Claude loads skills from `--plugin-dir`)
+- ✅ Works in `--print` mode (automated testing)
+- ✅ Simple implementation (no temp directories or copying needed)
+- ✅ Runs from `/tmp` to avoid loading `CLAUDE.md` from repository
+
+**Trade-offs:**
+- Sequential execution only (PARALLEL_WORKERS=1) due to file handle limits
+- Each `--plugin-dir` creates many file watchers, causing EMFILE errors if run in parallel
+- Tests discovery + effectiveness together (can't isolate just effectiveness)
+
 ## Repository Structure
 
 ```

@@ -22,7 +22,9 @@ from typing import Dict, List, Optional, Tuple
 import yaml
 
 # Number of parallel workers for generation
-PARALLEL_WORKERS = 8
+# Set to 1 due to file handle limits when using --plugin-dir
+# (Each plugin-dir creates many file watchers)
+PARALLEL_WORKERS = 1
 
 # ANSI color codes
 COLOR_GREEN = "\033[92m"
@@ -86,29 +88,33 @@ def load_scenarios(skill_dir: Path) -> Optional[Dict]:
         return yaml.safe_load(f)
 
 
-def invoke_claude(prompt: str, skill_content: str, model: str = "haiku") -> str:
+def invoke_claude(prompt: str, skill_dir: Path, model: str = "haiku") -> str:
     """
-    Invoke Claude CLI with the given prompt and skill content.
+    Invoke Claude CLI with the given prompt, requiring skill discovery.
 
-    Uses --append-system-prompt to inject the skill content.
-    Allows only safe read-only tools and subagent creation.
+    Uses --plugin-dir to load the skill directory as a plugin.
+    The prompt is passed via stdin (required when using --plugin-dir).
+    Runs from /tmp to avoid picking up CLAUDE.md from the repository.
     """
-    # Invoke claude CLI with skill content appended to system prompt
+    # Get absolute path to parent directory (repository root)
+    repo_root = skill_dir.parent.absolute()
+
+    # Invoke Claude with --plugin-dir to load the skill
     cmd = [
         "claude",
         "--print",
         "--model", model,
-        "--tools", "Read,Grep,Glob,WebFetch,WebSearch,Task",
-        "--append-system-prompt", skill_content,
-        prompt
+        "--plugin-dir", str(repo_root)
     ]
 
     try:
         result = subprocess.run(
             cmd,
+            input=prompt,  # Pass prompt via stdin
             capture_output=True,
             text=True,
-            check=True
+            check=True,
+            cwd="/tmp"  # Run from /tmp to avoid picking up CLAUDE.md from repo
         )
         return result.stdout
     except subprocess.CalledProcessError as e:
@@ -119,7 +125,7 @@ def invoke_claude(prompt: str, skill_content: str, model: str = "haiku") -> str:
 
 def generate_one_sample(
     skill_name: str,
-    skill_content: str,
+    skill_dir: Path,
     digest: str,
     results_dir: Path,
     scenario_name: str,
@@ -136,7 +142,7 @@ def generate_one_sample(
     result_file = results_dir / f"{scenario_name}.{sample_num}.txt"
 
     try:
-        output = invoke_claude(prompt, skill_content, model)
+        output = invoke_claude(prompt, skill_dir, model)
 
         # Write result with digest comment on first line
         with open(result_file, "w") as f:
@@ -157,10 +163,6 @@ def generate_results(skill_dir: Path, digest: str) -> bool:
 
     skill_name = skill_dir.name
     print(f"\nGenerating results for skill: {skill_name}")
-
-    # Load skill content
-    skill_file = skill_dir / "SKILL.md"
-    skill_content = skill_file.read_text()
 
     # Create results directory
     results_dir = skill_dir / "tests" / "results"
@@ -197,7 +199,7 @@ def generate_results(skill_dir: Path, digest: str) -> bool:
 
             jobs.append((
                 skill_name,
-                skill_content,
+                skill_dir,
                 digest,
                 results_dir,
                 name,
