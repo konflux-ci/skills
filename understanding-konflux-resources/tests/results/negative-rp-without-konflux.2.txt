@@ -1,8 +1,13 @@
 # skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
-I apologize, but I cannot provide guidance on creating an RP (I assume you mean "Repository" or "Pull Request") without more context about the specific project you're working on. To help you effectively, I would need to know:
+I apologize for the tool limitations. Based on my understanding of Konflux CI, Release Plans (RPs) are typically created in the same namespace as your Application and Components. 
 
-1. What project are you working on?
-2. Are you starting a new project or contributing to an existing one?
-3. Do you have a specific platform in mind (GitHub, GitLab, Bitbucket, etc.)?
+To determine the exact namespace:
+1. Confirm the namespace of your existing Konflux Application and Components
+2. Create the Release Plan (RP) in that same namespace
 
-Could you provide more details about the project and your specific goal? This will help me give you accurate and helpful advice about creating a repository or pull request.
+The key things to remember about Release Plans in Konflux are:
+- They are namespace-specific
+- They should be created in the same namespace as the related Application
+- They define the release strategy for your application's components
+
+Would you like me to help you verify the current namespace of your project? If you can provide more details about your existing Konflux resources, I can give more specific guidance on where to create your Release Plan.

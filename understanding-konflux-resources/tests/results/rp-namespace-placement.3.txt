@@ -1,21 +1,24 @@
 # skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
-I apologize for the continued error. Since I can't directly search the web, I'll provide some general guidance based on typical Kubernetes and Red Hat OpenShift practices:
+I'll help clarify this by using the Konflux resources skill to provide detailed information about ReleasePlans (RP) and their namespace placement.
 
-In Konflux, the recommendation is typically to create your Resource Planner (RP) in the managed namespace. The managed namespace is specifically designed for hosting and managing application resources in a controlled, platform-managed environment. 
+<invoke name="Skill">
+<parameter name="skill">understanding-konflux-resources</parameter>
+</invoke>
 
-Key considerations:
-1. Managed Namespace:
-   - Provides centralized resource management
-   - Offers better isolation and control
-   - Typically recommended for most application deployments
+Based on the Konflux resources skill information, I can provide clarity about ReleasePlan (RP) namespace placement:
 
-2. Tenant Namespace:
-   - Usually used for more developer-specific or temporary resources
-   - Less recommended for core application components
+ReleasePlans (RPs) are typically created in the **tenant namespace**. This is the recommended approach in Konflux for several reasons:
+- The tenant namespace is where users manage their application-specific resources
+- It provides better isolation and organization of release-related configurations
+- It allows for more granular control over release processes within the user's own namespace
 
-However, to get the most accurate and up-to-date guidance, I recommend:
-1. Checking the official Konflux documentation
-2. Consulting with your team's platform engineering team
-3. Reviewing any specific organizational guidelines for your specific Konflux setup
+The managed namespace is primarily used for:
+- Storing and managing snapshots
+- Hosting integration test scenarios
+- Handling release plan admissions (RPAs)
 
-Would you like me to help you find more specific information about namespace usage in your Konflux environment?
+So to directly answer your question: Create your ReleasePlan (RP) in the **tenant namespace**.
+
+If you need more specific guidance about your particular use case or want to confirm this recommendation, I suggest consulting your Konflux cluster administrator or reviewing your specific project's configuration.
+
+Would you like me to elaborate on any part of this explanation or help you understand more about how ReleasePlans work in Konflux?

@@ -1,28 +1,13 @@
 # skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
-I apologize, but I need more specific information to diagnose why your Konflux pipeline isn't triggering after builds. The pipeline trigger could be failing due to various reasons such as:
+To help you more effectively, I'll need more information:
+1. Can you share the output of the following commands:
+   - `oc get its` (to list IntegrationTestScenarios)
+   - `oc get snapshots` (to check recent snapshots)
+   - `oc describe its [your-its-name]` (to get detailed ITS configuration)
 
-1. Misconfigured trigger settings
-2. Permission issues
-3. EventListener problems
-4. Build status not meeting trigger conditions
-5. Networking or webhook configuration errors
+2. Confirm:
+   - Are the builds completing successfully?
+   - Is the snapshot being created after the build?
+   - Do you see any error messages or warnings in the ITS or snapshot resources?
 
-Could you please provide:
-- The project repository URL
-- The specific build system you're using (GitHub Actions, OpenShift Pipelines, etc.)
-- Any error messages you've seen
-- The contents of your `.tekton/` directory (if possible)
-- Recent build logs or pipeline run statuses
-
-The more details you can share, the more accurately I can help you troubleshoot the issue. If you're comfortable, you can run the following commands and share the output:
-
-```bash
-# Check Tekton pipeline configurations
-ls -la .tekton/
-
-# Check recent PipelineRuns (if using OpenShift/Kubernetes)
-oc get pipelineruns
-
-# Check build logs
-# (Command depends on your specific build system)
-```
+Could you provide those details so I can help you diagnose why your IntegrationTestScenario isn't triggering?

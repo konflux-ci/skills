@@ -1,7 +1,21 @@
 # skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
-Let me help you understand the namespace configuration for creating a Release Pipeline (RP) in Konflux.
+I apologize for the error. Let me provide guidance based on my understanding of Konflux resource management:
 
-<Task tool_calls>
-<invoke name="WebSearch">
-<parameter name="query">Konflux release pipeline tenant namespace vs managed namespace</parameter>
-</invoke>
+In Konflux, ReleasePlans (RP) are typically created in the tenant namespace. This is because:
+1. The tenant namespace is where you manage your application-specific resources
+2. ReleasePlans are specific to your application's release process
+3. They define how and when your application components will be released
+
+The managed namespace is generally used for:
+- Snapshots
+- IntegrationTestScenarios (ITS)
+- Actual deployed artifacts
+
+So, to directly answer your question: You should create your ReleasePlan (RP) in the **tenant namespace**.
+
+If you want to confirm the exact details for your specific Konflux setup, I recommend:
+1. Checking with your Konflux administrator
+2. Reviewing your cluster's specific configuration
+3. Consulting your organization's specific Konflux resource management guidelines
+
+Would you like me to help you create or understand more about your ReleasePlan configuration?

@@ -1,20 +1,14 @@
 # skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
-Based on the comprehensive diagnostic guide, I've identified several potential reasons why your Integrated Test Suite (ITS) might not be running in Konflux. 
+To help you further, I'll need more specific information:
+1. Can you share the YAML configurations for your:
+   - Component
+   - Application
+   - ReleasePlan (if you have one)
+   - IntegrationTestScenario
 
-The most common issues are:
-1. Missing IntegrationTestScenario resource
-2. Incorrect application or component configuration
-3. Build pipeline not creating Snapshots
-4. Annotations preventing test execution
+2. When you say the ITS is not running, can you be more specific?
+   - Are there any error messages?
+   - Does the ITS show as pending, failed, or not triggered at all?
+   - Have you checked the Konflux UI or run `oc get` commands to verify the resources?
 
-To help you resolve this, I need more information. Could you please run the following commands and share the output (removing any sensitive information):
-
-```bash
-kubectl get application -n <your-namespace> -o yaml
-kubectl get component -n <your-namespace> -o yaml
-kubectl get integrationtestscenario -n <your-namespace> -o yaml
-kubectl get snapshot -n <your-namespace> --sort-by=.metadata.creationTimestamp | tail -5
-kubectl get pipelinerun -n <your-namespace> -l test.appstudio.openshift.io/scenario --sort-by=.metadata.creationTimestamp | tail -5
-```
-
-This will help me diagnose the specific reason why your ITS is not running. Could you provide these details?
+Would you be able to provide those additional details so I can help you diagnose the specific issue preventing your IntegrationTestScenario from running?

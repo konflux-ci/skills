@@ -22,9 +22,9 @@ from typing import Dict, List, Optional, Tuple
 import yaml
 
 # Number of parallel workers for generation
-# Must be 1: --plugin-dir creates file watchers inside Claude (Node.js)
-# Running multiple instances in parallel exhausts inotify watches
-PARALLEL_WORKERS = 1
+# Each worker gets its own isolated temp HOME directory
+# File watchers are isolated per worker, enabling true parallelism
+PARALLEL_WORKERS = 8
 
 # ANSI color codes
 COLOR_GREEN = "\033[92m"
@@ -88,40 +88,79 @@ def load_scenarios(skill_dir: Path) -> Optional[Dict]:
         return yaml.safe_load(f)
 
 
-def invoke_claude(prompt: str, skill_dir: Path, model: str = "haiku") -> str:
+def invoke_claude(prompt: str, skill_dir: Path, model: str = "haiku", worker_home: Optional[Path] = None) -> str:
     """
     Invoke Claude CLI with the given prompt, requiring skill discovery.
 
-    Uses --plugin-dir to load the skill directory as a plugin.
-    The prompt is passed via stdin (required when using --plugin-dir).
-    Runs from /tmp to avoid picking up CLAUDE.md from the repository.
-    """
-    # Get absolute path to parent directory (repository root)
-    repo_root = skill_dir.parent.absolute()
+    Uses a dedicated temp HOME directory per worker to isolate file watchers.
+    Each worker reuses the same temp HOME across all its test invocations.
 
-    # Invoke Claude with --plugin-dir to load the skill
-    cmd = [
-        "claude",
-        "--print",
-        "--model", model,
-        "--plugin-dir", str(repo_root)
-    ]
+    Args:
+        prompt: The prompt to send to Claude
+        skill_dir: Path to the skill directory being tested
+        model: Model to use (default: haiku)
+        worker_home: Optional path to worker's temp HOME (created if None)
+    """
+    import tempfile
+    import shutil
+
+    # If no worker_home provided, create a temporary one (single-use)
+    if worker_home is None:
+        temp_dir = tempfile.mkdtemp(prefix="claude-worker-")
+        worker_home = Path(temp_dir)
+        cleanup_temp = True
+    else:
+        cleanup_temp = False
 
     try:
+        # Setup worker home if it doesn't exist
+        skills_dir = worker_home / ".claude" / "skills"
+        if not skills_dir.exists():
+            skills_dir.mkdir(parents=True)
+
+            # Symlink the skill
+            skill_link = skills_dir / skill_dir.name
+            if not skill_link.exists():
+                skill_link.symlink_to(skill_dir.absolute())
+
+            # Copy gcloud credentials (once per worker)
+            config_dir = worker_home / ".config"
+            config_dir.mkdir(exist_ok=True)
+
+            real_gcloud = Path.home() / ".config" / "gcloud"
+            if real_gcloud.exists() and not (config_dir / "gcloud").exists():
+                shutil.copytree(real_gcloud, config_dir / "gcloud")
+
+        # Invoke Claude with custom HOME
+        cmd = [
+            "claude",
+            "--print",
+            "--model", model,
+            prompt
+        ]
+
+        env = os.environ.copy()
+        env["HOME"] = str(worker_home)
+
         result = subprocess.run(
             cmd,
-            input=prompt,  # Pass prompt via stdin
             capture_output=True,
             text=True,
             check=True,
-            close_fds=True,  # Prevent inheriting file descriptors
-            cwd="/tmp"  # Run from /tmp to avoid picking up CLAUDE.md from repo
+            close_fds=True,
+            env=env,
+            cwd="/tmp"
         )
         return result.stdout
+
     except subprocess.CalledProcessError as e:
         print(f"Error invoking Claude: {e}", file=sys.stderr)
         print(f"Stderr: {e.stderr}", file=sys.stderr)
         raise
+    finally:
+        # Only cleanup if we created a temporary home
+        if cleanup_temp:
+            shutil.rmtree(worker_home, ignore_errors=True)
 
 
 def generate_one_sample(
@@ -133,17 +172,21 @@ def generate_one_sample(
     prompt: str,
     model: str,
     sample_num: int,
-    total_samples: int
+    total_samples: int,
+    worker_home: Path
 ) -> Tuple[bool, str]:
     """
     Generate a single result file for one scenario sample.
+
+    Args:
+        worker_home: Persistent temp HOME for this worker (reused across tests)
 
     Returns (success, message) tuple.
     """
     result_file = results_dir / f"{scenario_name}.{sample_num}.txt"
 
     try:
-        output = invoke_claude(prompt, skill_dir, model)
+        output = invoke_claude(prompt, skill_dir, model, worker_home=worker_home)
 
         # Write result with digest comment on first line
         with open(result_file, "w") as f:
@@ -157,6 +200,9 @@ def generate_one_sample(
 
 def generate_results(skill_dir: Path, digest: str) -> bool:
     """Generate test results for a skill using parallel execution."""
+    import tempfile
+    import shutil
+
     scenarios_data = load_scenarios(skill_dir)
     if not scenarios_data:
         print(f"No scenarios.yaml found in {skill_dir}/tests/")
@@ -221,25 +267,43 @@ def generate_results(skill_dir: Path, digest: str) -> bool:
 
     print(f"  Running {total_jobs} generation jobs with {PARALLEL_WORKERS} parallel workers...\n")
 
-    # Run jobs in parallel
-    with Pool(processes=PARALLEL_WORKERS) as pool:
-        results = pool.starmap(generate_one_sample, jobs)
+    # Create persistent temp HOME for each worker
+    worker_homes = []
+    for i in range(PARALLEL_WORKERS):
+        temp_dir = tempfile.mkdtemp(prefix=f"claude-worker-{i}-")
+        worker_homes.append(Path(temp_dir))
 
-    # Report results
-    successes = 0
-    failures = 0
+    try:
+        # Assign worker_home to each job (round-robin)
+        jobs_with_homes = [
+            (*job, worker_homes[idx % len(worker_homes)])
+            for idx, job in enumerate(jobs)
+        ]
 
-    for success, message in results:
-        if success:
-            print(f"  ✓ {message}")
-            successes += 1
-        else:
-            print(f"  ✗ {message}")
-            failures += 1
+        # Run jobs in parallel
+        with Pool(processes=PARALLEL_WORKERS) as pool:
+            results = pool.starmap(generate_one_sample, jobs_with_homes)
 
-    print(f"\n  Summary: {successes} succeeded, {failures} failed")
+        # Report results
+        successes = 0
+        failures = 0
 
-    return failures == 0
+        for success, message in results:
+            if success:
+                print(f"  ✓ {message}")
+                successes += 1
+            else:
+                print(f"  ✗ {message}")
+                failures += 1
+
+        print(f"\n  Summary: {successes} succeeded, {failures} failed")
+
+        return failures == 0
+
+    finally:
+        # Clean up worker homes
+        for worker_home in worker_homes:
+            shutil.rmtree(worker_home, ignore_errors=True)
 
 
 def check_expectations(content: str, expected: Dict) -> List[str]:

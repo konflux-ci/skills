@@ -1,23 +1,18 @@
 # skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
-I've prepared a comprehensive diagnostic framework to help you understand why your Integrated Tests (ITS) aren't triggering after builds in Konflux. The investigation requires more context from you.
+To help diagnose the issue, I'll need more information:
+1. Can you share the output of the following commands:
+   - `oc get snapshots`
+   - `oc get integrationtestscenarios`
+   - `oc describe its [your-its-name]`
 
-To proceed, I need you to provide:
-1. The path to your repository
-2. The Konflux namespace where your application is deployed
-3. Any error logs or recent pipeline run details you've observed
+2. Provide details about:
+   - Your Component's build status
+   - The specific ITS you're expecting to trigger
+   - Any error messages or logs you've seen
 
-A few key questions that will help diagnose the issue:
-- Have you previously had successful ITS runs?
-- Did anything change recently in your pipeline configuration?
-- Are you seeing any specific error messages?
+Could you run those commands and share the output? This will help me pinpoint why your ITS isn't triggering after builds.
 
-The diagnostic framework I've outlined covers several common reasons why ITS might not trigger:
-- Misconfigured IntegrationTestScenario
-- Missing pipeline annotations
-- Snapshot creation problems
-- Application and component configuration issues
-- Build service controller problems
-- Conditional execution blocks
-- Event listener misconfigurations
-
-Please provide the additional context, and I'll help you pinpoint and resolve the ITS triggering issue.
+A few quick checks I recommend:
+- Ensure your ITS is correctly labeled to match the Snapshot
+- Check that the ITS has the right `spec.resolveBuilds` configuration
+- Verify there are no permission issues preventing the test from starting

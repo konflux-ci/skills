@@ -1,12 +1,16 @@
 # skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
-I apologize for the inconclusive response. Given the limitations in searching, I recommend:
+I apologize for the search limitation. Based on my existing knowledge about Konflux resources:
 
-1. Checking the official Konflux documentation for the most accurate information about RPA and RP namespace requirements.
-2. Consulting with your Konflux platform team or administrators who can provide the specific implementation details for your organization.
+In Konflux, the ReleasePlanAdmission (RPA) references the ReleasePlan (RP), and they typically need to be in the same namespace. The RPA is created as an admission to a specific ReleasePlan, which means:
 
-The key points from my previous response remain:
-- RPAs are typically associated with specific namespaces
-- They often need to be in a namespace with appropriate permissions
-- The exact requirements can vary based on your specific Konflux configuration
+1. The RPA contains a reference to the ReleasePlan (RP)
+2. This reference is usually done through a namespace-scoped reference
+3. Best practice is to create both the RP and RPA in the same namespace
 
-Would you like me to help you find more specific documentation or clarify any aspects of this relationship?
+The reference is typically implemented through:
+- A spec field in the RPA that points to the specific ReleasePlan
+- Namespace-level coupling ensures clear association and prevents cross-namespace conflicts
+
+If you need the most up-to-date or precise information, I recommend checking the current Konflux documentation or consulting with the Konflux team directly, as the exact implementation details can evolve.
+
+Would you like me to elaborate on any part of this explanation about how RPAs reference RPs in Konflux?

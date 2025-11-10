@@ -6,29 +6,36 @@ This repository contains Claude Code skills to help users work with the Konflux 
 
 **Target audience:** Developers and platform engineers using Konflux for continuous integration, testing, and release management.
 
-## Testing Approach: Realistic Skill Discovery
+## Testing Approach: Realistic Skill Discovery with Parallel Execution
 
-**Solution:** Tests verify that Claude will **discover and invoke** skills in realistic scenarios using `--plugin-dir`.
+**Solution:** Tests verify that Claude will **discover and invoke** skills in realistic scenarios using isolated temp HOME directories per worker.
 
 **How it works:**
-1. Invoke `claude --print --plugin-dir /path/to/repo` with prompt via **stdin**
-2. Claude loads skills from the plugin directory automatically
-3. Tests run from `/tmp` to avoid picking up `CLAUDE.md` from the repository
-4. Each test is isolated (no shared state between runs)
+1. Create N temp HOME directories (one per parallel worker)
+2. Each worker HOME contains:
+   - Symlink to skill in `~/.claude/skills/`
+   - Copy of gcloud credentials (for auth)
+3. Run `claude --print` with `HOME=/tmp/claude-worker-N/`
+4. Each worker reuses its temp HOME across all test invocations
+5. Cleanup all worker HOMEs after test completion
 
-**Key insight:**
-When using `--plugin-dir`, the prompt **must be passed via stdin**, not as a command-line argument. Using `subprocess.run(cmd, input=prompt)` in Python achieves this.
+**Key insights:**
+- Isolated temp HOMEs prevent file watcher conflicts between parallel workers
+- Skills symlinked to `~/.claude/skills/` are discovered automatically
+- Each worker copies gcloud credentials once (not per test)
+- Worker HOMEs persist for the duration of the test run
 
 **Benefits:**
-- ✅ Tests real skill discovery (Claude loads skills from `--plugin-dir`)
+- ✅ Tests real skill discovery (Claude loads skills from `~/.claude/skills/`)
 - ✅ Works in `--print` mode (automated testing)
-- ✅ Simple implementation (no temp directories or copying needed)
+- ✅ **True parallel execution** (8 workers, isolated file watchers)
 - ✅ Runs from `/tmp` to avoid loading `CLAUDE.md` from repository
+- ✅ Each worker reuses setup (minimal overhead per test)
 
 **Trade-offs:**
-- Sequential execution only (PARALLEL_WORKERS=1) due to file handle limits
-- Each `--plugin-dir` creates many file watchers, causing EMFILE errors if run in parallel
+- Copies gcloud credentials once per worker (~10MB × 8 = ~80MB)
 - Tests discovery + effectiveness together (can't isolate just effectiveness)
+- Temp HOMEs persist during test run (cleaned up after)
 
 ## Repository Structure
 

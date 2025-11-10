@@ -1,15 +1,35 @@
 # skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
-I apologize, but I'm unable to directly fetch the documentation due to tool access restrictions. However, based on my existing knowledge about Konflux and release pipelines:
+I apologize for the error. Let me provide information based on my existing knowledge about Konflux resources:
 
-In Konflux, the Release Pipeline Artifact (RPA) and Release Pipeline (RP) typically reference each other, but they do not necessarily need to be in the same namespace. The key points are:
+In Konflux, a ReleasePlanAdmission (RPA) references a ReleasePlan (RP) through a specific reference mechanism. The RPA needs to reference the specific ReleasePlan it is associated with. 
 
-1. The RPA is a custom resource that represents the artifact produced by a Release Pipeline.
-2. The RP (Release Pipeline) can create and reference RPAs across different namespaces.
-3. The reference is usually done through specific label selectors or annotations that link the RP to its corresponding RPA.
+Regarding the namespace:
+- The RPA and RP do not necessarily need to be in the same namespace. 
+- However, the RPA must include a reference to the ReleasePlan, typically using the name and namespace of the ReleasePlan it is admitting.
 
-To get the most accurate and up-to-date information, I recommend:
-1. Checking the Konflux documentation at https://redhat-appstudio.github.io/docs.html
-2. Consulting the Konflux GitHub repository for the most recent specifications
-3. Verifying with the Konflux team or community if you need precise details about namespace requirements
+The typical structure would look something like this:
 
-Would you like me to help you find more specific information about this relationship?
+```yaml
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: ReleasePlanAdmission
+metadata:
+  name: my-rpa
+  namespace: target-namespace
+spec:
+  releasePlan:
+    name: my-release-plan
+    namespace: source-namespace
+  # Other RPA-specific configurations
+```
+
+Key points:
+1. The RPA can be in a different namespace from the ReleasePlan it references
+2. The reference is made explicit in the RPA's spec section
+3. The reference includes both the name and namespace of the original ReleasePlan
+
+To get the most up-to-date and precise information, I recommend:
+1. Checking the current Konflux documentation
+2. Reviewing the latest Custom Resource Definitions (CRDs) for ReleasePlan and ReleasePlanAdmission
+3. Consulting with the Konflux team for any recent changes in resource relationships
+
+Would you like me to help you find more specific, current documentation about this relationship?

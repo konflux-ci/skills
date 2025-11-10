@@ -1,20 +1,43 @@
 # skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
-Based on the comprehensive analysis, the most likely reason your Issue Tracking System (ITS) is not running after builds complete is the absence of an `IntegrationTestScenario` resource. 
+I apologize for the error. Let me break down the typical requirements for an IntegrationTestScenario (ITS) in Konflux:
 
-Key points:
-1. Having a Component and Application is not enough
-2. You need to explicitly define an `IntegrationTestScenario`
-3. This resource tells Konflux how and when to run integration tests
+1. **Component and Application**: You mentioned you have these set up, which is good.
 
-To proceed, I recommend you:
-1. Confirm the existence of an IntegrationTestScenario:
-```bash
-kubectl get integrationtestscenarios -n <your-namespace>
+2. **ITS Resource Configuration**: Your IntegrationTestScenario should include:
+   - A reference to the specific Component
+   - The Application name
+   - Test specification (what tests to run)
+   - Appropriate labels and selectors
+
+Example ITS resource might look like:
+```yaml
+apiVersion: appstudio.redhat.com/v1beta1
+kind: IntegrationTestScenario
+metadata:
+  name: my-integration-test
+  labels:
+    app.kubernetes.io/name: my-application
+spec:
+  application: my-application
+  component: my-component
+  testSpec:
+    # Test configuration details
 ```
 
-If this returns no results, you'll need to create an IntegrationTestScenario. I can help you draft one, but I'll need a bit more information:
-- What is your application name?
-- Do you have a specific test pipeline defined in your repository?
-- What is the URL of your repository?
+Potential reasons why your ITS might not be running:
+1. Missing or incorrect labels
+2. The build snapshot might not be correctly linked
+3. Permissions or RBAC issues
+4. Misconfigured test specifications
 
-Could you provide those details so I can help you create the correct IntegrationTestScenario configuration?
+To troubleshoot, I recommend:
+1. Verify the ITS resource exists and is correctly configured
+2. Check the build snapshot references
+3. Look at the ITS and build pipeline status in the Konflux console or using `oc get` commands
+
+Would you like me to help you:
+- Review your current ITS configuration
+- Check for common misconfiguration issues
+- Provide a template for a working IntegrationTestScenario
+
+What specific details can you share about your current setup?

@@ -1,9 +1,12 @@
 # skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
-I apologize, but I noticed that you haven't provided any context about the specific project you're referring to. Without knowing which project you're working on, I can't advise you on where to create a pull request (PR or RP).
+Based on Konflux best practices, Release Plans (RPs) are typically created in the same namespace as your Application. This ensures that the Release Plan is closely associated with the specific application's components and resources.
 
-To help you effectively, I would need more information:
-1. What is the name of the project?
-2. Where is the project hosted (GitHub, GitLab, etc.)?
-3. Do you have the project repository URL?
+To determine the exact namespace:
+1. Verify the namespace of your existing Application
+2. Create the Release Plan in that same namespace
 
-Could you provide more details about the project so I can give you accurate guidance on creating a pull request?
+If you're unsure about your current namespace, you can:
+- Check your existing Application's namespace using `oc get applications`
+- Confirm the current namespace with `oc project`
+
+Would you like me to help you locate the correct namespace or provide more details about creating a Release Plan in Konflux?

@@ -1,20 +1,2 @@
 # skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
-I've prepared a comprehensive diagnostic framework for why your ITS might not be running after builds complete in Konflux. The investigation reveals several potential reasons, ranging from configuration issues to pipeline and permission problems.
 
-To proceed with troubleshooting, I need more information from you:
-1. Can you share the path to your project directory?
-2. Do you have access to the Kubernetes cluster where this is deployed?
-3. Can you provide the YAML configurations for:
-   - IntegrationTestScenario
-   - Component
-   - Application
-   - Integration test pipeline
-
-Without seeing your specific configuration, I've outlined the most common reasons why ITS might not trigger. The key areas to investigate are:
-- Correct IntegrationTestScenario definition
-- Proper linking between Component and Application
-- Pipeline configuration and annotations
-- Test pipeline resolver setup
-- Namespace and RBAC permissions
-
-Would you like to provide more details so we can pinpoint the exact cause of your ITS not running?
