@@ -1,18 +1,22 @@
 # skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-Based on the "Understanding Konflux Resources" skill, I can provide a clear answer:
+I apologize for the difficulties. Let me provide some general guidance based on typical Konflux architecture:
 
-**ReleasePlan (RP) MUST go in the TENANT namespace.**
-
-❌ WRONG: Putting ReleasePlan in managed namespace
-✅ CORRECT: ReleasePlan belongs in YOUR tenant namespace
+In Konflux, Release Pipelines (RP) are typically created in the managed namespace. The managed namespace is designed to host the actual deployment and release processes, while the tenant namespace is more focused on development and initial artifact creation.
 
 Key points:
-- ReleasePlan is created by the application owner (you)
-- It points to your Application and defines release actions
-- Credentials and actual release pipeline are handled separately
+1. Managed Namespace: 
+   - This is where your Release Pipelines should be created
+   - Handles the actual deployment and release processes
+   - Provides a controlled environment for releasing applications
 
-The companion resource, ReleasePlanAdmission (RPA), goes in the MANAGED namespace. This separation ensures:
-- You control the release plan
-- Platform engineers manage the credentials and pipeline details
+2. Tenant Namespace:
+   - Primarily used for development activities
+   - Hosts initial component builds and development workflows
+   - Not typically the place for creating Release Pipelines
 
-So to summarize: Create your ReleasePlan in your tenant namespace, and let platform engineers create the corresponding ReleasePlanAdmission in the managed namespace.
+To get the most accurate and up-to-date information, I recommend:
+1. Checking your specific Konflux platform's documentation
+2. Consulting with your platform administrator
+3. Verifying the exact namespace configuration in your specific Konflux setup
+
+Would you like me to help you locate more specific documentation about namespace usage in your Konflux environment?

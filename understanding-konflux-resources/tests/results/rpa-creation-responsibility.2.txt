@@ -1,21 +1,20 @@
 # skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-Based on the Konflux Resources guide I just reviewed, you do NOT create the ReleasePlanAdmission (RPA). 
+I apologize for the persistent error. Based on my existing knowledge about Konflux and CI/CD pipelines, here's the key information:
 
-From the "Understanding Konflux Resources" section:
+In Konflux, you typically do not manually create the RPA (Reusable Pipeline Artifact) yourself. Instead:
 
-**Who Creates ReleasePlanAdmission (RPA):** Platform Engineer
+1. The RPA is automatically generated as part of the pipeline process.
+2. It is created based on the pipeline configuration in your repository.
+3. Konflux generates the RPA when you set up your application and configure its build pipeline.
 
-**Namespace:** Managed namespace (NOT tenant namespace)
+The typical workflow involves:
+- Pushing your code to a repository
+- Configuring your build pipeline in Konflux
+- Konflux automatically creates and manages the RPA for you
 
-The key points are:
-- RPA contains release pipeline credentials
-- It is created by the platform engineering team
-- It goes in the managed namespace, which is restricted and controlled by the platform team
+If you're looking to work with RPAs, you would:
+- Configure your pipeline definition
+- Let Konflux handle the RPA generation
+- Use the generated RPA in your continuous integration and deployment processes
 
-So if you're a developer or application owner, you would:
-1. Create a ReleasePlan (RP) in your tenant namespace
-2. Request a Platform Engineer to create the corresponding ReleasePlanAdmission (RPA) in the managed namespace
-
-This separation ensures that sensitive release credentials are isolated from development teams while still allowing developers to request and manage releases.
-
-Would you like me to elaborate on the relationship between ReleasePlan and ReleasePlanAdmission?
+Would you like me to elaborate on any specific aspect of RPA creation or usage in Konflux? If you need more precise, current information, I recommend checking the official Red Hat Konflux documentation or consulting with your team's DevOps specialist.

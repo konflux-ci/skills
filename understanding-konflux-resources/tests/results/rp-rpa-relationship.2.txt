@@ -1,17 +1,21 @@
 # skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-To directly answer your questions:
+I apologize for the inconclusive search. Based on my existing knowledge about Konflux and container/repository management platforms:
 
-1. **How does the RPA reference the RP?**
-The RPA references the ReleasePlan through a specific configuration that links the two resources. Typically, this is done by matching the Application name and other identifying information between the RP and RPA.
+The RPA (Repository Per Artifact) does NOT necessarily need to be in the same namespace as the RP (Repository Provider). The reference between them is typically managed through:
+1. Configuration metadata
+2. Cross-namespace references
+3. Resource links that can span different namespaces
 
-2. **Do they need to be in the same namespace?**
-**No, they do NOT need to be in the same namespace.** In fact, they are intentionally placed in DIFFERENT namespaces:
-- ReleasePlan (RP) is in the TENANT namespace
-- ReleasePlanAdmission (RPA) is in the MANAGED namespace
+Key points:
+- RPA can reference an RP from a different namespace
+- The reference is usually established through:
+  - Repository URL
+  - Credentials/secrets
+  - Configuration resources that define the connection
 
-This separation is a deliberate design to:
-- Keep release intentions with the developers
-- Isolate sensitive release credentials
-- Provide a clear security boundary
+To get the most accurate and up-to-date information, I recommend:
+1. Checking the official Konflux documentation
+2. Reviewing the specific Konflux implementation details in their GitHub repositories
+3. Consulting with Red Hat support or community forums for the most precise current implementation
 
-A platform engineer will create the RPA that corresponds to a developer's RP, ensuring the two resources are linked while maintaining namespace separation.
+Would you like me to help you find more specific documentation about this relationship?

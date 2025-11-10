@@ -1,30 +1,26 @@
 # skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-Based on the diagnostic exploration, here are the key steps I recommend for troubleshooting why your IntegrationTestScenario (ITS) is not running:
+Based on the comprehensive diagnostic analysis, I can see several potential reasons why your Integrated Test Suite (ITS) might not be running in Konflux. The most critical things to check are:
 
-1. **Verify ITS Configuration**
-   - Run: `kubectl get integrationtestscenario -n <your-namespace>`
-   - Check the details of your ITS resource
-   - Ensure the `.spec.application` exactly matches your Application name
-   - Confirm `.spec.components` list is complete and accurate
+1. **IntegrationTestScenario Resource**: Ensure you have created an `IntegrationTestScenario` resource that explicitly defines your test configuration.
 
-2. **Check Snapshot Creation**
-   - Run: `kubectl get snapshots -n <your-namespace>`
-   - Verify a Snapshot exists after your build completes
-   - Confirm the Snapshot references the correct Component
+2. **Application-Component Binding**: Verify that your Component is properly bound to the Application.
 
-3. **Inspect Build Status**
-   - Run: `tkn pipelinerun list -n <your-namespace>`
-   - Ensure your build PipelineRun completed successfully
-   - Look for a 'Succeeded' status
+3. **Snapshot Creation**: Confirm that a Snapshot is being created after your build completes.
 
-4. **Examine ITS Events**
-   - Run: `kubectl describe integrationtestscenario <its-name> -n <your-namespace>`
-   - Look for any error messages or event logs explaining why the test isn't running
+To help diagnose this further, could you please run and share the following commands:
 
-Common reasons for ITS not running include:
-- Incorrect Application or Component references
-- Snapshot not created or invalid
-- Insufficient permissions
-- Misconfigured Tekton pipeline
+```bash
+# Check IntegrationTestScenario
+kubectl get integrationtestscenario -n <your-namespace>
 
-Would you like me to help you diagnose the specific issue by checking these details? If you can share the output of these commands (with sensitive information redacted), I can provide more targeted advice.
+# Check Component details
+kubectl get component -n <your-namespace>
+
+# Check recent PipelineRuns
+kubectl get pipelinerun -n <your-namespace> --sort-by=.metadata.creationTimestamp | tail -5
+
+# Check Snapshots
+kubectl get snapshot -n <your-namespace>
+```
+
+The output of these commands will help me precisely identify why your ITS is not running. Each of these commands checks a critical aspect of the Konflux pipeline that could be preventing your integration tests from executing.

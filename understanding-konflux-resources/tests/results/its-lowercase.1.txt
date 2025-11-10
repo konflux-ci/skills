@@ -1,26 +1,16 @@
 # skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-Based on the comprehensive diagnostic guide, I recommend you go through these specific troubleshooting steps:
+Based on the diagnostic results, I've outlined several potential reasons why your Konflux pipeline might not be triggering after builds. The most common causes include:
 
-1. Verify ITS Namespace
-   ```bash
-   oc get integrationtestscenario -n <your-tenant-namespace>
-   ```
+1. Misconfigured pipeline annotations
+2. Incorrect pipeline or trigger references
+3. Resource quota or permission issues
+4. Misconfigured webhooks
+5. Broken build-pipeline linkage
 
-2. Check Snapshot Creation
-   ```bash
-   oc get snapshots -n <your-tenant-namespace>
-   ```
+To help diagnose this precisely, I need you to provide:
+- The contents of your `.tekton/` directory
+- Recent build logs
+- Output of `oc get pipelineruns` and `oc describe component`
+- Any specific error messages you've encountered
 
-3. Examine Build Status
-   ```bash
-   oc get builds -n <your-tenant-namespace>
-   ```
-
-Can you run these commands and share the output? This will help me pinpoint exactly why your IntegrationTestScenario isn't triggering. 
-
-Specific things I'll be looking for:
-- Are snapshots being created after builds?
-- Is your ITS in the correct namespace?
-- Do the builds complete successfully?
-
-Would you like to proceed with these diagnostic steps?
+Could you share those details so I can help you pinpoint and resolve the pipeline trigger issue?

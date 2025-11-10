@@ -1,68 +1,24 @@
 # skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-Based on the Konflux resources skill, here's a systematic troubleshooting guide for why your IntegrationTestScenario (ITS) isn't triggering after builds:
+I see that to diagnose your Konflux Image Trigger Service (ITS) issue, I'll need more specific information from you. Could you please provide:
 
-### 1. Verify ITS Configuration
-- Ensure your IntegrationTestScenario is correctly configured
-- Check that it references the correct Application
-- Verify the Snapshot and Component labels match
+1. The absolute path to your project directory
+2. The namespace you're working in
+3. The name of your application/component
+4. If possible, the output of the diagnostic commands I suggested, particularly:
+   - Recent PipelineRun details
+   - IntegrationTestScenario configurations
+   - Component definitions
 
-### 2. Common Reasons ITS Doesn't Trigger
+Some quick questions to help narrow down the issue:
+- Did the build pipeline complete successfully?
+- Do you see any error messages when you check the pipeline or trigger logs?
+- Have you verified that the image was successfully pushed to the repository?
 
-❌ WRONG: Assuming ITS automatically runs on every build
-✅ CORRECT: ITS requires specific configuration to trigger
+The most common reasons for Image Triggers not working include:
+- Missing image digest annotations
+- Label selector mismatches
+- Authentication/access problems with the image repository
+- Snapshot creation failures
+- Incorrect component configuration
 
-Potential Issues:
-1. Incorrect Application Reference
-2. Mismatched Labels
-3. Tekton Pipeline Problems
-4. Insufficient Permissions
-5. Snapshot Not Created Properly
-
-### 3. Diagnostic Commands
-
-```bash
-# List IntegrationTestScenarios
-kubectl get integrationtestscenarios -n <your-tenant-namespace>
-
-# Describe specific ITS to check configuration
-kubectl describe integrationtestscenario <its-name> -n <your-tenant-namespace>
-
-# List Snapshots to verify they're being created
-kubectl get snapshots -n <your-tenant-namespace>
-```
-
-### 4. Checklist for ITS Configuration
-
-- [ ] ITS points to correct Application
-- [ ] Snapshot exists after build
-- [ ] Tekton pipeline referenced by ITS is valid
-- [ ] Permissions allow test execution
-- [ ] Labels match between Component, Snapshot, and ITS
-
-### 5. Common Fixes
-
-**Label Matching**
-- Ensure your ITS has correct label selectors
-- Match Application and Component labels exactly
-
-**Example ITS Configuration**:
-```yaml
-apiVersion: appstudio.redhat.com/v1alpha1
-kind: IntegrationTestScenario
-metadata:
-  name: my-test-scenario
-spec:
-  application: my-application
-  resolverRef:
-    url: # Tekton pipeline URL
-  testContainer:
-    # Test container configuration
-```
-
-### Recommended Next Steps
-1. Verify Snapshot creation after build
-2. Check ITS description for any error messages
-3. Review Tekton pipeline logs
-4. Confirm you have necessary permissions
-
-Would you like me to help you diagnose a specific aspect of your IntegrationTestScenario configuration?
+I'm ready to help you troubleshoot and get your Image Trigger working correctly.

@@ -1,23 +1,16 @@
 # skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-Let me help you understand ReleasePlanAdmission (RPA) creation based on the Konflux resources reference.
+I apologize for the persistent error. Since I cannot use WebSearch at the moment, I'll provide guidance based on my existing knowledge about Konflux:
 
-According to the "Understanding Konflux Resources" skill, a ReleasePlanAdmission (RPA) is specifically created by a **Platform Engineer**, not by a regular application developer. 
+In Konflux, you typically do not directly create the RPA yourself. The Reusable Pipeline Artifact is usually generated automatically by the Konflux platform based on your pipeline configuration. 
 
-Here's the key information from the reference:
+The RPA is created as part of the build and deployment process, specifically:
+1. When you define your pipeline configuration
+2. During the build process of your application
+3. As part of the continuous integration workflow
 
-| Resource | Who Creates | Namespace | Key Point |
-|----------|-------------|-----------|-----------|
-| ReleasePlanAdmission | Platform Engineer | **Managed** | Contains release pipeline credentials |
+To get a definitive answer about RPA creation in your specific Konflux setup, I recommend:
+- Checking the Konflux documentation
+- Consulting with your team's DevOps or platform engineering team
+- Reviewing your specific Konflux configuration
 
-So to directly answer your question: No, you (as a typical application developer) do not create the RPA. The Platform Engineer is responsible for creating the ReleasePlanAdmission in the managed namespace. 
-
-Your role is to:
-1. Create a ReleasePlan in your tenant namespace
-2. Reference the ReleasePlan in your Release CR when you want to release a snapshot
-
-The Platform Engineer will create the corresponding ReleasePlanAdmission in the managed namespace, which contains the necessary credentials and defines the release pipeline details.
-
-This separation ensures that:
-- Developers can request releases
-- Sensitive credentials remain isolated
-- Release pipelines are centrally managed by platform engineers
+Would you like me to help you find more specific information about RPAs in your Konflux environment?

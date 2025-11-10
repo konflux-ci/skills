@@ -8,7 +8,7 @@ description: Tests for shortname discovery and Konflux resource understanding
 test_scenarios:
   - name: rp-namespace-placement
     description: Test RP abbreviation recognition and namespace guidance
-    prompt: "I'm confused about where to create my RP - should it go in the tenant namespace or managed namespace?"
+    prompt: "In Konflux, I'm confused about where to create my RP - should it go in the tenant namespace or managed namespace?"
     model: haiku
     samples: 3
     expected:
@@ -22,7 +22,7 @@ test_scenarios:
 
   - name: its-not-running
     description: Test ITS abbreviation and troubleshooting guidance
-    prompt: "My ITS is not running after builds complete. I have the Component and Application set up. What am I missing?"
+    prompt: "In Konflux, my ITS is not running after builds complete. I have the Component and Application set up. What am I missing?"
     model: haiku
     samples: 3
     expected:
@@ -34,7 +34,7 @@ test_scenarios:
 
   - name: rpa-creation-responsibility
     description: Test RPA abbreviation and role/responsibility understanding
-    prompt: "Do I create the RPA?"
+    prompt: "In Konflux, do I create the RPA?"
     model: haiku
     samples: 3
     expected:
@@ -49,7 +49,7 @@ test_scenarios:
 
   - name: rp-rpa-relationship
     description: Test multiple abbreviations in single query
-    prompt: "How does the RPA reference the RP? Do they need to be in the same namespace?"
+    prompt: "In Konflux, how does the RPA reference the RP? Do they need to be in the same namespace?"
     model: haiku
     samples: 3
     expected:
@@ -65,7 +65,7 @@ test_scenarios:
 
   - name: its-lowercase
     description: Test case-insensitive abbreviation matching
-    prompt: "my its isn't triggering after builds"
+    prompt: "In Konflux, my its isn't triggering after builds"
     model: haiku
     samples: 3
     expected:
@@ -75,3 +75,18 @@ test_scenarios:
         - ITS
       does_not_contain: []
     baseline_failure: "Agent didn't recognize lowercase 'its'"
+
+  - name: negative-rp-without-konflux
+    description: Negative test - RP without Konflux context should NOT trigger skill
+    prompt: "Where should I create my RP for this project?"
+    model: haiku
+    samples: 3
+    expected:
+      recognizes: ""
+      contains_keywords: []
+      does_not_contain:
+        - ReleasePlan
+        - Konflux
+        - tenant namespace
+        - managed namespace
+    baseline_failure: "Skill should not trigger without Konflux context"

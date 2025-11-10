@@ -304,7 +304,7 @@ def test_results(skill_dir: Path, current_digest: str) -> bool:
             result_file = results_dir / f"{name}.{i}.txt"
 
             if not result_file.exists():
-                scenario_failures.append(f"    Sample {i}: ✗ (file not found)")
+                scenario_failures.append(f"    {result_file}: ✗ (file not found)")
                 scenario_passed = False
                 all_passed = False
                 continue
@@ -315,14 +315,14 @@ def test_results(skill_dir: Path, current_digest: str) -> bool:
 
             # Check digest
             if not lines or not lines[0].startswith("# skill_digest:"):
-                scenario_failures.append(f"    Sample {i}: ✗ (missing digest)")
+                scenario_failures.append(f"    {result_file}: ✗ (missing digest)")
                 scenario_passed = False
                 all_passed = False
                 continue
 
             file_digest = lines[0].split(":", 1)[1].strip()
             if file_digest != current_digest:
-                scenario_failures.append(f"    Sample {i}: ✗ (skill changed, digest mismatch)")
+                scenario_failures.append(f"    {result_file}: ✗ (skill changed, digest mismatch)")
                 scenario_failures.append(f"      Expected: {current_digest}")
                 scenario_failures.append(f"      Found:    {file_digest}")
                 scenario_failures.append(f"      Run 'make generate' to regenerate results.")
@@ -335,7 +335,7 @@ def test_results(skill_dir: Path, current_digest: str) -> bool:
             failures = check_expectations(content, expected)
 
             if failures:
-                scenario_failures.append(f"    Sample {i}: ✗")
+                scenario_failures.append(f"    {result_file}: ✗")
                 for failure in failures:
                     scenario_failures.append(f"      - {failure}")
                 scenario_passed = False

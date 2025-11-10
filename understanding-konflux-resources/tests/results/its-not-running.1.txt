@@ -1,30 +1,34 @@
 # skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-Based on the comprehensive troubleshooting analysis, here are the key things to check for why your IntegrationTestScenario (ITS) is not running:
+Based on the diagnostic results, I can see that there are multiple potential reasons why your Integrated Test Suite (ITS) might not be running after builds complete in Konflux. 
 
-1. **ITS Configuration**
-   - Verify the ITS exists: `oc get integrationtestscenarios`
-   - Confirm it references the correct Application name
-   - Check that the ITS spec correctly matches your Component and Application
+The agent has outlined several key areas to investigate:
 
-2. **Snapshot Verification**
-   - Ensure a Snapshot was created after your build: `oc get snapshots`
-   - Check if the Snapshot has the correct labels
-   - Verify the Snapshot is linked to your Application and Component
+1. **IntegrationTestScenario Configuration**
+   - Ensure you have created an IntegrationTestScenario Custom Resource (CR)
+   - Verify it's correctly linked to your Application
 
-3. **Pipeline and Permissions**
-   - Confirm the referenced Tekton pipeline exists: `oc get pipelines`
-   - Check for any RBAC (Role-Based Access Control) issues
-   - Review cluster events for any blocking conditions: `oc get events`
+2. **Test Pipeline Definition**
+   - Check that your test pipeline is valid
+   - Confirm it has the required parameters (like SNAPSHOT)
 
-Common reasons an ITS might not run:
-- ❌ Incorrect Application or Component reference
-- ❌ No Snapshot created
-- ❌ Missing pipeline configuration
-- ❌ Namespace or permission problems
+3. **Component-Application Binding**
+   - Verify the Component is correctly referenced in the Application
 
-To diagnose further, I recommend:
-1. Run `oc describe integrationtestscenario <its-name>` to get detailed information
-2. Check `oc get events` to see if there are any error messages
-3. Verify your Snapshot creation with `oc get snapshots`
+4. **Snapshot Creation**
+   - Confirm that Snapshots are being created after builds
 
-Would you like me to help you walk through checking these specific points? Could you share the output of `oc get integrationtestscenarios` and `oc get snapshots` so I can provide more targeted advice?
+To move forward, I need you to provide some additional information:
+
+1. Can you confirm you have an IntegrationTestScenario created?
+2. What is the namespace where your Konflux resources are deployed?
+3. Can you share the output of the following commands:
+   ```bash
+   kubectl get integrationtestscenarios -n <your-namespace>
+   kubectl get applications -n <your-namespace>
+   kubectl get components -n <your-namespace>
+   kubectl get snapshots -n <your-namespace> --sort-by=.metadata.creationTimestamp | tail -5
+   ```
+
+With this information, I can help you diagnose exactly why your ITS is not running and provide specific steps to resolve the issue.
+
+Would you like me to elaborate on any of these potential causes or help you investigate further?

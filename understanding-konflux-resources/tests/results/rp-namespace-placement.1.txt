@@ -1,33 +1,21 @@
 # skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-Based on the Konflux resource guidelines, I'll help clarify the namespace placement for ReleasePlan (RP).
+I apologize for the persistent error. Since I cannot use web search, I'll provide guidance based on my existing knowledge about Konflux and container-native development practices:
 
-**ReleasePlan (RP) goes in the TENANT namespace**
+In Konflux, Release Pipelines (RPs) are typically created in the **managed namespace**. Here's why:
 
-Here's a quick breakdown:
-- ✅ ReleasePlan: Created in YOUR tenant namespace
-- ❌ NOT in managed namespace
-- ReleasePlanAdmission (RPA): Created in MANAGED namespace by platform engineers
+1. The managed namespace is specifically designed to handle deployment and release-related resources.
+2. It provides better isolation and control over the release process.
+3. This approach helps separate the development workflow (which often occurs in the tenant namespace) from the release and deployment workflow.
 
 Key points:
-- ReleasePlan is a user-created resource that maps an Application to a release action
-- It belongs to the application owner (you)
-- Platform team handles credentials and pipeline details via ReleasePlanAdmission in the managed namespace
+- Tenant Namespace: Used for development, storing source code, and initial build configurations
+- Managed Namespace: Used for release pipelines, deployments, and release-related resources
 
-Example scenario:
-```
-Tenant Namespace (You create):
-- ReleasePlan: "prod-release-plan"
-  - Points to your Application
-  - Defines release workflow
+Recommendation: Create your Release Pipeline in the **managed namespace**.
 
-Managed Namespace (Platform team creates):
-- ReleasePlanAdmission: "prod-admission"
-  - Contains production credentials
-  - Defines actual release pipeline
-```
+If you want to confirm the exact configuration for your specific Konflux setup, I suggest:
+1. Checking with your team's infrastructure documentation
+2. Consulting your Konflux cluster administrator
+3. Reviewing the specific Konflux configuration for your organization
 
-Common mistake to avoid:
-❌ "I'll put my ReleasePlan in the managed namespace for security"
-✅ "I'll create my ReleasePlan in my tenant namespace, and the platform team will create the corresponding ReleasePlanAdmission"
-
-Would you like me to elaborate on the relationship between ReleasePlan and ReleasePlanAdmission?
+Would you like me to help you understand more about how to create the Release Pipeline in the managed namespace?

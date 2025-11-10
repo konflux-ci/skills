@@ -1,17 +1,20 @@
 # skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-To directly answer your questions:
+I apologize for the search limitation. Based on my understanding of Kubernetes-native release management systems, I can provide some general insights, but I recommend confirming the specifics with Konflux's official documentation:
 
-1. **How does the RPA reference the RP?**
-   The ReleasePlanAdmission (RPA) is typically configured to match the ReleasePlan (RP) by referencing the same Application or following a naming/labeling convention established by your platform team.
+Typically, in Kubernetes-based systems:
+1. Release Plan (RP) and Release Plan Admission (RPA) are often custom resources that can have specific namespace relationships.
 
-2. **Do they need to be in the same namespace?**
-   No, they do NOT need to be in the same namespace. In fact, they are intentionally placed in different namespaces:
-   - ReleasePlan (RP) is in the TENANT namespace (your workspace)
-   - ReleasePlanAdmission (RPA) is in the MANAGED namespace (controlled by platform engineers)
+Possible scenarios:
+- They might need to be in the same namespace
+- The RPA might reference the RP across different namespaces
+- The RPA could be a validation mechanism for the RP
 
-This separation ensures that:
-- Developers can define release intentions
-- Platform engineers control sensitive release credentials
-- There's a clear security boundary between release planning and execution
+However, without access to Konflux-specific documentation, I cannot definitively state their exact relationship. 
 
-The key is communication between the developer (creating RP) and the platform engineer (creating matching RPA) to ensure the resources align correctly.
+Recommendations for getting a precise answer:
+1. Check Konflux's official documentation
+2. Examine the Konflux GitHub repository
+3. Look at the Custom Resource Definitions (CRDs) that define these resources
+4. Consult Konflux support channels or community forums
+
+Would you like me to help you find more specific information about their namespace relationship through alternative means?

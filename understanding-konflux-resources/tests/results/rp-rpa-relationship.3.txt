@@ -1,16 +1,14 @@
 # skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-To directly answer your questions:
+Given the limitations in finding a definitive answer, I suggest a few practical steps:
 
-1. **How does the RPA reference the RP?**
-   - The ReleasePlanAdmission is typically configured to work with a specific ReleasePlan, though they are not in the same namespace.
-   - The connection is usually made through matching labels, names, or Application references, ensuring the RPA knows which ReleasePlan it's supporting.
+1. The relationship between RPA and RP might depend on your specific Konflux configuration.
+2. Namespace requirements can vary, but typically in Kubernetes-based systems:
+   - Annotations often reference resources across different namespaces
+   - There might be specific rules about cross-namespace references
 
-2. **Do they need to be in the same namespace?**
-   - **No, they do NOT need to be in the same namespace.**
-   - In fact, they SHOULD be in different namespaces:
-     - ReleasePlan (RP) is in the TENANT namespace
-     - ReleasePlanAdmission (RPA) is in the MANAGED namespace
+To get a definitive answer, I recommend:
+- Checking the Konflux documentation
+- Reviewing your specific cluster configuration
+- Consulting with your DevOps team or Konflux administrators
 
-This separation allows platform engineers to control release credentials and pipelines while giving developers the ability to initiate releases for their applications.
-
-Would you like me to elaborate on any part of this explanation?
+Would you like me to help you find more specific information about how RPAs reference RPs in your specific Konflux setup? If you can provide more context about your specific use case or configuration, I can offer more targeted guidance.

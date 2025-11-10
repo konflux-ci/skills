@@ -1,28 +1,27 @@
 # skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-Let me help you investigate your specific situation. Could you provide more details:
+Based on the comprehensive diagnostic report, it seems we need more specific information to pinpoint the exact reason why your Konflux pipeline isn't triggering after builds. 
 
-1. Can you share the contents of your IntegrationTestScenario (ITS) resource?
-2. What namespace is your ITS defined in?
-3. Have you successfully built your Component?
-4. Have you checked the events or conditions of your ITS?
+I've prepared a systematic approach to help you troubleshoot:
 
-A few quick commands you can run to help diagnose:
-```bash
-# List your IntegrationTestScenarios
-oc get integrationtestscenarios
+1. Could you provide the following information:
+   - The namespace you're using in Konflux
+   - The output of `kubectl get builds -n <your-namespace>`
+   - The output of `kubectl get pipelineruns -n <your-namespace>`
+   - Contents of your `.tekton/` directory
 
-# Describe the ITS to see its current state
-oc describe integrationtestscenario <its-name>
+2. Can you confirm:
+   - Are the builds completing successfully?
+   - Have you recently changed any pipeline configuration?
+   - Are there any error messages in the Konflux dashboard or logs?
 
-# Check recent events
-oc get events
-```
+The diagnostic report I generated covers the most common reasons why pipelines might not trigger, including:
+- Misconfigured pipeline triggers
+- Webhook integration issues
+- RBAC/Permission problems
+- EventListener configuration
+- Build annotation problems
+- Namespace resource constraints
 
-The most common reasons an ITS doesn't trigger are:
-- Incorrect labels
-- Mismatched namespace
-- Build not completing successfully
-- Snapshot not created
-- Tekton pipeline issues
+Without more specific details, I can't definitively say what's causing your issue. The more information you can provide, the more precisely I can help you resolve the pipeline triggering problem.
 
-I'll be happy to help you pinpoint and resolve the specific issue preventing your ITS from running.
+Would you like to share the additional details I requested?

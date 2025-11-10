@@ -1,22 +1,20 @@
 # skill_digest: 986c922a19a800e0feaaa94e13671b2ef6a3e5528065e21bdbcdbd6aa980e444
-Based on the understanding-konflux-resources skill, I can provide a clear answer:
+I apologize for the persistent error. Since I cannot directly search the web, I'll provide some general guidance based on typical Konflux and OpenShift practices:
 
-Your **ReleasePlan (RP)** should be created in the **TENANT NAMESPACE**.
+In Konflux, pull requests (PRs) are typically created in the managed namespace. The managed namespace is specifically designed to handle build and deployment processes for your application. Here's a breakdown:
 
-This is a common point of confusion, so let me break it down:
+1. Managed Namespace:
+   - This is the primary namespace where your application builds and deployments are processed
+   - Provides isolation and security for your application's CI/CD pipeline
+   - Recommended location for creating pull requests and running builds
 
-❌ WRONG: Put ReleasePlan in managed namespace
-✅ CORRECT: ReleasePlan goes in YOUR tenant namespace
+2. Tenant Namespace:
+   - Usually used for broader organizational or team-level configurations
+   - Not typically the primary location for individual application PRs
 
-The key differences are:
-- ReleasePlan (RP): Created by you (application owner) in TENANT namespace
-- ReleasePlanAdmission (RPA): Created by Platform Engineer in MANAGED namespace
+To get the most accurate and up-to-date information specific to your Konflux setup, I recommend:
+1. Consulting your team's specific Konflux configuration guidelines
+2. Checking with your platform engineering or DevOps team
+3. Reviewing the Konflux documentation for your specific implementation
 
-The tenant namespace ReleasePlan points to your Application and defines the release action, while the managed namespace ReleasePlanAdmission contains the actual credentials and pipeline details.
-
-This separation ensures:
-1. You control the release plan for your application
-2. Sensitive credentials remain isolated in the managed namespace
-3. Clear separation of responsibilities between dev teams and platform teams
-
-Would you like me to elaborate on the namespace placement or ReleasePlan creation process?
+Would you like me to help you verify the correct namespace for your specific use case? If you can provide more context about your specific Konflux setup, I can offer more precise guidance.
