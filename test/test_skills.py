@@ -98,12 +98,13 @@ def test_validate_result(skill_scenario):
 
     # Check digest header
     if not lines or not lines[0].startswith("# skill_digest:"):
-        pytest.fail("Result file missing digest header")
+        pytest.fail(f"Result file missing digest header\nFile: {result_file}")
 
     file_digest = lines[0].split(":", 1)[1].strip()
     if file_digest != digest:
         pytest.fail(
             f"Skill content changed - digest mismatch\n"
+            f"File: {result_file}\n"
             f"Expected: {digest}\n"
             f"Found:    {file_digest}\n"
             "Run 'make generate' to regenerate results"
@@ -115,4 +116,4 @@ def test_validate_result(skill_scenario):
 
     if failures:
         failure_msg = "\n".join(f"  - {f}" for f in failures)
-        pytest.fail(f"Expectation failures:\n{failure_msg}")
+        pytest.fail(f"Expectation failures:\nFile: {result_file}\n{failure_msg}")
