@@ -1,14 +1,19 @@
-# skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
-The skill provides insights into Konflux resources. For ReleasePlans (RPs):
+# skill_digest: e679c33f5f79627fcd2b7bf800db7269069f021f3a5d72aef07853ee5894c410
+I'll help you understand where to create your ReleasePlan (RP) in Konflux. 
 
-- RPs are typically created in the same namespace as your Application
-- They define the release strategy and configuration for your application's components
-- Usually created by the application team or release engineers
-- Often associated with a specific application and its components
+ReleasePlans are typically created in the same namespace as your Application or in a designated release management namespace. The specific location depends on your project's configuration and workflow. Here are some key points:
 
-However, to give you the most accurate guidance, could you provide more context about:
-1. Which project or application are you working on?
-2. Do you already have an Application resource defined in Konflux?
-3. Are you looking to create a ReleasePlan for a specific component or the entire application?
+1. Namespace Considerations:
+- If you have an existing Application in a specific namespace, you'll likely want to create the RP in the same namespace.
+- Some teams use a dedicated release management namespace for all ReleasePlans.
 
-The exact namespace and specific configuration will depend on your project's setup in Konflux. If you can share more details, I can help you determine the precise location and configuration for creating your ReleasePlan.
+2. Best Practices:
+- The RP should be associated with the specific Application and Components you're planning to release.
+- Ensure you have the necessary permissions in the target namespace.
+
+To get the most accurate advice, I recommend:
+- Checking with your team's Konflux CI configuration
+- Verifying the current namespace of your Application
+- Confirming the specific namespace used for release management in your project
+
+Would you like me to help you investigate the specific namespace for your project's ReleasePlan?

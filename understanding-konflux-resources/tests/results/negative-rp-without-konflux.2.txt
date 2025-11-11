@@ -1,14 +1,13 @@
-# skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
-I noticed that we're currently not in a git repository, which means we might need more context about the specific project you're working on. 
+# skill_digest: e679c33f5f79627fcd2b7bf800db7269069f021f3a5d72aef07853ee5894c410
+I noticed that we're currently in the `/tmp` directory, which doesn't seem to be the actual project directory. To accurately help you create a ReleasePlan, I'll need more information:
 
-Could you provide more details about:
-1. The project you're working on
-2. The specific Konflux environment or namespace you're using
-3. Whether this is a new project or an existing one
+1. Can you confirm the correct project directory?
+2. Do you have an existing Application resource in Konflux?
+3. Do you know the specific namespace where your Konflux Application is deployed?
 
-Typically, Release Plans (RPs) in Konflux are created in a specific namespace associated with your application. The general steps involve:
-- Identifying the correct namespace for your application
-- Creating the ReleasePlan (RP) custom resource in that namespace
-- Ensuring it's linked to the correct Application and Component resources
+Generally, in Konflux, you would create a ReleasePlan (RP) in the same namespace as your Application. The typical steps are:
+1. Identify the namespace of your Konflux Application
+2. Create the ReleasePlan in that same namespace
+3. Ensure the ReleasePlan references the correct Application resource
 
-Would you like me to help you create the Release Plan? If so, I'll need more information about your specific setup.
+Could you provide more details about your project's Konflux setup so I can give you more precise guidance?

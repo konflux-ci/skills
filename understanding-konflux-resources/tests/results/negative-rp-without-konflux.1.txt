@@ -1,14 +1,19 @@
-# skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
-Based on the exploration, here are the key points for creating your Release Plan (RP):
+# skill_digest: e679c33f5f79627fcd2b7bf800db7269069f021f3a5d72aef07853ee5894c410
+Let me provide some context about Release Plans (RP) in Konflux:
 
-1. There's no single universal location for RPs in Konflux projects
-2. You'll want to create the RP in:
-   - A namespace specific to your application or releases
-   - A directory like `/manifests/release-plans/` or `/kubernetes/release-plans/`
+Release Plans (RP) are typically created in the same namespace as your Application. In Konflux, RPs are closely tied to specific Applications and help manage the release process for components within that application.
 
-The exact location depends on your specific project structure. I recommend:
-1. Checking with your project team about their preferred namespace
-2. Looking for existing release-related directories in the project
-3. Following the typical YAML structure for ReleasePlans
+To determine the exact namespace:
+1. Check the namespace of your existing Konflux Application
+2. Create the Release Plan in that same namespace
 
-Would you like me to help you locate the specific namespace or directory for your RP? If you can provide more context about the project, I can give more precise guidance.
+Best practices:
+- Ensure you have an existing Application resource
+- The RP should reference the specific components you want to release
+- Create the RP using a YAML configuration that specifies:
+  - The target Application
+  - Components to be released
+  - Release strategy
+  - Any specific release parameters
+
+Would you like me to help you locate the correct namespace or show you an example Release Plan configuration for your project? If you can provide more context about your specific Konflux setup, I can give more precise guidance.

@@ -1,11 +1,15 @@
-# skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
-No, you typically do not create the ReleasePlanAdmission (RPA) yourself. In Konflux, the RPA is automatically created by the system as part of the release process. 
+# skill_digest: e679c33f5f79627fcd2b7bf800db7269069f021f3a5d72aef07853ee5894c410
+No, you typically do not create the ReleasePlanAdmission (RPA) yourself. In Konflux, the RPA is usually automatically created by the system based on the existing ReleasePlan (RP) and the current state of your application components.
 
-Here's a brief breakdown:
-- Release Plan (RP) is usually created by a user or application developer
-- The system then automatically generates the corresponding ReleasePlanAdmission (RPA)
-- The RPA represents the system's decision and approval for the release plan
+The typical workflow is:
+1. You create a ReleasePlan (RP)
+2. The Konflux system automatically generates the corresponding ReleasePlanAdmission (RPA)
 
-The RPA is an automated resource that reflects whether the specific release plan meets the necessary criteria and can be admitted (approved) for progression in the release pipeline. It's essentially a system-generated confirmation of the release plan's readiness.
+The RPA represents the system's admission or validation of the release plan, checking if the components meet the necessary criteria for release. It's an automated process that ensures your application components are ready and compliant with the release requirements.
 
-If you want to understand more about the specific criteria or process for RPA creation, I recommend consulting the Konflux documentation or speaking with your team's release engineering experts.
+If you want to understand more about the specifics of RPAs in your specific Konflux setup, I recommend:
+- Checking your current ReleasePlan
+- Consulting your Konflux cluster's configuration
+- Reviewing the specific admission criteria for your project
+
+Would you like me to help you understand more about how ReleasePlanAdmissions work in your specific Konflux environment?

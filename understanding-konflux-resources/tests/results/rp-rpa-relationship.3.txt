@@ -1,17 +1,28 @@
-# skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
-I apologize for the error. Let me explain based on my understanding of Konflux resources:
+# skill_digest: e679c33f5f79627fcd2b7bf800db7269069f021f3a5d72aef07853ee5894c410
+Let me break down the relationship between ReleasePlanAdmission (RPA) and ReleasePlan (RP) in Konflux:
 
-In Konflux, a Release Plan Admission (RPA) references a Release Plan (RP), and they typically need to be in the same namespace. The RPA is created as an admission process for a specific Release Plan, which means:
+In Konflux, the ReleasePlanAdmission (RPA) references the ReleasePlan (RP) through a specific field in its specification. The RPA must explicitly reference the ReleasePlan it is associated with. 
 
-1. The RPA must explicitly reference the RP it is associated with
-2. They are usually created in the same namespace to maintain a clear relationship
-3. The RPA validates and potentially modifies the Release Plan before it can be implemented
+Regarding namespace placement:
+- The RPA and RP do NOT need to be in the same namespace. 
+- The RPA can reference an RP from a different namespace by specifying the full namespace and name of the ReleasePlan in its spec.
 
-The reference is typically done through a spec field in the RPA that points to the specific Release Plan's name and namespace.
+Typically, the RPA will have a spec that includes a reference to the ReleasePlan, something like:
 
-For the most up-to-date and precise information, I recommend:
-- Checking the Konflux documentation
-- Reviewing the specific Custom Resource Definitions (CRDs) for RPA and RP
-- Consulting with your Konflux cluster administrator or checking the actual resource definitions in your cluster
+```yaml
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: ReleasePlanAdmission
+metadata:
+  name: my-rpa
+spec:
+  releasePlan: 
+    name: my-release-plan
+    namespace: different-namespace  # Can be a different namespace
+```
 
-Would you like me to help you find more specific details about how RPAs and RPs are linked in Konflux?
+This allows for flexibility in how ReleasePlans and their corresponding ReleasePlanAdmissions are organized across namespaces while maintaining a clear reference between the two resources.
+
+The key points are:
+1. RPAs reference RPs explicitly in their spec
+2. They can be in different namespaces
+3. The reference includes both the name and (optionally) the namespace of the ReleasePlan

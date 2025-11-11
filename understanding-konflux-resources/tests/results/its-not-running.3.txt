@@ -1,55 +1,29 @@
-# skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
-I apologize for the error. Based on my knowledge of Konflux, there are several key things to check when your IntegrationTestScenario (ITS) is not running:
+# skill_digest: e679c33f5f79627fcd2b7bf800db7269069f021f3a5d72aef07853ee5894c410
+I apologize for the tool errors. Based on my knowledge of Konflux, there are several common reasons why an IntegrationTestScenario might not run after builds complete:
 
-1. **ReleasePlan Configuration**: 
-   - Ensure you have a ReleasePlan (RP) that references your Component and Application
-   - The ReleasePlan should specify which IntegrationTestScenarios should run
+1. **Release Plan Missing**: You mentioned having a Component and Application, but you might be missing a crucial Release Plan (RP) that triggers the IntegrationTestScenario.
 
-2. **Component Snapshot**:
-   - Verify that a Component Snapshot is created after your build
-   - The ITS needs a valid Snapshot to trigger tests
+2. **Snapshot Creation**: Ensure that a Snapshot is created after your build completes. The ITS typically requires a Snapshot to be present.
 
-3. **ITS Specification**:
-   - Check that your IntegrationTestScenario is correctly configured
-   - Ensure it matches the Component and Application
-   - Verify the test scenario's parameters are correct
+3. **Namespace and Access**: Verify that:
+   - The ITS is in the same namespace as your Application
+   - You have the correct permissions to create and run IntegrationTestScenarios
+   - The ITS is properly configured to match your Component
 
-4. **Namespace and Permissions**:
-   - Confirm the ITS is in the correct namespace
-   - Check that the service account has necessary permissions to run tests
+4. **ITS Configuration**: Double-check your IntegrationTestScenario resource:
+   - Correct Component reference
+   - Proper test configuration
+   - No syntax errors in the spec
 
-Here are some specific things to verify:
+To help diagnose this, I recommend checking a few things:
 
-```yaml
-# Example ReleasePlan that might trigger your ITS
-apiVersion: appstudio.redhat.com/v1alpha1
-kind: ReleasePlan
-metadata:
-  name: my-release-plan
-spec:
-  application: my-application
-  test:
-    scenarios:
-      - my-integration-test-scenario
-```
+1. Confirm you have created a Release Plan that references your Application and Component
+2. Verify the Snapshot was successfully created after your build
+3. Check the ITS resource definition for any configuration issues
 
-```yaml
-# Example IntegrationTestScenario 
-apiVersion: appstudio.redhat.com/v1alpha1
-kind: IntegrationTestScenario
-metadata:
-  name: my-integration-test-scenario
-spec:
-  application: my-application
-  resolverRef:
-    # Specify test resolver (e.g., Tekton pipeline)
-  components:
-    - name: my-component
-```
+Could you share:
+- The YAML for your IntegrationTestScenario
+- The output of `kubectl get its -n <your-namespace>`
+- The status of your recent build and Snapshot
 
-I recommend checking:
-1. Are your Component and Application names exactly matching in the ITS and ReleasePlan?
-2. Have you created a Snapshot after your build?
-3. Do you have the correct permissions in your namespace?
-
-Would you like me to help you debug by showing you how to check these configurations in your Konflux environment?
+This will help me pinpoint exactly why your ITS is not running after builds complete.

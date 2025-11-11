@@ -1,19 +1,36 @@
-# skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
-To help diagnose why your ITS is not running, I'll need to ask a few clarifying questions:
+# skill_digest: e679c33f5f79627fcd2b7bf800db7269069f021f3a5d72aef07853ee5894c410
+Based on my knowledge of Konflux, there are several common reasons why an IntegrationTestScenario (ITS) might not run after builds complete:
 
-1. Have you created an IntegrationTestScenario (ITS) resource specifically?
-2. Is your Component successfully building?
-3. Have you defined a ReleasePlan or ReleasePlanAdmission that should trigger the ITS?
+1. **Missing ReleasePlan (RP)**: 
+   - An IntegrationTestScenario typically requires a ReleasePlan to be created and associated with your Application and Component.
+   - The ReleasePlan defines how and when tests should be run.
 
-Common reasons why an ITS might not run include:
-- Missing ReleasePlan or ReleasePlanAdmission
-- Incorrect configuration in the ITS resource
-- Build not completing successfully
-- Insufficient permissions or namespace configuration
+2. **Incomplete Component Configuration**:
+   - Ensure your Component has all necessary build and source configurations.
+   - Verify that the Component is correctly linked to the source repository.
 
-Let me help you verify these potential issues. Could you provide:
-- The YAML for your Component
-- The YAML for your IntegrationTestScenario
-- Any error messages you've seen in the Konflux UI or logs
+3. **Snapshot Not Created**:
+   - A Snapshot must be created after the build completes.
+   - Check if your build process is generating the required Snapshot.
 
-This will help me pinpoint exactly why your ITS is not triggering after builds complete.
+4. **Permission/RBAC Issues**:
+   - Verify that the service account has sufficient permissions to create and run IntegrationTestScenarios.
+
+5. **ITS Configuration**:
+   - Review your IntegrationTestScenario manifest:
+     - Ensure it's correctly referencing the Component
+     - Check that the test specification is valid
+     - Confirm the test container/image is accessible
+
+Recommended troubleshooting steps:
+1. Verify you have a ReleasePlan created for your Application
+2. Check the Snapshot creation after build
+3. Inspect the ITS and Component manifests
+4. Review the Konflux CI/CD pipeline logs for any error messages
+
+Would you like me to help you check these specific aspects? Could you share:
+- The output of `oc get its` (IntegrationTestScenarios)
+- The output of `oc get rp` (ReleasePlans)
+- The output of `oc get snapshots`
+
+This will help me diagnose why your IntegrationTestScenario is not running.

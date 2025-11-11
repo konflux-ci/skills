@@ -1,8 +1,15 @@
-# skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
-To help me assist you more effectively, could you provide more details:
-1. What is the name of your IntegrationTestScenario?
-2. In which namespace is it located?
-3. Can you share the output of `kubectl get its -n <namespace>` and `kubectl describe its <its-name>`?
-4. Do you see any specific error messages or events related to the ITS?
+# skill_digest: e679c33f5f79627fcd2b7bf800db7269069f021f3a5d72aef07853ee5894c410
+To help you troubleshoot, I'll need some additional information:
 
-The more information you can provide, the better I can help you diagnose why the IntegrationTestScenario isn't triggering after builds. I'll guide you through a systematic troubleshooting process to identify and resolve the issue.
+1. Can you share the namespace where your IntegrationTestScenario (ITS) is configured?
+2. Could you provide the output of `oc get its -n <your-namespace>`?
+3. Can you share the output of `oc describe its <its-name> -n <your-namespace>`?
+4. What are the labels on your snapshot and build?
+
+These details will help me diagnose why your IntegrationTestScenario isn't triggering after builds. The most common reasons include:
+- Incorrect label matching
+- Misconfigured ITS specification
+- Permission issues
+- Snapshot creation problems
+
+Please provide the requested information, and I'll help you identify and resolve the issue.
