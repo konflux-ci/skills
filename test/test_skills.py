@@ -18,6 +18,7 @@ import json
 from pathlib import Path
 
 import pytest
+import yaml
 
 from conftest import check_expectations, invoke_claude
 
@@ -153,4 +154,67 @@ def test_test_only_skills_not_in_marketplace():
         pytest.fail(
             f"Test-only skills found in marketplace.json: {forbidden_skills}\n"
             "These skills are for testing the framework and should not be published."
+        )
+
+
+@pytest.mark.test
+def test_all_skills_in_marketplace():
+    """
+    Validate that all production skills are listed in marketplace.json.
+
+    This ensures that every skill directory with a SKILL.md file (except
+    test-only skills) is properly registered in the marketplace manifest.
+    """
+    # List of skills that should NOT be in marketplace.json
+    test_only_skills = {
+        "self-test-skill-invocation",
+    }
+
+    # Find all skill directories with SKILL.md files
+    skill_dirs = []
+    for path in Path(".").iterdir():
+        if path.is_dir() and (path / "SKILL.md").exists():
+            skill_dirs.append(path)
+
+    # Extract skill names from SKILL.md frontmatter
+    skill_names = set()
+    for skill_dir in skill_dirs:
+        skill_file = skill_dir / "SKILL.md"
+        with open(skill_file) as f:
+            # Read YAML frontmatter
+            content = f.read()
+            if content.startswith("---"):
+                # Extract frontmatter
+                parts = content.split("---", 2)
+                if len(parts) >= 3:
+                    import yaml
+                    frontmatter = yaml.safe_load(parts[1])
+                    skill_name = frontmatter.get("name")
+                    if skill_name:
+                        skill_names.add(skill_name)
+
+    # Exclude test-only skills
+    production_skills = skill_names - test_only_skills
+
+    # Load marketplace.json
+    marketplace_file = Path(".claude-plugin/marketplace.json")
+    if not marketplace_file.exists():
+        pytest.fail(f"Marketplace file not found: {marketplace_file}")
+
+    with open(marketplace_file) as f:
+        marketplace_data = json.load(f)
+
+    # Extract skill names from marketplace
+    marketplace_skills = {
+        plugin["name"]
+        for plugin in marketplace_data.get("plugins", [])
+    }
+
+    # Find skills missing from marketplace
+    missing_skills = production_skills - marketplace_skills
+
+    if missing_skills:
+        pytest.fail(
+            f"Skills found but not in marketplace.json: {missing_skills}\n"
+            "All production skills must be registered in .claude-plugin/marketplace.json"
         )
