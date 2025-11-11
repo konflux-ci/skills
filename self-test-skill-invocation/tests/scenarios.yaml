@@ -1,0 +1,19 @@
+# Self-test scenarios to verify the test framework loads and invokes skills correctly
+# This skill should respond with a canary phrase that Claude would never naturally say
+
+skill_name: self-test-skill-invocation
+description: Verifies test framework skill loading and invocation mechanism
+
+test_scenarios:
+  - name: canary-phrase-test
+    description: Verify skill is loaded and invoked by checking for unmistakable canary phrase
+    prompt: "Please test skill invocation framework with the canary skill test"
+    model: haiku
+    samples: 3
+    expected:
+      contains_keywords:
+        - CANARY_PHRASE_XYZ123_SKILL_LOADED_AND_INVOKED
+      does_not_contain:
+        - I don't understand
+        - I'm not sure
+    baseline_failure: "N/A - this is a meta-test of the framework itself"

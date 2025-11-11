@@ -14,6 +14,7 @@ Use pytest's -m flag to select which mode to run:
   pytest -m test      # Validate results
 """
 
+import json
 from pathlib import Path
 
 import pytest
@@ -117,3 +118,39 @@ def test_validate_result(skill_scenario):
     if failures:
         failure_msg = "\n".join(f"  - {f}" for f in failures)
         pytest.fail(f"Expectation failures:\nFile: {result_file}\n{failure_msg}")
+
+
+@pytest.mark.test
+def test_test_only_skills_not_in_marketplace():
+    """
+    Validate that test-only skills are not in marketplace.json.
+
+    Test-only skills (like self-test-skill-invocation) are used to verify
+    the test framework itself and should never be published.
+    """
+    # List of skills that should NOT be in marketplace.json
+    test_only_skills = {
+        "self-test-skill-invocation",
+    }
+
+    marketplace_file = Path(".claude-plugin/marketplace.json")
+    if not marketplace_file.exists():
+        pytest.fail(f"Marketplace file not found: {marketplace_file}")
+
+    with open(marketplace_file) as f:
+        marketplace_data = json.load(f)
+
+    # Extract skill names from marketplace
+    marketplace_skills = {
+        plugin["name"]
+        for plugin in marketplace_data.get("plugins", [])
+    }
+
+    # Check for test-only skills in marketplace
+    forbidden_skills = test_only_skills & marketplace_skills
+
+    if forbidden_skills:
+        pytest.fail(
+            f"Test-only skills found in marketplace.json: {forbidden_skills}\n"
+            "These skills are for testing the framework and should not be published."
+        )

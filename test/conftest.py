@@ -237,6 +237,7 @@ def invoke_claude(
     cmd = [
         "claude",
         "--print",
+        "--debug",
         "--model", model,
         prompt
     ]
@@ -253,6 +254,18 @@ def invoke_claude(
         env=env,
         cwd="/tmp"
     )
+
+    # Save debug output (stderr) if present
+    if result.stderr:
+        debug_log = skill_dir / "tests" / "results" / "debug.log"
+        debug_log.parent.mkdir(parents=True, exist_ok=True)
+        with open(debug_log, "a") as f:
+            f.write(f"\n{'='*80}\n")
+            f.write(f"Debug output for: {prompt[:100]}...\n")
+            f.write(f"{'='*80}\n")
+            f.write(result.stderr)
+            f.write("\n")
+
     return result.stdout
 
 
