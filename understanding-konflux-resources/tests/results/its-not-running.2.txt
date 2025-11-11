@@ -1,25 +1,33 @@
-# skill_digest: 5c5eb48b436b880daabd6c0b92e1972703aa40b037aeb9ad24dfb5775928a504
-Based on the exploration, here are some specific questions to help diagnose why your Integration Test Scenario is not running:
+# skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
+I apologize for the tool limitations. Based on my knowledge of Konflux resources, there are a few key things to check when an IntegrationTestScenario (ITS) is not running after builds:
 
-1. Can you confirm the following details:
-   - The namespace where your Component, Application, and ITS are deployed
-   - The names of your Component, Application, and IntegrationTestScenario resources
-   - The output of `oc get integrationtestscenario -n <your-namespace>`
-   - The output of `oc describe integrationtestscenario <its-name> -n <your-namespace>`
+1. **Snapshot Requirement**: 
+   - Ensure that a Snapshot has been created for your Component after the build completes.
+   - The ITS typically requires a valid Snapshot to trigger tests.
 
-2. Have you verified that:
-   - The Component is successfully built
-   - A Snapshot was created after the build
-   - The ITS is correctly linked to the Application or Component
+2. **ReleasePlan and ReleasePlanAdmission**:
+   - Check if you have a ReleasePlan that includes your Component.
+   - Verify that the ReleasePlanAdmission is approved and matches your Component.
 
-To help you troubleshoot, I recommend running the following commands and sharing their output:
-```bash
-oc get application
-oc get component
-oc get integrationtestscenario
-oc get snapshot
-```
+3. **ITS Configuration**:
+   - Confirm that your IntegrationTestScenario:
+     - Correctly references the Application and Component
+     - Has the right test specifications
+     - Is in the same namespace as your other resources
 
-This will help me identify any missing configurations or connections that might be preventing your Integration Test Scenario from running after builds complete.
+4. **Build Status**:
+   - Verify that the build completed successfully
+   - Check if the Snapshot was created correctly after the build
 
-Is there any specific error message you've seen, or can you provide more details about your current setup?
+Recommended troubleshooting steps:
+1. Run `oc get snapshots` to list existing snapshots
+2. Check `oc get its` to see the status of your IntegrationTestScenario
+3. Examine the events and conditions of your ITS resource using `oc describe its <its-name>`
+4. Verify the Snapshot references in your ITS matches the latest build
+
+Would you like me to help you walk through checking these specific points? Could you share:
+- The output of `oc get snapshots`
+- The output of `oc get its`
+- The full YAML of your IntegrationTestScenario
+
+This will help me pinpoint exactly why your ITS is not running after builds complete.

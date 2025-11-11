@@ -1,2 +1,8 @@
-# skill_digest: 5c5eb48b436b880daabd6c0b92e1972703aa40b037aeb9ad24dfb5775928a504
+# skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
+Could you please share:
+- The namespace you're working in
+- The name of your IntegrationTestScenario
+- Recent Snapshot and build logs
+- The output of the `oc get` and `oc describe` commands mentioned above
 
+This will help me diagnose why your IntegrationTestScenario isn't triggering after builds.

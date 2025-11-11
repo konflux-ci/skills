@@ -1,21 +1,15 @@
-# skill_digest: 5c5eb48b436b880daabd6c0b92e1972703aa40b037aeb9ad24dfb5775928a504
-I apologize for the error. Based on my existing knowledge about Konflux resources, here's the guidance for creating a ReleasePlan:
+# skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
+Based on the Konflux resource management principles, Release Plans (RPs) are typically created in the tenant namespace. 
 
-ReleasePlans (RPs) are typically created in the **tenant namespace**. This means you should create the ReleasePlan in the namespace associated with your specific project or team. 
+Here are the key points:
+- Release Plans are user-created resources
+- They should be created in the tenant namespace, not the managed namespace
+- The tenant namespace is where you define how and when you want to release your application
 
-Key points to remember:
-- ReleasePlans are user-created resources
-- They are created in the tenant (user-controlled) namespace
-- They define the release strategy for your application or component
-
-The typical workflow is:
+To create a Release Plan, you'll want to:
 1. Ensure you're in the correct tenant namespace
-2. Create the ReleasePlan resource using kubectl or your preferred Konflux management tool
-3. The ReleasePlan will then be used to manage the release process for your application
+2. Define the Release Plan with details about your desired release strategy
+3. Specify which Application or Component you want to release
+4. Set any release parameters or conditions
 
-If you're unsure about the exact namespace, I recommend:
-- Checking with your team's Konflux administrator
-- Verifying the current namespace using `kubectl config current-context`
-- Confirming the specific tenant namespace for your project
-
-Would you like me to help you create the ReleasePlan or do you need more specific guidance about its configuration?
+Would you like me to help you draft a Release Plan configuration or provide more specific guidance about creating it in the correct namespace?

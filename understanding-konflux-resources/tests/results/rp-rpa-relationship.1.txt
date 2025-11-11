@@ -1,15 +1,16 @@
-# skill_digest: 5c5eb48b436b880daabd6c0b92e1972703aa40b037aeb9ad24dfb5775928a504
+# skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
 I apologize for the inconvenience. Based on my existing knowledge about Konflux resources:
 
-In Konflux, a ReleasePlanAdmission (RPA) references a ReleasePlan (RP), but they do not necessarily need to be in the same namespace. The RPA is typically created in a managed namespace and references the ReleasePlan, which is usually created in a tenant namespace.
+A ReleasePlanAdmission (RPA) references a ReleaseПлан (RP), but they do not necessarily need to be in the same namespace. The RPA typically points to a specific ReleaseПlan using a reference, which allows cross-namespace interactions.
 
-The key points are:
-1. The RPA is a resource that admits (approves) a specific ReleasePlan
-2. The RPA can be in a different namespace from the ReleasePlan it references
-3. This design allows for separation of concerns between tenant-level planning and managed namespace operations
+Key points:
+- The RPA uses a reference to link to the specific ReleaseПlan
+- This reference can span different namespaces
+- The relationship is typically defined through a spec field in the RPA that points to the RP's name and namespace
 
-The reference is typically done through a cross-namespace reference, where the RPA contains a reference to the specific ReleasePlan it is admitting, using the ReleasePlan's name and namespace.
+For the most accurate and up-to-date information, I recommend:
+1. Checking the current Konflux documentation
+2. Reviewing the specific Custom Resource Definitions (CRDs) for ReleaseПlan and ReleasePlanAdmission
+3. Consulting with the Konflux development team or community for the most precise details about their current implementation
 
-If you'd like more precise details about the exact mechanism of this reference, I recommend checking the Konflux documentation or the specific custom resource definitions for ReleasePlans and ReleasePlanAdmissions.
-
-Would you like me to help you find more specific information about how these resources interact?
+Would you like me to help you find more specific documentation about this relationship?

@@ -1,21 +1,19 @@
-# skill_digest: 5c5eb48b436b880daabd6c0b92e1972703aa40b037aeb9ad24dfb5775928a504
-Let me explain based on standard Konflux practices:
+# skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
+I apologize for the error. Let me provide guidance based on standard Konflux practices:
 
-In Konflux, Release Plans (RPs) are typically created in the tenant namespace. This means:
-- The Release Plan should be created in the namespace associated with your specific project or team
-- It's usually created after you have:
-  1. Defined an Application
-  2. Created Components
-  3. Generated Snapshots
+In Konflux, ReleasePlans (RPs) are typically created in the **tenant namespace**. This is the namespace associated with your specific project or team. 
 
-The typical workflow is:
-1. Create your Application in the tenant namespace
-2. Define Components for your Application
-3. Generate Snapshots of those Components
-4. Create a Release Plan in the same tenant namespace
+Key points about ReleasePlan placement:
+- Created in the tenant namespace
+- Managed by the application team
+- Associated with a specific Application resource
+- Used to define how and when components should be released
 
-If you're unsure about the exact namespace, I recommend:
-- Checking with your team's Konflux administrator
-- Verifying the current namespace using `oc project` or `kubectl config current-context`
+To create your ReleasePlan, you'll want to:
+1. Ensure you're in the correct tenant namespace
+2. Create the ReleasePlan that references your Application and its Components
+3. Define the release strategy, including any specific requirements for building, testing, and deploying
 
-Would you like me to help you locate or create the Release Plan in the correct namespace?
+Would you like me to help you draft the ReleasePlan configuration for your specific project? If you can provide more context about your application and its components, I can give more precise guidance.
+
+Is there anything specific about the ReleasePlan you're looking to create that you'd like me to clarify?

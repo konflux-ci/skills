@@ -1,29 +1,8 @@
-# skill_digest: 5c5eb48b436b880daabd6c0b92e1972703aa40b037aeb9ad24dfb5775928a504
-Can you provide more details about your setup? Specifically:
-1. Did you manually create the IntegrationTestScenario resource?
-2. What is the exact name of your Component and Application?
-3. Can you share the YAML configuration for your IntegrationTestScenario, Component, and Application?
+# skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
+Questions for you to help diagnose the issue:
+1. Can you share the output of `oc get integrationtestscenarios`?
+2. Do you have a ReleasePlan created for your Application?
+3. Are there any Snapshots created after your builds?
+4. What specific error (if any) are you seeing when the ITS fails to run?
 
-To help diagnose the issue, I'll need to know:
-- Are you seeing any error messages in the Konflux UI or logs?
-- Have you confirmed that builds are completing successfully?
-- Are there any specific requirements for your integration tests?
-
-A typical IntegrationTestScenario might look like this:
-```yaml
-apiVersion: appstudio.redhat.com/v1beta1
-kind: IntegrationTestScenario
-metadata:
-  name: my-test-scenario
-spec:
-  application: my-application
-  component: my-component
-  testTemplate:
-    spec:
-      container:
-        image: your-test-image
-        command: ["/bin/sh", "-c"]
-        args: ["your test command here"]
-```
-
-Providing these details will help me pinpoint exactly why your ITS is not running after builds complete.
+These details will help me provide more targeted troubleshooting for your Konflux setup.

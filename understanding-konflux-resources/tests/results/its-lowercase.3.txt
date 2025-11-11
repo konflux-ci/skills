@@ -1,24 +1,14 @@
-# skill_digest: 5c5eb48b436b880daabd6c0b92e1972703aa40b037aeb9ad24dfb5775928a504
-Based on the investigation, I recommend taking the following steps:
+# skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
+To help diagnose the specific problem, I'll need some additional information from you:
 
-1. Verify Snapshot Creation
-   - Run `oc get snapshots` to list recent snapshots
-   - Check the status of the most recent snapshot
-   - Confirm it's associated with your Component and Application
+1. Can you provide the namespace where your IntegrationTestScenario is defined?
+2. Could you share the output of `oc describe integrationtestscenario <its-name>` for the specific ITS?
+3. Can you confirm the status of your recent build and associated Snapshot?
 
-2. Inspect IntegrationTestScenario
-   - Use `oc describe integrationtestscenario [your-its-name]` to get detailed information
-   - Look for any conditions or events that might explain why it's not triggering
+These details will help me pinpoint exactly why your Integration Test Scenario isn't triggering after builds. Some common issues include:
+- Misconfigured references
+- Build not creating a valid Snapshot
+- Permissions problems
+- Matching conditions not being met
 
-3. Check Build Status
-   - Verify your Component build completed successfully
-   - Examine build logs for any potential issues
-
-Could you provide me with:
-- The name of your IntegrationTestScenario
-- The name of your Application and Component
-- Any error messages or logs you've seen
-
-This will help me provide more specific guidance on why your ITS isn't triggering after builds.
-
-Would you like me to help you investigate further or walk you through troubleshooting the ITS trigger?
+Please provide those details, and I'll help you troubleshoot the specific reason your ITS isn't running.

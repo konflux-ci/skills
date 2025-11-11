@@ -1,26 +1,37 @@
-# skill_digest: 5c5eb48b436b880daabd6c0b92e1972703aa40b037aeb9ad24dfb5775928a504
-I'll help you diagnose potential issues with your Integration Test Scenario (ITS). There are several key things to check:
+# skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
+I apologize for the WebSearch error. Let me provide some specific troubleshooting steps:
 
-1. ReleasePlan Configuration
-An ITS typically requires a properly configured ReleasePlan to trigger tests after builds. Let me ask some specific questions:
+To diagnose why your ITS is not running:
 
-- Have you created a ReleasePlan for your Application?
-- Does the ReleasePlan explicitly reference your Component and specify how IntegrationTestScenarios should be run?
+1. Verify ReleasePlan Existence:
+   ```bash
+   kubectl get releaseplans -n <your-namespace>
+   ```
+   Ensure there's a ReleasePlan that references your Component and Application.
 
-2. Common Reasons ITS Might Not Run
-- The ReleasePlan might not be matching your Component
-- Missing ReleasePlanAdmission
-- Incorrect namespace configuration
-- The ITS itself might have validation or configuration issues
+2. Check IntegrationTestScenario Status:
+   ```bash
+   kubectl get integrationtestscenarios -n <your-namespace>
+   kubectl describe integrationtestscenario <its-name>
+   ```
+   Look for any error messages or status conditions that might explain why the test is not running.
 
-To help diagnose, could you provide me with the following information:
-- The namespace where your Application and Component are deployed
-- The content of your IntegrationTestScenario (ITS) resource
-- The content of your ReleasePlan resource
+3. Check ReleasePlanAdmission:
+   ```bash
+   kubectl get releaseplanadmissions -n <your-namespace>
+   ```
+   Confirm that a ReleasePlanAdmission exists and is in a valid state.
 
-Specific things I'll help you check:
-- Verify the ITS is in the same namespace as your Component
-- Ensure the ReleasePlan correctly references your Component
-- Check that the ITS has all required configurations (like build pipeline references)
+Common Checklist:
+- [ ] ReleasePlan created
+- [ ] ReleasePlanAdmission exists
+- [ ] IntegrationTestScenario configured correctly
+- [ ] Component and Application are in the same namespace
+- [ ] Necessary permissions are set up
 
-Would you be willing to share those resource configurations so I can help you pinpoint exactly why the ITS is not running?
+Would you like me to help you walk through checking these specific resources? Could you provide:
+1. The namespace you're working in
+2. The names of your Component and Application
+3. The name of your IntegrationTestScenario
+
+This will help me provide more targeted assistance in diagnosing why your ITS is not running after builds complete.

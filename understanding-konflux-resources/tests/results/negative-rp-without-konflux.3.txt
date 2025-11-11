@@ -1,16 +1,16 @@
-# skill_digest: 5c5eb48b436b880daabd6c0b92e1972703aa40b037aeb9ad24dfb5775928a504
-I apologize for the error. Let me provide some general guidance about ReleasePlans in Konflux:
+# skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
+Let me explain based on Konflux best practices:
 
-In Konflux, ReleasePlans (RPs) are typically created in the tenant namespace. This means you should create your ReleasePlan in the namespace associated with your specific project or team. 
+In Konflux, Release Plans (RPs) are typically created in the tenant namespace. This is where you manage your application-specific resources. The tenant namespace is specific to your project or team, and it's where you'll define how and when your application components should be released.
 
-The key considerations for creating a ReleasePlan are:
-1. It should be created in the tenant namespace
-2. It's associated with the specific Application you're working on
-3. It defines the release strategy for your Component(s)
+Key points about creating a Release Plan:
+- Create the Release Plan in the tenant namespace
+- The Release Plan is associated with a specific Application
+- It defines the release strategy for your application's components
 
-To get the most accurate information specific to your project, I recommend:
-1. Consulting your team's Konflux configuration
-2. Checking with your team's DevOps or platform engineering team about the specific namespace conventions
-3. Verifying the exact namespace where other ReleasePlans for your project are currently created
+If you're unsure about the exact namespace, I recommend:
+1. Confirming the tenant namespace name with your team or project lead
+2. Verifying the namespace using `oc get namespaces` or your cluster management tool
+3. Checking the existing Application resource to ensure you're creating the Release Plan in the correct namespace
 
-Would you like me to help you find the specific namespace or provide more details about creating a ReleasePlan in your project?
+Would you like me to help you create the Release Plan or do you need more information about where to place it?
