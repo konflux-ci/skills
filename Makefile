@@ -1,4 +1,4 @@
-.PHONY: all lint validate test test-only generate help
+.PHONY: all lint validate test test-only generate clean help
 
 CLAUDELINT_IMAGE := ghcr.io/stbenjam/claudelint:latest
 
@@ -14,6 +14,7 @@ help:
 	@echo "  make test         - Run lint validation + skill tests (skip generate)"
 	@echo "  make test-only    - Run only skill tests (skip lint and generate)"
 	@echo "  make generate     - Generate test results by invoking Claude"
+	@echo "  make clean        - Remove all generated test results"
 	@echo ""
 	@echo "Test runner options:"
 	@echo "  make test SKILL=<name>      - Run tests for specific skill"
@@ -36,3 +37,8 @@ test-only:
 generate:
 	@echo "Generating test results..."
 	@python3 test.py generate $(if $(SKILL),--skill $(SKILL))
+
+clean:
+	@echo "Removing all test results..."
+	@find . -path '*/tests/results/*.txt' -type f -delete
+	@echo "✓ Test results removed"

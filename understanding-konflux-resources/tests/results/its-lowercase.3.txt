@@ -1,13 +1,8 @@
 # skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
-To help you more effectively, I'll need more information:
-1. Can you share the output of the following commands:
-   - `oc get its` (to list IntegrationTestScenarios)
-   - `oc get snapshots` (to check recent snapshots)
-   - `oc describe its [your-its-name]` (to get detailed ITS configuration)
+To help me assist you more effectively, could you provide more details:
+1. What is the name of your IntegrationTestScenario?
+2. In which namespace is it located?
+3. Can you share the output of `kubectl get its -n <namespace>` and `kubectl describe its <its-name>`?
+4. Do you see any specific error messages or events related to the ITS?
 
-2. Confirm:
-   - Are the builds completing successfully?
-   - Is the snapshot being created after the build?
-   - Do you see any error messages or warnings in the ITS or snapshot resources?
-
-Could you provide those details so I can help you diagnose why your IntegrationTestScenario isn't triggering?
+The more information you can provide, the better I can help you diagnose why the IntegrationTestScenario isn't triggering after builds. I'll guide you through a systematic troubleshooting process to identify and resolve the issue.

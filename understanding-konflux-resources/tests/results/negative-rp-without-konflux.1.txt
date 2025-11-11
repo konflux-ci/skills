@@ -1,12 +1,14 @@
 # skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
-Based on Konflux best practices, Release Plans (RPs) are typically created in the same namespace as your Application. This ensures that the Release Plan is closely associated with the specific application's components and resources.
+Based on the exploration, here are the key points for creating your Release Plan (RP):
 
-To determine the exact namespace:
-1. Verify the namespace of your existing Application
-2. Create the Release Plan in that same namespace
+1. There's no single universal location for RPs in Konflux projects
+2. You'll want to create the RP in:
+   - A namespace specific to your application or releases
+   - A directory like `/manifests/release-plans/` or `/kubernetes/release-plans/`
 
-If you're unsure about your current namespace, you can:
-- Check your existing Application's namespace using `oc get applications`
-- Confirm the current namespace with `oc project`
+The exact location depends on your specific project structure. I recommend:
+1. Checking with your project team about their preferred namespace
+2. Looking for existing release-related directories in the project
+3. Following the typical YAML structure for ReleasePlans
 
-Would you like me to help you locate the correct namespace or provide more details about creating a Release Plan in Konflux?
+Would you like me to help you locate the specific namespace or directory for your RP? If you can provide more context about the project, I can give more precise guidance.

@@ -1,19 +1,14 @@
 # skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
-To help you determine the right location for creating your Release Plan (RP), I'll provide some general guidance about Konflux resources:
+The skill provides insights into Konflux resources. For ReleasePlans (RPs):
 
-In Konflux, Release Plans (RPs) are typically:
-- Created in the same namespace as the Application
-- Associated with a specific Application and its Components
-- Used to define how and when a set of components will be released
+- RPs are typically created in the same namespace as your Application
+- They define the release strategy and configuration for your application's components
+- Usually created by the application team or release engineers
+- Often associated with a specific application and its components
 
-The key considerations for creating an RP are:
-1. Ensure you're in the correct project namespace
-2. Have an existing Application defined
-3. Have Components that you want to include in the release plan
+However, to give you the most accurate guidance, could you provide more context about:
+1. Which project or application are you working on?
+2. Do you already have an Application resource defined in Konflux?
+3. Are you looking to create a ReleasePlan for a specific component or the entire application?
 
-Best practices:
-- Create the RP in the same namespace as your Application
-- Make sure the RP references the specific Components you want to release
-- Align the RP with your Application's release strategy
-
-Would you like me to help you confirm the specific namespace or Application context for creating this Release Plan? If you can provide more details about your project's structure, I can give more precise guidance.
+The exact namespace and specific configuration will depend on your project's setup in Konflux. If you can share more details, I can help you determine the precise location and configuration for creating your ReleasePlan.

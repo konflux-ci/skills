@@ -1,15 +1,27 @@
 # skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
-I apologize for the technical difficulties. Based on my existing knowledge about Konflux resources:
+I apologize for the technical difficulties. Let me explain based on my understanding of Konflux resources:
 
-In Konflux, a ReleasePlanAdmission (RPA) typically references a ReleasePlan (RP), and they are usually expected to be in the same namespace. The RPA is created to validate and admit a specific ReleasePlan, serving as a mechanism to control and validate release processes.
+In Konflux, a ReleasePlanAdmission (RPA) typically references a ReleasePlan (RP) using a cross-namespace reference. The RPA does NOT need to be in the same namespace as the ReleasePlan. 
 
-The reference between RPA and RP is typically done through:
-1. A spec field in the RPA that points to the specific ReleasePlan
-2. Namespace matching is a common practice to ensure logical grouping and access control
+Specifically:
+- The RPA contains a reference to the ReleasePlan (RP) using a specific field
+- This reference can point to an RP in a different namespace
+- This allows for flexible management of release plans across different namespaces
 
-To ensure the most up-to-date and precise information, I recommend:
-1. Checking the current Konflux documentation
-2. Verifying the specific version of Konflux you're using
-3. Consulting with your team's Konflux configuration
+The typical reference looks something like this:
+```yaml
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: ReleasePlanAdmission
+metadata:
+  name: my-rpa
+spec:
+  releasePlanRef:
+    name: my-release-plan
+    namespace: different-namespace
+```
 
-Would you like me to help you find more specific details about the RPA and RP relationship in your specific Konflux setup?
+In this example, the RPA can reference an RP in a different namespace by explicitly specifying both the name and the namespace of the ReleasePlan.
+
+This cross-namespace referencing provides flexibility in how release plans and their admissions can be organized and managed within a Konflux environment.
+
+Would you like me to elaborate on any specific aspect of how RPAs reference RPs in Konflux?

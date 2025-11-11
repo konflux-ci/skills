@@ -1,2 +1,55 @@
 # skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
+I apologize for the error. Based on my knowledge of Konflux, there are several key things to check when your IntegrationTestScenario (ITS) is not running:
 
+1. **ReleasePlan Configuration**: 
+   - Ensure you have a ReleasePlan (RP) that references your Component and Application
+   - The ReleasePlan should specify which IntegrationTestScenarios should run
+
+2. **Component Snapshot**:
+   - Verify that a Component Snapshot is created after your build
+   - The ITS needs a valid Snapshot to trigger tests
+
+3. **ITS Specification**:
+   - Check that your IntegrationTestScenario is correctly configured
+   - Ensure it matches the Component and Application
+   - Verify the test scenario's parameters are correct
+
+4. **Namespace and Permissions**:
+   - Confirm the ITS is in the correct namespace
+   - Check that the service account has necessary permissions to run tests
+
+Here are some specific things to verify:
+
+```yaml
+# Example ReleasePlan that might trigger your ITS
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: ReleasePlan
+metadata:
+  name: my-release-plan
+spec:
+  application: my-application
+  test:
+    scenarios:
+      - my-integration-test-scenario
+```
+
+```yaml
+# Example IntegrationTestScenario 
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: IntegrationTestScenario
+metadata:
+  name: my-integration-test-scenario
+spec:
+  application: my-application
+  resolverRef:
+    # Specify test resolver (e.g., Tekton pipeline)
+  components:
+    - name: my-component
+```
+
+I recommend checking:
+1. Are your Component and Application names exactly matching in the ITS and ReleasePlan?
+2. Have you created a Snapshot after your build?
+3. Do you have the correct permissions in your namespace?
+
+Would you like me to help you debug by showing you how to check these configurations in your Konflux environment?

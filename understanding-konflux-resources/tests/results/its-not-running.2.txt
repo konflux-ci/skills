@@ -1,14 +1,19 @@
 # skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
-To help you further, I'll need more specific information:
-1. Can you share the YAML configurations for your:
-   - Component
-   - Application
-   - ReleasePlan (if you have one)
-   - IntegrationTestScenario
+To help diagnose why your ITS is not running, I'll need to ask a few clarifying questions:
 
-2. When you say the ITS is not running, can you be more specific?
-   - Are there any error messages?
-   - Does the ITS show as pending, failed, or not triggered at all?
-   - Have you checked the Konflux UI or run `oc get` commands to verify the resources?
+1. Have you created an IntegrationTestScenario (ITS) resource specifically?
+2. Is your Component successfully building?
+3. Have you defined a ReleasePlan or ReleasePlanAdmission that should trigger the ITS?
 
-Would you be able to provide those additional details so I can help you diagnose the specific issue preventing your IntegrationTestScenario from running?
+Common reasons why an ITS might not run include:
+- Missing ReleasePlan or ReleasePlanAdmission
+- Incorrect configuration in the ITS resource
+- Build not completing successfully
+- Insufficient permissions or namespace configuration
+
+Let me help you verify these potential issues. Could you provide:
+- The YAML for your Component
+- The YAML for your IntegrationTestScenario
+- Any error messages you've seen in the Konflux UI or logs
+
+This will help me pinpoint exactly why your ITS is not triggering after builds complete.

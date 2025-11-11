@@ -1,2 +1,7 @@
 # skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
+Could you provide more details about your specific setup?
+- Can you share the output of `oc get its`?
+- What are the exact names of your application, component, and IntegrationTestScenario?
+- Did you recently make any changes to your configuration?
 
+Knowing these details will help me more precisely diagnose why your ITS isn't triggering after builds.

@@ -1,16 +1,29 @@
 # skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
-I apologize for the search limitation. Based on my existing knowledge about Konflux resources:
+I apologize for the technical difficulties. Based on my existing knowledge about Konflux resources:
 
-In Konflux, the ReleasePlanAdmission (RPA) references the ReleasePlan (RP), and they typically need to be in the same namespace. The RPA is created as an admission to a specific ReleasePlan, which means:
+In Konflux, a ReleasePlanAdmission (RPA) typically references a ReleasePlan (RP) through a specific reference in its spec. While they don't strictly need to be in the same namespace, the RPA usually includes a reference to the RP it's associated with.
 
-1. The RPA contains a reference to the ReleasePlan (RP)
-2. This reference is usually done through a namespace-scoped reference
-3. Best practice is to create both the RP and RPA in the same namespace
+The key points are:
+1. The RPA has a spec that includes a reference to the ReleasePlan
+2. This reference typically includes the name and namespace of the ReleasePlan
+3. While they can be in different namespaces, the RPA must be able to locate and reference the RP correctly
 
-The reference is typically implemented through:
-- A spec field in the RPA that points to the specific ReleasePlan
-- Namespace-level coupling ensures clear association and prevents cross-namespace conflicts
+The reference might look something like this in the RPA's spec:
+```yaml
+spec:
+  releasePlan:
+    name: my-release-plan
+    namespace: my-namespace
+```
 
-If you need the most up-to-date or precise information, I recommend checking the current Konflux documentation or consulting with the Konflux team directly, as the exact implementation details can evolve.
+This allows the RPA to:
+- Locate the specific ReleasePlan it's meant to work with
+- Potentially work across different namespaces if needed
+- Maintain a clear, explicit link between the RPA and its corresponding RP
 
-Would you like me to elaborate on any part of this explanation about how RPAs reference RPs in Konflux?
+To get the most up-to-date and precise information, I recommend:
+1. Checking the current Konflux documentation
+2. Reviewing the specific Custom Resource Definitions (CRDs) for ReleasePlan and ReleasePlanAdmission
+3. Consulting with your Konflux cluster administrators about the exact implementation in your specific setup
+
+Would you like me to help you find more specific details about how RPAs reference RPs in your Konflux environment?

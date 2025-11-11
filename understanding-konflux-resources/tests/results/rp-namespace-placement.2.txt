@@ -1,21 +1,24 @@
 # skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
-I apologize for the error. Let me provide guidance based on my understanding of Konflux resource management:
+I'll provide a detailed explanation based on Konflux best practices:
 
-In Konflux, ReleasePlans (RP) are typically created in the tenant namespace. This is because:
-1. The tenant namespace is where you manage your application-specific resources
-2. ReleasePlans are specific to your application's release process
-3. They define how and when your application components will be released
+In Konflux, ReleasePlans (RPs) are typically created in the tenant namespace. This is because:
 
-The managed namespace is generally used for:
-- Snapshots
-- IntegrationTestScenarios (ITS)
-- Actual deployed artifacts
+1. The tenant namespace is where you have direct control and management of your application's resources.
+2. ReleasePlans are user-created resources that define how and when a component should be released.
+3. The managed namespace is primarily used for storing generated resources like Snapshots and ReleasePlanAdmissions (RPAs).
 
-So, to directly answer your question: You should create your ReleasePlan (RP) in the **tenant namespace**.
+The typical workflow is:
+- Create your ReleasePlan (RP) in the tenant namespace
+- Konflux will then automatically create corresponding ReleasePlanAdmissions (RPAs) in the managed namespace
 
-If you want to confirm the exact details for your specific Konflux setup, I recommend:
-1. Checking with your Konflux administrator
-2. Reviewing your cluster's specific configuration
-3. Consulting your organization's specific Konflux resource management guidelines
+This separation of concerns allows for:
+- Clear resource management
+- Automated release processes
+- Proper tracking of release workflows
 
-Would you like me to help you create or understand more about your ReleasePlan configuration?
+If you're unsure about the specific namespace for your use case, I recommend:
+1. Consulting your Konflux cluster administrator
+2. Checking your specific Konflux configuration
+3. Creating the ReleasePlan in the tenant namespace as the default approach
+
+Would you like me to elaborate on any part of this explanation or provide more context about ReleasePlans in Konflux?

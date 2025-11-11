@@ -1,19 +1,16 @@
 # skill_digest: 0e613989d29e8c038150fe63c13841ca050efe9b08f4e6e50525e4d04adc2e93
-No, you typically do not create the ReleasePlanAdmission (RPA) yourself in Konflux. 
+No, you do not create the RPA (ReleasePlanAdmission) yourself. In Konflux, the RPA is typically automatically created by the system based on the ReleasePlan (RP) and the current state of your application's components.
 
-In the Konflux CI/CD workflow:
-- The RPA is usually automatically created by the system
-- It's generated based on the ReleasePlan (RP) and the current state of your application and components
-- The RPA represents the system's admission or approval of a release plan
+The typical flow is:
+1. You create a ReleasePlan (RP)
+2. The Konflux system automatically generates the corresponding ReleasePlanAdmission (RPA)
 
-The RPA is a system-generated resource that:
-- Validates if the release can proceed
-- Checks if all required conditions for the release are met
-- Is created by the Konflux system automatically after you define a ReleasePlan
+The RPA represents the system's admission or validation of the release plan, checking things like:
+- Component readiness
+- Build and test status
+- Namespace placement
+- Other release criteria
 
-If you want to understand or work with RPAs, you would typically:
-1. Create a ReleasePlan (RP)
-2. Let the Konflux system generate the corresponding RPA
-3. Review the RPA to see if the release is approved
+So while you define the ReleasePlan, the RPA is a system-generated resource that confirms whether the release plan can be implemented based on the current state of your application and its components.
 
-Would you like me to elaborate on any part of this explanation about ReleasePlanAdmissions in Konflux?
+If you want to understand more about the specifics of RPAs in your specific Konflux setup, I recommend consulting your team's specific implementation details or Konflux documentation.
