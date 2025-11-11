@@ -243,6 +243,7 @@ def invoke_claude(
         "--print",
         "--debug",
         "--model", model,
+        "--allowed-tools=Skill",  # Enable Skill tool for skill invocation
         prompt
     ]
 

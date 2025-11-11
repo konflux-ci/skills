@@ -15,13 +15,15 @@ This repository contains Claude Code skills to help users work with the Konflux 
 2. Each worker HOME contains:
    - Symlink to skill in `~/.claude/skills/`
    - Copy of gcloud credentials (for auth)
-3. Run `claude --print` with `HOME=/tmp/claude-worker-N/`
+3. Run `claude --print --allowed-tools=Skill` with `HOME=/tmp/claude-worker-N/`
 4. Each worker reuses its temp HOME across all test invocations
 5. Cleanup all worker HOMEs after test completion
 
 **Key insights:**
 - Isolated temp HOMEs prevent file watcher conflicts between parallel workers
 - Skills symlinked to `~/.claude/skills/` are discovered automatically
+- **CRITICAL**: Must use `--allowed-tools=Skill` flag to enable Skill tool in --print mode
+- The Skill tool is NOT enabled by default in --print mode
 - Each worker copies gcloud credentials once (not per test)
 - Worker HOMEs persist for the duration of the test run
 
@@ -218,9 +220,23 @@ test_scenarios:
 Minimum 3 scenarios, recommended 6+ for comprehensive skills.
 
 **Running tests:**
-- `make generate` - Generate test results (invokes Claude)
+- `make generate` - Generate test results (invokes Claude with `--allowed-tools=Skill`)
 - `make test` - Validate results against expectations
 - Results stored in `<skill-name>/tests/results/`
+- Debug logs stored as `<scenario-name>-<sample-num>.debug.txt` (gitignored)
+
+**Debug logs:**
+Debug logs are invaluable for understanding skill invocation behavior. Each test generates a `.debug.txt` file containing:
+- Skill loading: Which skills were discovered and from where
+- Tool registration: Which tools are enabled (e.g., "Skills and commands included in Skill tool")
+- Skill execution: How the Skill tool processes and injects skill content
+- Hooks and LSP info: Additional context about the test environment
+
+Use debug logs to diagnose:
+- Why a skill wasn't invoked (check "Loaded X unique skills")
+- Whether the Skill tool is enabled (search for "Skill tool")
+- How skill content is being injected (search for "processPromptSlashCommand")
+- Any errors during skill loading or execution
 
 ### Konflux-Specific Guidelines
 

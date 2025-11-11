@@ -1,17 +1,2 @@
 # skill_digest: 47f80ffe22c6921466ddaba5d5357e1e0a766e3c0abbc4c9108c42fe5d5b06ab
-I apologize, but it seems there might be an issue with invoking the self-test skill. This could be due to a few reasons:
-1. The skill might not be properly configured
-2. There could be a problem with the skill invocation framework
-3. The skill might be unavailable or not correctly registered
-
-To help diagnose this, could you provide more context about:
-- How you expected the self-test skill to work
-- Any specific instructions or documentation about the skill invocation framework
-- Confirm if you've successfully used skill invocation before
-
-If you'd like to troubleshoot, we could:
-- Verify the skill's configuration
-- Check the available skills list
-- Ensure the skill invocation framework is set up correctly
-
-Would you like to provide more details about the self-test skill or help me understand how to properly invoke it?
+CANARY_PHRASE_XYZ123_SKILL_LOADED_AND_INVOKED
