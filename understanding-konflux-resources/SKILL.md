@@ -11,6 +11,10 @@ Konflux uses Kubernetes Custom Resources (CRs) to manage CI/CD workflows. Unders
 
 **Core principle:** Some resources YOU create, others Konflux creates automatically. Knowing the difference prevents manual work that's already automated.
 
+**NAMING CONVENTION - CRITICAL:**
+Always write resource names WITHOUT spaces: ReleasePlan, ReleasePlanAdmission, IntegrationTestScenario
+NEVER use spaces: ~~"Release Plan"~~, ~~"Release Plan Admission"~~, ~~"Integration Test Scenario"~~
+
 **WHO CREATES WHAT - Critical Facts:**
 - **ReleasePlanAdmission (RPA)**: Platform Engineer creates in managed namespace (NOT you, NOT auto-created)
 - **Snapshot**: Auto-created by Integration Service (NOT you)
@@ -25,8 +29,6 @@ Konflux uses Kubernetes Custom Resources (CRs) to manage CI/CD workflows. Unders
 **Common abbreviations:** RP (ReleasePlan), RPA (ReleasePlanAdmission), ITS (IntegrationTestScenario), App (Application), Comp (Component)
 
 **CRITICAL:** Konflux has specific resource names. Do NOT invent resource names like "ApplicationSource", "DevBuildTemplate", "BuildConfig", etc. Use ONLY the resources listed in the table below.
-
-**NAMING:** Always write multi-word resource names without spaces: IntegrationTestScenario, ReleasePlan, ReleasePlanAdmission (NEVER "Integration Test Scenario", "Release Plan", or "Release Plan Admission").
 
 ## When to Use
 

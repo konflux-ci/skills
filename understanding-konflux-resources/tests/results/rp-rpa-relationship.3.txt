@@ -1,24 +1,16 @@
-# skill_digest: 5c98ebf328ad58c32fd9165aebebfb248ba636a7748775c93b809f2da39e89b8
-Let me clarify the relationship between ReleasePlan (RP) and ReleasePlanAdmission (RPA) in Konflux:
+# skill_digest: 5c5eb48b436b880daabd6c0b92e1972703aa40b037aeb9ad24dfb5775928a504
+Let me help you understand the relationship between ReleasePlanAdmission (RPA) and ReleaseProject (RP) in Konflux:
 
-In Konflux, the ReleasePlanAdmission (RPA) references the ReleasePlan (RP) through a cross-namespace reference. Specifically:
+In Konflux, the ReleasePlanAdmission (RPA) references the ReleaseProject (RP), and they do not necessarily need to be in the same namespace. Typically:
 
-1. The RPA does NOT need to be in the same namespace as the ReleasePlan (RP).
-2. The RPA references the ReleasePlan using a specific spec field that points to the ReleasePlan in another namespace.
+1. The RPA references the ReleaseProject (RP) through a specific field in its specification.
+2. The reference is usually made using the name and namespace of the ReleaseProject.
+3. While they can be in different namespaces, they are often related and can be in the same namespace depending on the specific deployment configuration.
 
-Typically, the relationship works like this:
-- The ReleasePlan (RP) is usually created in the application's source namespace
-- The ReleasePlanAdmission (RPA) is created in a managed namespace
-- The RPA spec includes a reference to the original ReleasePlan using its name and namespace
+The key point is that the RPA contains a reference to the RP, allowing it to interact with or validate the release plan across different namespaces if needed.
 
-An example RPA spec might look like:
-```yaml
-spec:
-  releasePlan:
-    name: my-release-plan
-    namespace: source-namespace
-```
+To get more specific details about their relationship, I recommend:
+1. Checking the specific CRD (Custom Resource Definition) for ReleasePlanAdmission
+2. Reviewing the Konflux documentation for the most up-to-date information on resource interactions
 
-This cross-namespace referencing allows for a flexible workflow where release plans can be managed across different namespaces while maintaining a clear link between the original release plan and its admission.
-
-Would you like me to elaborate on any specific aspect of this relationship?
+Would you like me to help you find more detailed information about how RPAs reference RPs in Konflux?

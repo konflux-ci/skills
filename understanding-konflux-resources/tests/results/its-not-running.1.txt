@@ -1,30 +1,26 @@
-# skill_digest: 5c98ebf328ad58c32fd9165aebebfb248ba636a7748775c93b809f2da39e89b8
-I apologize for the WebSearch error. Let me provide guidance based on standard Konflux practices:
+# skill_digest: 5c5eb48b436b880daabd6c0b92e1972703aa40b037aeb9ad24dfb5775928a504
+I'll help you diagnose potential issues with your Integration Test Scenario (ITS). There are several key things to check:
 
-Typical IntegrationTestScenario (ITS) configuration should look like this:
+1. ReleasePlan Configuration
+An ITS typically requires a properly configured ReleasePlan to trigger tests after builds. Let me ask some specific questions:
 
-```yaml
-apiVersion: appstudio.redhat.com/v1beta1
-kind: IntegrationTestScenario
-metadata:
-  name: my-test-scenario
-spec:
-  application: my-application-name
-  componentName: my-component-name
-  # Additional test scenario specifics
-```
+- Have you created a ReleasePlan for your Application?
+- Does the ReleasePlan explicitly reference your Component and specify how IntegrationTestScenarios should be run?
 
-Key things to check:
-1. Ensure the `spec.application` exactly matches your Application's name
-2. Verify `spec.componentName` precisely matches your Component's name
-3. Confirm the ITS is in the same namespace as your Application and Component
+2. Common Reasons ITS Might Not Run
+- The ReleasePlan might not be matching your Component
+- Missing ReleasePlanAdmission
+- Incorrect namespace configuration
+- The ITS itself might have validation or configuration issues
 
-Suggestions for troubleshooting:
-1. Verify your Component and Application names
-2. Check the ITS resource's namespace
-3. Look for any error events related to the ITS in your cluster
+To help diagnose, could you provide me with the following information:
+- The namespace where your Application and Component are deployed
+- The content of your IntegrationTestScenario (ITS) resource
+- The content of your ReleasePlan resource
 
-Would you like me to help you:
-- Review your current IntegrationTestScenario configuration?
-- Check the specific names of your Application and Component?
-- Investigate potential namespace or permission issues?
+Specific things I'll help you check:
+- Verify the ITS is in the same namespace as your Component
+- Ensure the ReleasePlan correctly references your Component
+- Check that the ITS has all required configurations (like build pipeline references)
+
+Would you be willing to share those resource configurations so I can help you pinpoint exactly why the ITS is not running?

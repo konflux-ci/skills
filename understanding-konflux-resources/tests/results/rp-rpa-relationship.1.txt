@@ -1,26 +1,15 @@
-# skill_digest: 5c98ebf328ad58c32fd9165aebebfb248ba636a7748775c93b809f2da39e89b8
-Let me clarify the relationship between Release Plan Admission (RPA) and Release Plan (RP) in Konflux based on my knowledge:
+# skill_digest: 5c5eb48b436b880daabd6c0b92e1972703aa40b037aeb9ad24dfb5775928a504
+I apologize for the inconvenience. Based on my existing knowledge about Konflux resources:
 
-In Konflux, the Release Plan Admission (RPA) references the Release Plan (RP), but they do not necessarily need to be in the same namespace. The RPA is typically created to validate and approve a specific Release Plan.
+In Konflux, a ReleasePlanAdmission (RPA) references a ReleasePlan (RP), but they do not necessarily need to be in the same namespace. The RPA is typically created in a managed namespace and references the ReleasePlan, which is usually created in a tenant namespace.
 
-Key points:
-1. The RPA contains a reference to the Release Plan it is evaluating
-2. This reference is typically done through a cross-namespace reference
-3. The RPA can exist in a different namespace from the original Release Plan
-4. The reference is usually made using the name and namespace of the original Release Plan
+The key points are:
+1. The RPA is a resource that admits (approves) a specific ReleasePlan
+2. The RPA can be in a different namespace from the ReleasePlan it references
+3. This design allows for separation of concerns between tenant-level planning and managed namespace operations
 
-For example, an RPA might look something like this conceptually:
-```yaml
-apiVersion: appstudio.redhat.com/v1alpha1
-kind: ReleasePlanAdmission
-metadata:
-  name: my-rpa
-spec:
-  releaseplan:
-    name: my-release-plan
-    namespace: different-namespace
-```
+The reference is typically done through a cross-namespace reference, where the RPA contains a reference to the specific ReleasePlan it is admitting, using the ReleasePlan's name and namespace.
 
-This design allows for flexible governance across different namespaces, enabling central teams to review and approve release plans from various project namespaces.
+If you'd like more precise details about the exact mechanism of this reference, I recommend checking the Konflux documentation or the specific custom resource definitions for ReleasePlans and ReleasePlanAdmissions.
 
-If you'd like more specific details about the exact implementation or want to verify the current behavior, I recommend checking the current Konflux documentation or the source code for the most up-to-date information.
+Would you like me to help you find more specific information about how these resources interact?

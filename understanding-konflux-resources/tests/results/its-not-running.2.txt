@@ -1,25 +1,25 @@
-# skill_digest: 5c98ebf328ad58c32fd9165aebebfb248ba636a7748775c93b809f2da39e89b8
-Based on the exploration, here are some specific things to check:
+# skill_digest: 5c5eb48b436b880daabd6c0b92e1972703aa40b037aeb9ad24dfb5775928a504
+Based on the exploration, here are some specific questions to help diagnose why your Integration Test Scenario is not running:
 
-1. Snapshot Verification:
-   - Confirm that a Snapshot has been created after your Component build
-   - The Snapshot should reference your Component and be in the same namespace as your Application
+1. Can you confirm the following details:
+   - The namespace where your Component, Application, and ITS are deployed
+   - The names of your Component, Application, and IntegrationTestScenario resources
+   - The output of `oc get integrationtestscenario -n <your-namespace>`
+   - The output of `oc describe integrationtestscenario <its-name> -n <your-namespace>`
 
-2. ITS Configuration Checklist:
-   - Does your ITS spec correctly specify:
-     * The Application reference
-     * The Component reference
-     * Test execution parameters
-     * Container image to use for testing
+2. Have you verified that:
+   - The Component is successfully built
+   - A Snapshot was created after the build
+   - The ITS is correctly linked to the Application or Component
 
-3. Potential Debugging Steps:
-   - Check the status of your Snapshot
-   - Look for any error events or conditions in the Konflux resources
-   - Verify namespace and RBAC permissions
+To help you troubleshoot, I recommend running the following commands and sharing their output:
+```bash
+oc get application
+oc get component
+oc get integrationtestscenario
+oc get snapshot
+```
 
-Could you provide more details about:
-- The YAML for your IntegrationTestScenario
-- The namespace where your resources are deployed
-- Any error messages you've seen in logs or resource status
+This will help me identify any missing configurations or connections that might be preventing your Integration Test Scenario from running after builds complete.
 
-This will help me provide more specific guidance on why your ITS is not running after builds complete.
+Is there any specific error message you've seen, or can you provide more details about your current setup?

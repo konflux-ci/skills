@@ -1,15 +1,16 @@
-# skill_digest: 5c98ebf328ad58c32fd9165aebebfb248ba636a7748775c93b809f2da39e89b8
-Based on Konflux resource management principles, you should create your ReleasePlan (RP) in the tenant namespace. Specifically:
+# skill_digest: 5c5eb48b436b880daabd6c0b92e1972703aa40b037aeb9ad24dfb5775928a504
+I apologize for the error. Let me provide some general guidance about ReleasePlans in Konflux:
 
-- ReleasePlans are typically created in the tenant namespace associated with your application
-- They are user-created resources that define how and when a specific version of an application should be released
-- The tenant namespace is where you manage and track your application's release lifecycle
+In Konflux, ReleasePlans (RPs) are typically created in the tenant namespace. This means you should create your ReleasePlan in the namespace associated with your specific project or team. 
 
-To create a ReleasePlan, you'll want to:
-1. Ensure you're working in the correct tenant namespace for your project
-2. Define the ReleasePlan resource with details about the release, such as:
-   - Which application components are being released
-   - Target release parameters
-   - Any specific release strategies or configurations
+The key considerations for creating a ReleasePlan are:
+1. It should be created in the tenant namespace
+2. It's associated with the specific Application you're working on
+3. It defines the release strategy for your Component(s)
 
-Would you like me to help you draft the specific YAML configuration for creating a ReleasePlan in your project's tenant namespace?
+To get the most accurate information specific to your project, I recommend:
+1. Consulting your team's Konflux configuration
+2. Checking with your team's DevOps or platform engineering team about the specific namespace conventions
+3. Verifying the exact namespace where other ReleasePlans for your project are currently created
+
+Would you like me to help you find the specific namespace or provide more details about creating a ReleasePlan in your project?

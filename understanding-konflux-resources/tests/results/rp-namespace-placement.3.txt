@@ -1,24 +1,21 @@
-# skill_digest: 5c98ebf328ad58c32fd9165aebebfb248ba636a7748775c93b809f2da39e89b8
-I apologize for the error. Let me provide guidance about Release Plan (RP) placement in Konflux based on standard practices:
+# skill_digest: 5c5eb48b436b880daabd6c0b92e1972703aa40b037aeb9ad24dfb5775928a504
+I apologize for the technical difficulties. Based on my existing knowledge about Konflux resources:
 
-Release Plans (RPs) are typically created in the tenant namespace. This means:
-- The Release Plan should be created in the namespace associated with your specific team or project
-- The tenant namespace is where you manage and define your release strategies
-- Managed namespaces are usually used for specific deployment-related resources, but not for the initial Release Plan creation
+ReleasePlans (RPs) are typically created in the tenant namespace. This is because:
+1. The tenant namespace is where most application-specific resources are managed
+2. ReleasePlans are closely tied to the specific application's release process
+3. They represent the user's intent for releasing a specific version of their application
 
-To break this down:
-1. Tenant Namespace ✅: Create your Release Plan here
-   - Contains the Release Plan custom resource
-   - Defines your release strategy
-   - Managed by your team
+The managed namespace is usually used for:
+- Actual build and deployment artifacts
+- Snapshots
+- Integration test scenarios
 
-2. Managed Namespace ❌: Do NOT create the Release Plan here
-   - Used for actual deployments and runtime resources
-   - Generated or managed by the platform
+So to directly answer your question: Create your ReleasePlan in the tenant namespace. This allows you to define your release strategy within the context of your specific application's namespace.
 
-If you're unsure about your specific tenant namespace, you might want to:
-- Check with your Konflux platform administrator
-- Verify the namespace associated with your project or team
-- Look at other resources your team has created to confirm the correct namespace
+If you want to confirm the exact details for your specific Konflux setup, I recommend:
+1. Checking your cluster's specific configuration
+2. Consulting with your team's platform engineering or DevOps team
+3. Reviewing the Konflux documentation specific to your organization's implementation
 
-Would you like me to help you understand more about how Release Plans work in Konflux?
+Would you like me to help you understand more about how ReleasePlans work in Konflux?

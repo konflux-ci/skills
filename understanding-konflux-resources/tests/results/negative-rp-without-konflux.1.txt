@@ -1,14 +1,21 @@
-# skill_digest: 5c98ebf328ad58c32fd9165aebebfb248ba636a7748775c93b809f2da39e89b8
-Based on the Konflux resource management approach, ReleasePlans (RPs) are typically created in the tenant namespace. This means you should create your ReleasePlan in the namespace associated with your specific project or team.
+# skill_digest: 5c5eb48b436b880daabd6c0b92e1972703aa40b037aeb9ad24dfb5775928a504
+I apologize for the error. Based on my existing knowledge about Konflux resources, here's the guidance for creating a ReleasePlan:
+
+ReleasePlans (RPs) are typically created in the **tenant namespace**. This means you should create the ReleasePlan in the namespace associated with your specific project or team. 
 
 Key points to remember:
-1. ReleasePlans are usually created in the tenant namespace
-2. They are associated with specific Applications and Components
-3. They define the release strategy for your application
+- ReleasePlans are user-created resources
+- They are created in the tenant (user-controlled) namespace
+- They define the release strategy for your application or component
 
-To create a ReleasePlan, you'll want to:
-1. Ensure you're working in the correct namespace
-2. Have your Application and Component resources already defined
-3. Use the appropriate Konflux custom resource configuration for the ReleasePlan
+The typical workflow is:
+1. Ensure you're in the correct tenant namespace
+2. Create the ReleasePlan resource using kubectl or your preferred Konflux management tool
+3. The ReleasePlan will then be used to manage the release process for your application
 
-Would you like me to help you draft the ReleasePlan configuration or provide more specific guidance about creating it in your project's namespace?
+If you're unsure about the exact namespace, I recommend:
+- Checking with your team's Konflux administrator
+- Verifying the current namespace using `kubectl config current-context`
+- Confirming the specific tenant namespace for your project
+
+Would you like me to help you create the ReleasePlan or do you need more specific guidance about its configuration?

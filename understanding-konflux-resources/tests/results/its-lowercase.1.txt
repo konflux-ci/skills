@@ -1,15 +1,27 @@
-# skill_digest: 5c98ebf328ad58c32fd9165aebebfb248ba636a7748775c93b809f2da39e89b8
-To help me provide more precise guidance, I'll need more information from you:
+# skill_digest: 5c5eb48b436b880daabd6c0b92e1972703aa40b037aeb9ad24dfb5775928a504
+To diagnose why your IntegrationTestScenario isn't triggering after builds, I'll need to ask you a few clarifying questions:
 
-1. Can you share the contents of your IntegrationTestScenario YAML?
-2. What is the specific application and component you're working with?
-3. Have you checked the Konflux cluster logs for any error messages related to the ITS?
-4. Are there any specific error messages or behavior you're observing?
+1. Can you confirm the following details:
+   - The name of your Application
+   - The name of your Component
+   - The name of the IntegrationTestScenario
+   - The build and snapshot status you're seeing
 
-The key areas to investigate are:
-- Correct snapshot references
-- Proper permissions for the ITS
-- Resolver configuration
-- Trigger conditions
+2. Have you checked the following potential issues:
+   - Is the IntegrationTestScenario correctly configured?
+   - Are there any error messages in the Konflux UI or logs?
+   - Is the Snapshot created successfully after the build?
 
-Would you like to provide more details so I can help you diagnose why your IntegrationTestScenario isn't triggering?
+3. Can you share the YAML configuration for your:
+   - Component
+   - IntegrationTestScenario
+
+These details will help me understand why the ITS isn't triggering and provide specific guidance on resolving the issue. 
+
+Common reasons for ITS not triggering include:
+- Misconfigured trigger conditions
+- Missing permissions
+- Snapshot not meeting ITS prerequisites
+- Network or cluster-level issues
+
+Could you provide more context about your specific setup?

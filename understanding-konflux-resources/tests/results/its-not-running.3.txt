@@ -1,42 +1,29 @@
-# skill_digest: 5c98ebf328ad58c32fd9165aebebfb248ba636a7748775c93b809f2da39e89b8
-I apologize for the tool errors. Based on my knowledge of Konflux resources, there are several key things to check when an Integration Test Scenario (ITS) is not running:
+# skill_digest: 5c5eb48b436b880daabd6c0b92e1972703aa40b037aeb9ad24dfb5775928a504
+Can you provide more details about your setup? Specifically:
+1. Did you manually create the IntegrationTestScenario resource?
+2. What is the exact name of your Component and Application?
+3. Can you share the YAML configuration for your IntegrationTestScenario, Component, and Application?
 
-1. **Snapshot Creation**: Ensure that a Snapshot is created after your build. The IntegrationTestScenario typically requires a valid Snapshot to trigger.
+To help diagnose the issue, I'll need to know:
+- Are you seeing any error messages in the Konflux UI or logs?
+- Have you confirmed that builds are completing successfully?
+- Are there any specific requirements for your integration tests?
 
-2. **ITS Configuration**: 
-   - Verify that your IntegrationTestScenario is correctly configured
-   - Check that it's pointing to the correct Component and Application
-   - Ensure the test scenario's spec matches your build and component details
-
-3. **Namespace and Permissions**: 
-   - Confirm the ITS is in the correct namespace
-   - Verify that you have the necessary permissions to create and run test scenarios
-
-4. **Build Status**: 
-   - Make sure your Component build completed successfully
-   - Check that the Snapshot was created from the successful build
-
-To help diagnose the issue, I recommend checking the following:
-
-1. Verify the Snapshot creation:
-```bash
-kubectl get snapshots -n <your-namespace>
+A typical IntegrationTestScenario might look like this:
+```yaml
+apiVersion: appstudio.redhat.com/v1beta1
+kind: IntegrationTestScenario
+metadata:
+  name: my-test-scenario
+spec:
+  application: my-application
+  component: my-component
+  testTemplate:
+    spec:
+      container:
+        image: your-test-image
+        command: ["/bin/sh", "-c"]
+        args: ["your test command here"]
 ```
 
-2. Check the IntegrationTestScenario status:
-```bash
-kubectl describe integrationtestscenario <its-name> -n <your-namespace>
-```
-
-3. Look at the events or logs related to the ITS:
-```bash
-kubectl get events -n <your-namespace>
-```
-
-Could you provide more details about:
-- The specific error or lack of action you're seeing
-- The output of the commands above
-- Your Component and Application configuration
-- The IntegrationTestScenario manifest
-
-This will help me pinpoint exactly why your ITS is not running after builds complete.
+Providing these details will help me pinpoint exactly why your ITS is not running after builds complete.
