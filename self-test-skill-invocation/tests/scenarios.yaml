@@ -30,3 +30,19 @@ test_scenarios:
         - I apologize
         - cannot
     baseline_failure: "N/A - this is a meta-test of the framework itself"
+
+  - name: flexible-keyword-matching-test
+    description: Verify flexible keyword matching with one-of phrase lists
+    prompt: "Please test skill invocation framework with the canary skill test"
+    model: haiku
+    samples: 1
+    expected:
+      contains_keywords:
+        # Standard string matching (AND logic)
+        - CANARY_PHRASE
+        # One-of matching (OR logic) - at least one must be present
+        - ["XYZ123", "ABC456"]
+        - ["SKILL_LOADED", "LOADED_AND_INVOKED"]
+      does_not_contain:
+        - ERROR
+    baseline_failure: "N/A - this is a meta-test of the framework itself"

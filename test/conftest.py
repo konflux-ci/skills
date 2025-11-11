@@ -289,6 +289,11 @@ def check_expectations(content: str, expected: Dict) -> List[str]:
     Check if content meets expectations.
 
     Returns list of failure messages (empty if all pass).
+
+    Supports flexible keyword matching:
+    - contains_keywords: ["foo", "bar"] - both must be present (AND)
+    - contains_keywords: [["foo", "bar"]] - at least one must be present (OR)
+    - contains_keywords: ["foo", ["bar", "baz"]] - "foo" must be present AND (bar OR baz)
     """
     failures = []
     content_lower = content.lower()
@@ -296,8 +301,15 @@ def check_expectations(content: str, expected: Dict) -> List[str]:
     # Check contains_keywords
     if "contains_keywords" in expected:
         for keyword in expected["contains_keywords"]:
-            if keyword.lower() not in content_lower:
-                failures.append(f"Should contain '{keyword}' but doesn't")
+            # If keyword is a list, at least one phrase must match (OR logic)
+            if isinstance(keyword, list):
+                if not any(phrase.lower() in content_lower for phrase in keyword):
+                    phrase_list = "', '".join(keyword)
+                    failures.append(f"Should contain at least one of ['{phrase_list}'] but doesn't")
+            # If keyword is a string, it must match (AND logic)
+            else:
+                if keyword.lower() not in content_lower:
+                    failures.append(f"Should contain '{keyword}' but doesn't")
 
     # Check does_not_contain
     if "does_not_contain" in expected:
