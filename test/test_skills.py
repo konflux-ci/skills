@@ -60,7 +60,7 @@ def test_generate_result(skill_scenario, worker_home):
     results_dir.mkdir(parents=True, exist_ok=True)
 
     try:
-        output = invoke_claude(prompt, skill_dir, model, worker_home)
+        output = invoke_claude(prompt, skill_dir, model, worker_home, scenario_name, sample_num)
 
         # Write result with digest comment
         with open(result_file, "w") as f:

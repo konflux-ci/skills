@@ -201,7 +201,9 @@ def invoke_claude(
     prompt: str,
     skill_dir: Path,
     model: str,
-    worker_home: Path
+    worker_home: Path,
+    scenario_name: str,
+    sample_num: int
 ) -> str:
     """
     Invoke Claude CLI with the given prompt.
@@ -214,6 +216,8 @@ def invoke_claude(
         skill_dir: Path to the skill directory being tested
         model: Model to use (default: haiku)
         worker_home: Path to worker's persistent temp HOME
+        scenario_name: Name of the test scenario
+        sample_num: Sample number for this test
     """
     # Setup worker home if needed
     skills_dir = worker_home / ".claude" / "skills"
@@ -252,7 +256,7 @@ def invoke_claude(
         check=True,
         close_fds=True,
         env=env,
-        cwd="/tmp"
+        cwd=str(worker_home)  # Run from worker home to avoid project CLAUDE.md
     )
 
     # Save debug output (stderr) if present
@@ -265,6 +269,16 @@ def invoke_claude(
             f.write(f"{'='*80}\n")
             f.write(result.stderr)
             f.write("\n")
+
+    # Copy Claude debug log if available
+    debug_dir = worker_home / ".claude" / "debug"
+    if debug_dir.exists():
+        latest_link = debug_dir / "latest"
+        if latest_link.exists() and latest_link.is_symlink():
+            # Copy debug log to results directory with matching name
+            debug_dest = skill_dir / "tests" / "results" / f"{scenario_name}-{sample_num}.debug.txt"
+            debug_dest.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(latest_link, debug_dest)
 
     return result.stdout
 
