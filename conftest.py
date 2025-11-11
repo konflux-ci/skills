@@ -33,19 +33,17 @@ def pytest_addoption(parser):
         default=None,
         help="Run tests for a specific skill only"
     )
-    parser.addoption(
-        "--generate",
-        action="store_true",
-        default=False,
-        help="Generate test results (invoke Claude)"
-    )
 
 
 def pytest_configure(config):
     """Register custom markers."""
     config.addinivalue_line(
         "markers",
-        "skill(name): mark test as belonging to a specific skill"
+        "generate: mark test to generate results (invoke Claude)"
+    )
+    config.addinivalue_line(
+        "markers",
+        "test: mark test to validate existing results"
     )
 
 
@@ -147,6 +145,8 @@ def pytest_generate_tests(metafunc):
 
     This is the core of pytest parameterization - it discovers all scenarios
     across all skills and creates individual test items for each sample.
+
+    Creates both 'generate' and 'test' variants of each test case.
     """
     if "skill_scenario" not in metafunc.fixturenames:
         return
