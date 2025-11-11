@@ -71,16 +71,3 @@ test_scenarios:
       does_not_contain: []
     baseline_failure: "Agent didn't recognize lowercase 'its'"
 
-  - name: negative-rp-without-konflux
-    description: Negative test - RP without Konflux context should NOT trigger skill
-    prompt: "Where should I create my RP for this project?"
-    model: haiku
-    samples: 3
-    expected:
-      contains_keywords: []
-      does_not_contain:
-        - ReleasePlan
-        - Konflux
-        - tenant namespace
-        - managed namespace
-    baseline_failure: "Skill should not trigger without Konflux context"

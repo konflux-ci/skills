@@ -1,7 +1,0 @@
-# skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
-Do you want me to help you create the ReleasePlan? If so, I'll need some additional information:
-1. The name of your Application
-2. The target environment for the release
-3. Any specific release parameters you want to include
-
-Would you like to proceed with creating the ReleasePlan?

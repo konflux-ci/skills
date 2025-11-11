@@ -1,2 +1,0 @@
-# skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
-Would you like me to help you create the ReleasePlan for your specific Application? I can guide you through the process of creating it in the correct namespace.
