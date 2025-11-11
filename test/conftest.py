@@ -265,12 +265,6 @@ def check_expectations(content: str, expected: Dict) -> List[str]:
     failures = []
     content_lower = content.lower()
 
-    # Check recognizes
-    if "recognizes" in expected:
-        term = expected["recognizes"]
-        if term and term.lower() not in content_lower:
-            failures.append(f"Should recognize '{term}' but doesn't")
-
     # Check contains_keywords
     if "contains_keywords" in expected:
         for keyword in expected["contains_keywords"]:

@@ -204,7 +204,6 @@ test_scenarios:
     model: haiku              # Model to use for this scenario
     samples: 3                # Number of result samples to generate
     expected:
-      recognizes: KeyTerm
       contains_keywords: [keyword1, keyword2]
       does_not_contain: [wrong-term]
     baseline_failure: "What failed in RED phase"

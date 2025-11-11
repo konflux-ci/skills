@@ -12,7 +12,6 @@ test_scenarios:
     model: haiku
     samples: 3
     expected:
-      recognizes: ReleasePlan
       contains_keywords:
         - tenant namespace
         - ReleasePlan
@@ -26,7 +25,6 @@ test_scenarios:
     model: haiku
     samples: 3
     expected:
-      recognizes: IntegrationTestScenario
       contains_keywords:
         - IntegrationTestScenario
       does_not_contain: []
@@ -38,8 +36,8 @@ test_scenarios:
     model: haiku
     samples: 3
     expected:
-      recognizes: ReleasePlanAdmission
       contains_keywords:
+        - ReleasePlanAdmission
         - platform engineer
         - managed namespace
       does_not_contain:
@@ -53,7 +51,6 @@ test_scenarios:
     model: haiku
     samples: 3
     expected:
-      recognizes: ReleasePlan
       contains_keywords:
         - ReleasePlan
         - ReleasePlanAdmission
@@ -69,7 +66,6 @@ test_scenarios:
     model: haiku
     samples: 3
     expected:
-      recognizes: IntegrationTestScenario
       contains_keywords:
         - IntegrationTestScenario
         - ITS
@@ -82,7 +78,6 @@ test_scenarios:
     model: haiku
     samples: 3
     expected:
-      recognizes: ""
       contains_keywords: []
       does_not_contain:
         - ReleasePlan
