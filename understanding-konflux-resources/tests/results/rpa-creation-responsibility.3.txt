@@ -1,20 +1,17 @@
 # skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
-Based on the skill information, I can directly answer your question:
+To directly answer your question: No, you do not create the ReleasePlanAdmission (RPA). 
 
-No, **YOU** do not create the ReleasePlanAdmission (RPA). 
+As explained in the skill document, the ReleasePlanAdmission (RPA) is:
+- Created by the Platform Engineer
+- Goes in the managed namespace (NOT your tenant namespace)
+- Defines the release pipeline and contains credentials
 
-The ReleasePlanAdmission (RPA) is created by the **Platform Engineer** in the **managed namespace**. This is a critical distinction in Konflux:
+You (as a developer/application owner) are responsible for creating:
+- The ReleasePlan (RP) in your tenant namespace
+- The Application
+- The Components
+- The IntegrationTestScenarios (if needed)
 
-- You create the **ReleasePlan (RP)** in your tenant namespace
-- The Platform Engineer creates the **ReleasePlanAdmission (RPA)** in the managed namespace
+The Platform Engineer will create the corresponding ReleasePlanAdmission (RPA) in the managed namespace to complete the release setup. This separation ensures that sensitive release credentials are kept in a controlled, restricted namespace while allowing you to define your release plans.
 
-The RPA contains release pipeline credentials and is manually created by the platform team. It's not automatically generated, and it's not something you (as a developer or application owner) create.
-
-Your role is to:
-1. Create the Application
-2. Create Components
-3. Create the ReleasePlan in your tenant namespace
-
-The Platform Engineer will then create the corresponding ReleasePlanAdmission in the managed namespace to complete the release pipeline setup.
-
-Would you like me to elaborate on any part of this explanation?
+Would you like me to elaborate on the specific roles and how ReleasePlan and ReleasePlanAdmission work together?

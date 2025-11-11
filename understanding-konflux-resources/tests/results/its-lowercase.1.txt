@@ -1,43 +1,14 @@
 # skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
-To help you troubleshoot, I'll provide a correct IntegrationTestScenario example:
+I've outlined several potential reasons why your integration tests might not be triggering after builds. To help diagnose this more precisely, I'll need some additional information from you:
 
-```yaml
-apiVersion: appstudio.redhat.com/v1alpha1
-kind: IntegrationTestScenario
-metadata:
-  name: my-integration-tests
-  namespace: <your-tenant-namespace>
-spec:
-  application: <your-application-name>
-  resolverRef:
-    # This references the Tekton pipeline that runs your tests
-    resolver: cluster
-    params:
-      - name: kind
-        value: pipeline
-      - name: name
-        value: my-test-pipeline  # Name of your test Tekton pipeline
-      - name: namespace
-        value: <your-tenant-namespace>
-  # Optional: Specific conditions to trigger tests
-  testSpec:
-    # Example conditions
-    trigger:
-      - type: new-snapshot
-    # Optional: Specify which components to test
-    components:
-      - name: my-component-name
-```
+1. Can you confirm the specific trigger conditions for your integration tests?
+2. Have there been any recent changes to your Konflux pipeline configuration?
+3. Are you able to share the relevant configuration files (with sensitive information redacted)?
+4. What specific error messages or logs have you seen?
 
-Key things to check:
-1. Is your ITS in the tenant namespace? 
-2. Does it reference the correct Application?
-3. Does the referenced Tekton pipeline exist?
-4. Are there any restrictions preventing test triggering?
+Some quick things you can check:
+- Verify the pipeline configuration in your `.konflux.yaml` or similar files
+- Check the Konflux dashboard for any error messages or skipped test indications
+- Use `tkn pipeline list` and `tkn pipelinerun list` to see recent pipeline runs
 
-Could you provide:
-1. The namespace of your IntegrationTestScenario
-2. The Application it's associated with
-3. The Tekton pipeline it references
-
-This will help me diagnose why your ITS isn't triggering after builds.
+Would you like me to help you investigate further by walking you through some diagnostic steps?

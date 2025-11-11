@@ -1,18 +1,17 @@
 # skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
-Based on the skill information, I can directly answer your question about ReleasePlan (RP) placement in Konflux:
+Based on the detailed skill information, I can directly answer your question about ReleasePlan (RP) placement in Konflux:
 
-**ReleasePlan (RP) should be created in the TENANT namespace.**
+**ReleasePlan (RP) goes in the TENANT namespace, NOT the managed namespace.**
 
-Key points to remember:
-- You (as the application owner) create the ReleasePlan in your tenant namespace
-- ReleasePlanAdmission (RPA) is created by the Platform Engineer in the managed namespace
-- These two resources work together across different namespaces
+Key points:
+- You (the application owner) create the ReleasePlan in your tenant namespace
+- The ReleasePlan references your Application and describes the release action
+- Platform Engineers will create a corresponding ReleasePlanAdmission (RPA) in the managed namespace, which contains the actual release credentials and pipeline details
 
-The workflow is:
-1. You create the ReleasePlan in your tenant namespace
-2. Platform Engineer creates a corresponding ReleasePlanAdmission in the managed namespace
-3. The ReleasePlanAdmission references your ReleasePlan and contains the necessary release credentials
+So to summarize:
+- ✅ ReleasePlan: Created by you, goes in TENANT namespace
+- 🔒 ReleasePlanAdmission: Created by Platform Engineer, goes in MANAGED namespace
 
-A common mistake is thinking the ReleasePlan should go in the managed namespace - this is incorrect. Always create your ReleasePlan in the tenant namespace.
+The two resources work together across different namespaces, with the RPA referencing your tenant-namespace ReleasePlan and providing the necessary release pipeline configuration and credentials.
 
-Would you like me to elaborate on any part of this explanation or help you understand how to create a ReleasePlan?
+Would you like me to elaborate on how these two resources interact in the release workflow?

@@ -1,19 +1,21 @@
 # skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
-I apologize for the error. Could you provide me with:
-1. Your tenant namespace name
-2. The name of your IntegrationTestScenario
-3. The name of your Application that the ITS is associated with
+To help diagnose the issue, I'll need some more information from you:
 
-I'll help you verify:
-- If Snapshots are being created
-- If the ITS is configured correctly
-- Why the tests might not be triggering
+1. Can you confirm the following details:
+   - Are you using the Konflux web interface or CLI?
+   - Have integration tests worked before, or is this a new setup?
+   - Do you see any error messages or logs indicating why tests aren't triggering?
 
-Typical reasons for ITS not triggering include:
-- Incorrect namespace
-- No Snapshot created (build failed)
-- ITS not referencing the correct Application
-- Missing permissions
-- Tekton pipeline issues
+2. Please check and provide:
+   - The contents of your `.tekton` directory (if it exists)
+   - Your build configuration in the Konflux console
+   - Any recent build logs or pipeline run history
 
-Could you share more details about your specific setup?
+Some common reasons why integration tests might not trigger:
+- Misconfigured pipeline definitions
+- Missing test stage in the build pipeline
+- Incorrect trigger conditions
+- Permissions or configuration issues
+- Tests marked as optional or skipped
+
+Could you provide more context about your specific Konflux setup and the integration test configuration? The more details you can share, the better I can help you diagnose and resolve the issue.

@@ -1,20 +1,20 @@
 # skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
-Based on the skill information, let me directly answer your question about ReleasePlan (RP) namespace placement:
+Based on the skill information, I can directly answer your question about ReleasePlan (RP) placement:
 
 **ReleasePlan (RP) should be created in the TENANT namespace.**
 
-Key points:
-- You create the ReleasePlan in YOUR tenant namespace
-- Platform Engineers create the corresponding ReleasePlanAdmission (RPA) in the MANAGED namespace
-- The RP references your Application
-- The RPA references your RP and contains release pipeline credentials
+Key points to remember:
+- ReleasePlan goes in YOUR tenant namespace (where your Application and Components are)
+- ReleasePlanAdmission (RPA) goes in the MANAGED namespace (created by Platform Engineers)
 
-Incorrect approaches:
-❌ Do NOT create ReleasePlan in the managed namespace
-❌ Do NOT expect ReleasePlan to be auto-created by Konflux
+The workflow is:
+1. You create the ReleasePlan in your tenant namespace
+2. Platform Engineers create a corresponding ReleasePlanAdmission in the managed namespace
+3. These two resources work together across different namespaces
 
-Correct approach:
-✅ Create ReleasePlan in your tenant namespace
-✅ Work with Platform Engineers to create matching ReleasePlanAdmission in managed namespace
+This separation ensures that:
+- You control the release plan for your application
+- Platform team controls the release credentials and pipeline configuration
+- Sensitive credentials remain in the managed namespace
 
-Would you like me to elaborate on how ReleasePlan and ReleasePlanAdmission work together across namespaces?
+Would you like me to elaborate on how ReleasePlan and ReleasePlanAdmission interact in the Konflux workflow?

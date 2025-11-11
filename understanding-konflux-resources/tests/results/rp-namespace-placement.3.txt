@@ -1,18 +1,19 @@
 # skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
-Based on the skill information, I can clearly answer your question about ReleasePlan (RP) namespace placement:
+Based on the skill output, let me directly answer your question about ReleasePlan (RP) namespace placement:
 
-**ReleasePlan (RP) goes in the TENANT namespace** (your workspace).
+You should create your ReleasePlan (RP) in the **tenant namespace**. 
 
 Key points:
-- You create the ReleasePlan in your tenant namespace
-- The Platform Engineer will create a corresponding ReleasePlanAdmission (RPA) in the managed namespace
-- These two resources work together across different namespaces, with the RP referencing your Application
+- ReleasePlan goes in YOUR tenant namespace (the workspace you control)
+- ReleasePlanAdmission (RPA) goes in the managed namespace (controlled by platform team)
+- The ReleasePlan references your Application
+- The ReleasePlanAdmission will reference your ReleasePlan and contain release credentials
 
-A typical workflow looks like:
-1. You create a ReleasePlan in your tenant namespace
-2. Platform Engineer creates a ReleasePlanAdmission in the managed namespace
-3. The RPA references your RP and contains the necessary release credentials
+A common mistake is thinking the ReleasePlan should go in the managed namespace for security. This is incorrect. The tenant namespace is where you create the ReleasePlan, which defines the release action for your Application.
 
-Common mistake to avoid: Do NOT put the ReleasePlan in the managed namespace. It belongs in the tenant namespace where you manage your Application and Components.
+Workflow:
+1. You create ReleasePlan in tenant namespace
+2. Platform Engineer creates corresponding ReleasePlanAdmission in managed namespace
+3. When ready to release, you create a Release CR that references the ReleasePlan and a Snapshot
 
-Would you like me to elaborate on how ReleasePlans work with other Konflux resources?
+Would you like me to elaborate on any part of this explanation?

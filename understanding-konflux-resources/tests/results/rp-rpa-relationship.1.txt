@@ -1,37 +1,21 @@
 # skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
-Based on the skill documentation, I can provide a detailed answer to your question about how the ReleasePlanAdmission (RPA) references the ReleasePlan (RP):
+Based on the skill information, I can directly answer your question about how the ReleasePlanAdmission (RPA) references the ReleasePlan (RP) in Konflux:
 
-1. Namespace Relationship:
-   - ReleasePlan (RP) is created in the **tenant namespace** (your workspace)
-   - ReleasePlanAdmission (RPA) is created in the **managed namespace** (platform team's controlled namespace)
+The ReleasePlan (RP) and ReleasePlanAdmission (RPA) are intentionally placed in DIFFERENT namespaces:
+- ReleasePlan (RP) is created in the TENANT namespace (your workspace)
+- ReleasePlanAdmission (RPA) is created in the MANAGED namespace (platform team's controlled namespace)
 
-2. Reference Mechanism:
-   - The RPA references the RP **across different namespaces**
-   - They do NOT need to be in the same namespace
-   - In fact, they are **intentionally placed in different namespaces** as a security design
+Importantly, the RPA explicitly references the ReleasePlan across these namespace boundaries. This design allows:
+1. Developers to define release plans in their tenant namespace
+2. Platform engineers to manage release credentials and pipelines in a separate managed namespace
+3. A cross-namespace reference that maintains separation of concerns
 
-3. Key Points:
-   - The Platform Engineer manually creates the RPA in the managed namespace
-   - The RPA explicitly references the ReleasePlan from the tenant namespace
-   - This cross-namespace reference allows the platform team to define release credentials and pipeline details while keeping the release plan itself in the application owner's namespace
+Key points:
+- They do NOT need to be in the same namespace
+- The RPA is manually created by a Platform Engineer
+- The RPA references the RP using its name and namespace
+- This allows secure management of release credentials while giving developers control over release plans
 
-Practical Example:
-```
-Tenant Namespace:
-- ReleasePlan: "my-app-prod-release"
-  - Points to your Application
-  - Defines release strategy
-
-Managed Namespace:
-- ReleasePlanAdmission: "prod-admission"
-  - References "my-app-prod-release" from tenant namespace
-  - Contains production credentials
-  - Defines specific release pipeline details
-```
-
-This design ensures:
-- Application owners control their release plans
-- Platform team manages release credentials and pipelines
-- Clear separation of concerns between development and operations teams
-
-Would you like me to elaborate on any specific aspect of how RPA references RP?
+So to directly answer your questions:
+- The RPA references the RP by its name and namespace
+- They are INTENTIONALLY in different namespaces as a security and access control mechanism

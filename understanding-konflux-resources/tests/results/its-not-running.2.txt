@@ -1,2 +1,17 @@
 # skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
-I'm ready to help you troubleshoot and get your Integration Test Scenario running correctly. Could you share more details about your current setup?
+To help you diagnose this, I have a few questions:
+
+1. Can you confirm which namespace your IntegrationTestScenario is created in?
+2. Does your IntegrationTestScenario reference your Application or Component?
+3. Have you verified that Snapshots are being created after your builds complete?
+
+Each of these points is critical for ensuring that your Integration Test Scenario runs automatically after builds. 
+
+A typical setup looks like:
+- Application "my-app" in tenant namespace
+- Component "my-component" in tenant namespace (points to git repo)
+- IntegrationTestScenario in tenant namespace (references "my-app" or "my-component")
+- Snapshots auto-created after successful builds
+- Konflux automatically runs the ITS against the new Snapshot
+
+Would you like to walk through checking these configuration points?

@@ -1,7 +1,26 @@
 # skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
-Could you provide me with:
-1. The namespace where your resources are located
-2. The exact name of your Application
-3. The details of your IntegrationTestScenario (if you've created one)
+Based on the Konflux resources skill details, I can help diagnose why your Integration Test Scenario (ITS) is not running after builds complete. Let me ask a few clarifying questions and provide some potential solutions:
 
-This will help me diagnose why the ITS is not running after builds complete.
+1. Have you created an IntegrationTestScenario (ITS) resource in your tenant namespace? 
+   - The ITS must exist BEFORE builds complete
+   - It should reference the Application that contains your Components
+
+2. Confirm the following checklist:
+   - ✅ Application resource created
+   - ✅ Component(s) created with correct git repository configuration
+   - ❓ IntegrationTestScenario created
+   - ❓ Tekton pipeline referenced by ITS exists
+
+Common reasons why ITS might not run:
+- ITS is not created
+- ITS is in the wrong namespace (must be in tenant namespace)
+- Tekton pipeline referenced by ITS is missing
+- Snapshot not created (this is auto-created, so unlikely the issue)
+
+Could you share:
+1. The name of your Application
+2. The names of your Components
+3. The YAML for your IntegrationTestScenario (or confirm if you've created one)
+4. The namespace you're working in
+
+This will help me precisely diagnose why your Integration Test Scenario is not running after builds complete.

@@ -1,12 +1,10 @@
 # skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
-To help you further, could you confirm:
-1. Can you share the `kubectl get its -n <your-tenant-namespace>` output?
-2. What Application does your ITS reference?
-3. Did your builds complete successfully?
+To help diagnose the issue, could you provide me with the following information:
+1. The YAML for your IntegrationTestScenario resource
+2. The namespace where the ITS is created
+3. Confirm that you have both an Application and Component set up
+4. Share the output of `kubectl get snapshots -n <your-tenant-namespace>`
 
-The key things to check are:
-- IntegrationTestScenario must exist in the TENANT namespace
-- It must reference your Application 
-- Snapshots must be created after builds (Konflux does this automatically)
+This will help me identify why your ITS is not running after builds complete.
 
-Would you like me to help you verify these steps?
+Would you like me to walk you through creating or troubleshooting an IntegrationTestScenario?

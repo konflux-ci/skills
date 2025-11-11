@@ -1,2 +1,17 @@
 # skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
-Could you provide more details about your specific setup so I can help you troubleshoot why the IntegrationTestScenario isn't triggering?
+Based on the Konflux resources skill, here are some key things to check:
+
+1. IntegrationTestScenarios (ITS) should be in the tenant namespace.
+2. They are triggered automatically after a Snapshot is created.
+3. Common reasons for ITS not triggering include:
+   - No ITS resource created
+   - ITS not referencing the correct Application
+   - Builds not completing successfully
+   - Snapshot not being created
+
+Could you provide more details about:
+- Your ITS configuration (if you have one)
+- The Component and Application resources
+- The results of your recent builds
+
+This will help me diagnose why the Integration Test Scenario isn't triggering after builds.
