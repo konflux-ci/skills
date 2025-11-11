@@ -47,20 +47,20 @@ test: validate test-only
 test-only:
 	@echo "Running skill tests with pytest..."
 	@if python3 -c "import xdist" 2>/dev/null; then \
-		pytest -n $(WORKERS) -m test $(if $(SKILL),--skill $(SKILL)); \
+		pytest test/ -n $(WORKERS) -m test $(if $(SKILL),--skill $(SKILL)); \
 	else \
 		echo "Warning: pytest-xdist not installed, running sequentially"; \
-		pytest -m test $(if $(SKILL),--skill $(SKILL)); \
+		pytest test/ -m test $(if $(SKILL),--skill $(SKILL)); \
 	fi
 
 generate:
 	@echo "Generating test results with pytest..."
 	@if python3 -c "import xdist" 2>/dev/null; then \
 		echo "Using $(WORKERS) parallel workers..."; \
-		pytest -n $(WORKERS) -m generate $(if $(SKILL),--skill $(SKILL)); \
+		pytest test/ -n $(WORKERS) -m generate $(if $(SKILL),--skill $(SKILL)); \
 	else \
 		echo "Warning: pytest-xdist not installed, running sequentially"; \
-		pytest -m generate $(if $(SKILL),--skill $(SKILL)); \
+		pytest test/ -m generate $(if $(SKILL),--skill $(SKILL)); \
 	fi
 
 clean:
