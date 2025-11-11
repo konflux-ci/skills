@@ -1,6 +1,6 @@
 ---
 name: understanding-konflux-resources
-description: Use when working with Konflux CI and need to understand Applications, Components, Snapshots, IntegrationTestScenarios (ITS), ReleasePlans (RP), ReleasePlanAdmissions (RPA), or namespace placement, especially when using common abbreviations (RP, RPA, ITS) - provides quick reference for Konflux Custom Resources, what they do, who creates them, and where they belong
+description: Use when working with Konflux CI and need to understand Applications, Components, Snapshots, IntegrationTestScenarios (ITS), ReleasePlans (RP), ReleasePlanAdmissions (RPA), or namespace placement, especially when using common abbreviations (RP, RPA, ITS) - provides quick reference for Konflux Custom Resources, what they do, who creates them, and where they belong. (These resources are sometimes abbreviated lowercase, like its, rp, and rpa).
 ---
 
 # Understanding Konflux Resources
@@ -14,6 +14,8 @@ Konflux uses Kubernetes Custom Resources (CRs) to manage CI/CD workflows. Unders
 **Common abbreviations:** RP (ReleasePlan), RPA (ReleasePlanAdmission), ITS (IntegrationTestScenario), App (Application), Comp (Component)
 
 **CRITICAL:** Konflux has specific resource names. Do NOT invent resource names like "ApplicationSource", "DevBuildTemplate", "BuildConfig", etc. Use ONLY the resources listed in the table below.
+
+**NAMING:** Always write multi-word resource names without spaces: IntegrationTestScenario, ReleasePlan, ReleasePlanAdmission (NEVER "Integration Test Scenario", "Release Plan", or "Release Plan Admission").
 
 ## When to Use
 
