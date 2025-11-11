@@ -17,3 +17,16 @@ test_scenarios:
         - I don't understand
         - I'm not sure
     baseline_failure: "N/A - this is a meta-test of the framework itself"
+
+  - name: explicit-invocation-test
+    description: Verify skill can be explicitly invoked using the Skill tool
+    prompt: "Please invoke the self-test-skill-invocation skill"
+    model: haiku
+    samples: 3
+    expected:
+      contains_keywords:
+        - CANARY_PHRASE_XYZ123_SKILL_LOADED_AND_INVOKED
+      does_not_contain:
+        - I apologize
+        - cannot
+    baseline_failure: "N/A - this is a meta-test of the framework itself"
