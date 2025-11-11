@@ -1,13 +1,6 @@
-# skill_digest: e679c33f5f79627fcd2b7bf800db7269069f021f3a5d72aef07853ee5894c410
-I noticed that we're currently in the `/tmp` directory, which doesn't seem to be the actual project directory. To accurately help you create a ReleasePlan, I'll need more information:
+# skill_digest: 5c98ebf328ad58c32fd9165aebebfb248ba636a7748775c93b809f2da39e89b8
+Based on the detailed investigation, here's a concise answer to your question:
 
-1. Can you confirm the correct project directory?
-2. Do you have an existing Application resource in Konflux?
-3. Do you know the specific namespace where your Konflux Application is deployed?
+You should create your ReleasePlan (RP) in your **Tenant Namespace**. This is the namespace where your Application and Components are located. The ReleasePlan is created by you (the application owner/developer) and defines how your application should be released.
 
-Generally, in Konflux, you would create a ReleasePlan (RP) in the same namespace as your Application. The typical steps are:
-1. Identify the namespace of your Konflux Application
-2. Create the ReleasePlan in that same namespace
-3. Ensure the ReleasePlan references the correct Application resource
-
-Could you provide more details about your project's Konflux setup so I can give you more precise guidance?
+Would you like me to help you draft the specific ReleasePlan configuration for your project?

@@ -1,6 +1,6 @@
 ---
 name: understanding-konflux-resources
-description: Use when working with Konflux CI and need to understand Applications, Components, Snapshots, IntegrationTestScenarios (ITS), ReleasePlans (RP), ReleasePlanAdmissions (RPA), or namespace placement, especially when using common abbreviations (RP, RPA, ITS) - provides quick reference for Konflux Custom Resources, what they do, who creates them, and where they belong. (These resources are sometimes abbreviated lowercase, like its, rp, and rpa).
+description: Use when user asks about Konflux resources, Custom Resources, Applications, Components, Snapshots, IntegrationTestScenarios, ReleasePlans, ReleasePlanAdmissions, or namespace placement. Provides quick reference for what Konflux resources are, who creates them, and where they belong (tenant vs managed namespace).
 ---
 
 # Understanding Konflux Resources
@@ -10,6 +10,17 @@ description: Use when working with Konflux CI and need to understand Application
 Konflux uses Kubernetes Custom Resources (CRs) to manage CI/CD workflows. Understanding which resource to use, who creates it, and where it belongs prevents common configuration errors.
 
 **Core principle:** Some resources YOU create, others Konflux creates automatically. Knowing the difference prevents manual work that's already automated.
+
+**WHO CREATES WHAT - Critical Facts:**
+- **ReleasePlanAdmission (RPA)**: Platform Engineer creates in managed namespace (NOT you, NOT auto-created)
+- **Snapshot**: Auto-created by Integration Service (NOT you)
+- **ReleasePlan (RP)**: You create in tenant namespace
+- **IntegrationTestScenario (ITS)**: You create in tenant namespace
+
+**NAMESPACE PLACEMENT - Critical for RP/RPA:**
+- **ReleasePlan (RP)**: Goes in tenant namespace (your workspace)
+- **ReleasePlanAdmission (RPA)**: Goes in managed namespace (platform team controlled)
+- They work together across different namespaces - RPA references RP
 
 **Common abbreviations:** RP (ReleasePlan), RPA (ReleasePlanAdmission), ITS (IntegrationTestScenario), App (Application), Comp (Component)
 
@@ -46,6 +57,9 @@ Use this skill when:
 
 ### ❌ WRONG: "Put ReleasePlan in managed namespace for security"
 ✅ CORRECT: ReleasePlan goes in YOUR tenant namespace. ReleasePlanAdmission (with credentials) goes in managed namespace.
+
+### ❌ WRONG: "I create the ReleasePlanAdmission (RPA)" OR "RPA is auto-created by Konflux"
+✅ CORRECT: Platform Engineer creates RPA in managed namespace. You create ReleasePlan in tenant namespace. RPA is NOT auto-created.
 
 ### ❌ WRONG: "I have 5 repos, so I need 5 Applications"
 ✅ CORRECT: If they deploy together, create 1 Application with 5 Components (one Component per repo).
@@ -104,11 +118,13 @@ A: DON'T CREATE MANUALLY
 - Build/test PipelineRuns ✓
 
 **Managed Namespace** (restricted, controlled by platform team):
-- ReleasePlanAdmission ✓
+- ReleasePlanAdmission ✓ (created by Platform Engineer, NOT you)
 - Release pipeline credentials ✓
 - Release PipelineRuns ✓
 
 **Why this separation?** Keeps release credentials isolated from dev teams while allowing devs to request releases.
+
+**CRITICAL for RP/RPA:** ReleasePlan and ReleasePlanAdmission are in DIFFERENT namespaces. RP (tenant) references application. RPA (managed) references RP and contains credentials. They work together across namespace boundaries.
 
 ## Resource Lifecycle: What Happens When You Push Code
 

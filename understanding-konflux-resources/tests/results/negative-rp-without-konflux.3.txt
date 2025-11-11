@@ -1,19 +1,15 @@
-# skill_digest: e679c33f5f79627fcd2b7bf800db7269069f021f3a5d72aef07853ee5894c410
-I'll help you understand where to create your ReleasePlan (RP) in Konflux. 
+# skill_digest: 5c98ebf328ad58c32fd9165aebebfb248ba636a7748775c93b809f2da39e89b8
+Based on Konflux resource management principles, you should create your ReleasePlan (RP) in the tenant namespace. Specifically:
 
-ReleasePlans are typically created in the same namespace as your Application or in a designated release management namespace. The specific location depends on your project's configuration and workflow. Here are some key points:
+- ReleasePlans are typically created in the tenant namespace associated with your application
+- They are user-created resources that define how and when a specific version of an application should be released
+- The tenant namespace is where you manage and track your application's release lifecycle
 
-1. Namespace Considerations:
-- If you have an existing Application in a specific namespace, you'll likely want to create the RP in the same namespace.
-- Some teams use a dedicated release management namespace for all ReleasePlans.
+To create a ReleasePlan, you'll want to:
+1. Ensure you're working in the correct tenant namespace for your project
+2. Define the ReleasePlan resource with details about the release, such as:
+   - Which application components are being released
+   - Target release parameters
+   - Any specific release strategies or configurations
 
-2. Best Practices:
-- The RP should be associated with the specific Application and Components you're planning to release.
-- Ensure you have the necessary permissions in the target namespace.
-
-To get the most accurate advice, I recommend:
-- Checking with your team's Konflux CI configuration
-- Verifying the current namespace of your Application
-- Confirming the specific namespace used for release management in your project
-
-Would you like me to help you investigate the specific namespace for your project's ReleasePlan?
+Would you like me to help you draft the specific YAML configuration for creating a ReleasePlan in your project's tenant namespace?

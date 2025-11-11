@@ -1,15 +1,15 @@
-# skill_digest: e679c33f5f79627fcd2b7bf800db7269069f021f3a5d72aef07853ee5894c410
-To help diagnose the issue, I'll need more information. Could you provide:
-1. The name of your IntegrationTestScenario (ITS)
-2. The namespace where it's deployed
-3. The output of the following kubectl commands:
-   - `kubectl get its -n <your-namespace>`
-   - `kubectl describe its <its-name> -n <your-namespace>`
+# skill_digest: 5c98ebf328ad58c32fd9165aebebfb248ba636a7748775c93b809f2da39e89b8
+To help me provide more precise guidance, I'll need more information from you:
 
-These details will help me understand why your ITS isn't triggering after builds. Some common reasons could be:
-- Incorrect configuration in the ITS spec
-- Missing snapshots
-- Permission or role binding issues
-- Misconfigured build pipeline
+1. Can you share the contents of your IntegrationTestScenario YAML?
+2. What is the specific application and component you're working with?
+3. Have you checked the Konflux cluster logs for any error messages related to the ITS?
+4. Are there any specific error messages or behavior you're observing?
 
-Please share the requested information, and I'll help you troubleshoot the problem step by step.
+The key areas to investigate are:
+- Correct snapshot references
+- Proper permissions for the ITS
+- Resolver configuration
+- Trigger conditions
+
+Would you like to provide more details so I can help you diagnose why your IntegrationTestScenario isn't triggering?

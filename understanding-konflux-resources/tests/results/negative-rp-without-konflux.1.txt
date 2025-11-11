@@ -1,19 +1,14 @@
-# skill_digest: e679c33f5f79627fcd2b7bf800db7269069f021f3a5d72aef07853ee5894c410
-Let me provide some context about Release Plans (RP) in Konflux:
+# skill_digest: 5c98ebf328ad58c32fd9165aebebfb248ba636a7748775c93b809f2da39e89b8
+Based on the Konflux resource management approach, ReleasePlans (RPs) are typically created in the tenant namespace. This means you should create your ReleasePlan in the namespace associated with your specific project or team.
 
-Release Plans (RP) are typically created in the same namespace as your Application. In Konflux, RPs are closely tied to specific Applications and help manage the release process for components within that application.
+Key points to remember:
+1. ReleasePlans are usually created in the tenant namespace
+2. They are associated with specific Applications and Components
+3. They define the release strategy for your application
 
-To determine the exact namespace:
-1. Check the namespace of your existing Konflux Application
-2. Create the Release Plan in that same namespace
+To create a ReleasePlan, you'll want to:
+1. Ensure you're working in the correct namespace
+2. Have your Application and Component resources already defined
+3. Use the appropriate Konflux custom resource configuration for the ReleasePlan
 
-Best practices:
-- Ensure you have an existing Application resource
-- The RP should reference the specific components you want to release
-- Create the RP using a YAML configuration that specifies:
-  - The target Application
-  - Components to be released
-  - Release strategy
-  - Any specific release parameters
-
-Would you like me to help you locate the correct namespace or show you an example Release Plan configuration for your project? If you can provide more context about your specific Konflux setup, I can give more precise guidance.
+Would you like me to help you draft the ReleasePlan configuration or provide more specific guidance about creating it in your project's namespace?

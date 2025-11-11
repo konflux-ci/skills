@@ -1,19 +1,15 @@
-# skill_digest: e679c33f5f79627fcd2b7bf800db7269069f021f3a5d72aef07853ee5894c410
-I'll provide guidance based on my current understanding of Konflux resource management:
+# skill_digest: 5c98ebf328ad58c32fd9165aebebfb248ba636a7748775c93b809f2da39e89b8
+Let me provide some guidance based on Konflux resource management:
 
-In Konflux, ReleasePlans (RPs) are typically created in the managed namespace, not the tenant namespace. Here's why:
+In Konflux, Release Plans (RPs) are typically created in the **tenant namespace**. This is because:
+1. The tenant namespace is where users have direct control and create their application-specific resources
+2. Managed namespaces are primarily used for automated processes and system-level management
+3. Release Plans are user-driven resources that represent the release strategy for a specific application or component
 
-1. Managed Namespace: This is where release-related resources are typically managed and coordinated.
-2. Tenant Namespace: This is usually reserved for application and component resources.
+Key points to remember:
+- Tenant namespace: Where you create your ReleasePlan
+- Managed namespace: Used for system-level operations and automated processes like ReleasePlanAdmissions
 
-The key reasons for creating RPs in the managed namespace include:
-- Centralized release management
-- Better separation of concerns
-- Improved governance and control over release processes
+So, to directly answer your question: Create your Release Plan (RP) in the **tenant namespace**.
 
-To confirm this recommendation, I suggest:
-1. Consulting your specific Konflux platform documentation
-2. Checking with your platform administrators
-3. Reviewing your organization's specific Konflux configuration
-
-Would you like me to help you verify the exact placement for your specific Konflux setup?
+If you need more specific details about Konflux resource placement or have follow-up questions, please feel free to ask, and I'll be happy to help you further.

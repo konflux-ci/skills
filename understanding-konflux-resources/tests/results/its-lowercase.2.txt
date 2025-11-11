@@ -1,49 +1,51 @@
-# skill_digest: e679c33f5f79627fcd2b7bf800db7269069f021f3a5d72aef07853ee5894c410
-I apologize for the error. Let me provide some general troubleshooting steps for Konflux ITS not triggering:
+# skill_digest: 5c98ebf328ad58c32fd9165aebebfb248ba636a7748775c93b809f2da39e89b8
+I apologize for the inconvenience. Let me help you troubleshoot why your Integration Test Scenario (ITS) isn't triggering after builds. Here are some common reasons and steps to investigate:
 
-1. Verify ITS Configuration:
-   - Check that your IntegrationTestScenario (ITS) is correctly configured
-   - Ensure the ITS is linked to the correct Component and Application
-   - Confirm the trigger conditions are met
+1. Check IntegrationTestScenario Configuration
+   - Verify that your IntegrationTestScenario (ITS) is correctly configured
+   - Ensure it's linked to the correct Component
+   - Check that the spec.resolveWhen conditions are met
 
-2. Check Snapshot Creation:
-   - Verify that a Snapshot was successfully created after your build
-   - An ITS typically requires a valid Snapshot to trigger
+2. Validate Build and Snapshot Status
+   - Confirm that your Build and Snapshot are in a successful state
+   - The ITS typically triggers based on Snapshot creation
 
-3. Validate Resource Relationships:
-   - Confirm that:
-     - Your Component is part of the correct Application
-     - The ITS references the correct Component
-     - Necessary labels and annotations are present
+3. Check Logs and Events
+   - Inspect the logs of your Component, Build, Snapshot, and IntegrationTestScenario
+   - Look for any error messages or reasons why the test might not be triggering
 
-4. Inspect Logs and Events:
-   ```bash
-   # Check ITS status
-   oc get its
+Recommended Troubleshooting Steps:
+1. Verify the ITS configuration:
+```bash
+# List your IntegrationTestScenarios
+oc get integrationtestscenarios
 
-   # Describe the specific ITS to see any error messages
-   oc describe its <its-name>
+# Describe the specific ITS to check its configuration
+oc describe integrationtestscenario [its-name]
+```
 
-   # Check related Snapshots
-   oc get snapshots
+2. Check the recent Snapshots:
+```bash
+# List Snapshots
+oc get snapshots
 
-   # Look for any error events
-   oc get events
-   ```
+# Describe a specific Snapshot to understand its status
+oc describe snapshot [snapshot-name]
+```
 
-5. Common Reasons for Non-Triggering:
-   - Incorrect permissions
-   - Missing labels
-   - Misconfigured trigger conditions
-   - Build not completing successfully
-   - Network or cluster issues
+3. Check Build and Component status:
+```bash
+# List Builds
+oc get builds
 
-Would you like me to help you investigate further? I can assist you by:
-- Examining specific configuration details
-- Running diagnostic commands
-- Reviewing your ITS and Snapshot configurations
+# List Components
+oc get components
+```
 
-Could you provide more context:
-- Can you share the output of `oc get its`?
-- Do you see any error messages when describing the ITS?
-- What are the trigger conditions for your IntegrationTestScenario?
+Questions to help diagnose:
+1. Can you share the output of these commands?
+2. Did you recently make any changes to your ITS configuration?
+3. Are there any specific error messages you're seeing?
+4. What is the exact configuration of your IntegrationTestScenario?
+
+Would you like to provide more details so I can help you pinpoint why the ITS isn't triggering?

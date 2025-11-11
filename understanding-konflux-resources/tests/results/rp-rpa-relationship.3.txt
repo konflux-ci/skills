@@ -1,28 +1,24 @@
-# skill_digest: e679c33f5f79627fcd2b7bf800db7269069f021f3a5d72aef07853ee5894c410
-Let me break down the relationship between ReleasePlanAdmission (RPA) and ReleasePlan (RP) in Konflux:
+# skill_digest: 5c98ebf328ad58c32fd9165aebebfb248ba636a7748775c93b809f2da39e89b8
+Let me clarify the relationship between ReleasePlan (RP) and ReleasePlanAdmission (RPA) in Konflux:
 
-In Konflux, the ReleasePlanAdmission (RPA) references the ReleasePlan (RP) through a specific field in its specification. The RPA must explicitly reference the ReleasePlan it is associated with. 
+In Konflux, the ReleasePlanAdmission (RPA) references the ReleasePlan (RP) through a cross-namespace reference. Specifically:
 
-Regarding namespace placement:
-- The RPA and RP do NOT need to be in the same namespace. 
-- The RPA can reference an RP from a different namespace by specifying the full namespace and name of the ReleasePlan in its spec.
+1. The RPA does NOT need to be in the same namespace as the ReleasePlan (RP).
+2. The RPA references the ReleasePlan using a specific spec field that points to the ReleasePlan in another namespace.
 
-Typically, the RPA will have a spec that includes a reference to the ReleasePlan, something like:
+Typically, the relationship works like this:
+- The ReleasePlan (RP) is usually created in the application's source namespace
+- The ReleasePlanAdmission (RPA) is created in a managed namespace
+- The RPA spec includes a reference to the original ReleasePlan using its name and namespace
 
+An example RPA spec might look like:
 ```yaml
-apiVersion: appstudio.redhat.com/v1alpha1
-kind: ReleasePlanAdmission
-metadata:
-  name: my-rpa
 spec:
-  releasePlan: 
+  releasePlan:
     name: my-release-plan
-    namespace: different-namespace  # Can be a different namespace
+    namespace: source-namespace
 ```
 
-This allows for flexibility in how ReleasePlans and their corresponding ReleasePlanAdmissions are organized across namespaces while maintaining a clear reference between the two resources.
+This cross-namespace referencing allows for a flexible workflow where release plans can be managed across different namespaces while maintaining a clear link between the original release plan and its admission.
 
-The key points are:
-1. RPAs reference RPs explicitly in their spec
-2. They can be in different namespaces
-3. The reference includes both the name and (optionally) the namespace of the ReleasePlan
+Would you like me to elaborate on any specific aspect of this relationship?

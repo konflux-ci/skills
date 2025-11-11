@@ -1,2 +1,30 @@
-# skill_digest: e679c33f5f79627fcd2b7bf800db7269069f021f3a5d72aef07853ee5894c410
-Could you provide more details about your current setup so I can help you diagnose why the ITS is not running?
+# skill_digest: 5c98ebf328ad58c32fd9165aebebfb248ba636a7748775c93b809f2da39e89b8
+I apologize for the WebSearch error. Let me provide guidance based on standard Konflux practices:
+
+Typical IntegrationTestScenario (ITS) configuration should look like this:
+
+```yaml
+apiVersion: appstudio.redhat.com/v1beta1
+kind: IntegrationTestScenario
+metadata:
+  name: my-test-scenario
+spec:
+  application: my-application-name
+  componentName: my-component-name
+  # Additional test scenario specifics
+```
+
+Key things to check:
+1. Ensure the `spec.application` exactly matches your Application's name
+2. Verify `spec.componentName` precisely matches your Component's name
+3. Confirm the ITS is in the same namespace as your Application and Component
+
+Suggestions for troubleshooting:
+1. Verify your Component and Application names
+2. Check the ITS resource's namespace
+3. Look for any error events related to the ITS in your cluster
+
+Would you like me to help you:
+- Review your current IntegrationTestScenario configuration?
+- Check the specific names of your Application and Component?
+- Investigate potential namespace or permission issues?

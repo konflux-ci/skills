@@ -1,16 +1,24 @@
-# skill_digest: e679c33f5f79627fcd2b7bf800db7269069f021f3a5d72aef07853ee5894c410
-Let me help you understand the ReleasePlan (RP) namespace placement in Konflux:
+# skill_digest: 5c98ebf328ad58c32fd9165aebebfb248ba636a7748775c93b809f2da39e89b8
+I apologize for the error. Let me provide guidance about Release Plan (RP) placement in Konflux based on standard practices:
 
-In Konflux, ReleasePlans (RPs) are typically created in the tenant namespace. This is because:
-1. The tenant namespace is where you manage and configure your application's release processes
-2. It provides better isolation and control over your release workflows
-3. The managed namespace is primarily used for runtime resources and actual deployments
+Release Plans (RPs) are typically created in the tenant namespace. This means:
+- The Release Plan should be created in the namespace associated with your specific team or project
+- The tenant namespace is where you manage and define your release strategies
+- Managed namespaces are usually used for specific deployment-related resources, but not for the initial Release Plan creation
 
-Key points:
-- Create your ReleasePlan (RP) in the tenant namespace
-- The tenant namespace is where you define your release strategies and configurations
-- Managed namespaces are more for the actual deployment and runtime artifacts
+To break this down:
+1. Tenant Namespace ✅: Create your Release Plan here
+   - Contains the Release Plan custom resource
+   - Defines your release strategy
+   - Managed by your team
 
-If you want to confirm the exact placement or have specific requirements, I recommend consulting your Konflux administrator or checking your specific cluster's configuration. Different organizations might have slight variations in their namespace management strategy.
+2. Managed Namespace ❌: Do NOT create the Release Plan here
+   - Used for actual deployments and runtime resources
+   - Generated or managed by the platform
 
-Would you like me to elaborate on any part of the ReleasePlan namespace placement?
+If you're unsure about your specific tenant namespace, you might want to:
+- Check with your Konflux platform administrator
+- Verify the namespace associated with your project or team
+- Look at other resources your team has created to confirm the correct namespace
+
+Would you like me to help you understand more about how Release Plans work in Konflux?
