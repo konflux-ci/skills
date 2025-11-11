@@ -1,15 +1,7 @@
 # skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
-Based on the Konflux resource management principles, Release Plans (RPs) are typically created in the tenant namespace. 
+Do you want me to help you create the ReleasePlan? If so, I'll need some additional information:
+1. The name of your Application
+2. The target environment for the release
+3. Any specific release parameters you want to include
 
-Here are the key points:
-- Release Plans are user-created resources
-- They should be created in the tenant namespace, not the managed namespace
-- The tenant namespace is where you define how and when you want to release your application
-
-To create a Release Plan, you'll want to:
-1. Ensure you're in the correct tenant namespace
-2. Define the Release Plan with details about your desired release strategy
-3. Specify which Application or Component you want to release
-4. Set any release parameters or conditions
-
-Would you like me to help you draft a Release Plan configuration or provide more specific guidance about creating it in the correct namespace?
+Would you like to proceed with creating the ReleasePlan?

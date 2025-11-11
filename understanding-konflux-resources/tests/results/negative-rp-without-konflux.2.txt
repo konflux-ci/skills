@@ -1,19 +1,32 @@
 # skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
-I apologize for the error. Let me provide guidance based on standard Konflux practices:
+Based on the detailed explanation from the Konflux resources skill, I can provide a clear answer about creating your ReleasePlan (RP).
 
-In Konflux, ReleasePlans (RPs) are typically created in the **tenant namespace**. This is the namespace associated with your specific project or team. 
+You should create the ReleasePlan (RP) in your **tenant namespace**. Here are the key points:
 
-Key points about ReleasePlan placement:
-- Created in the tenant namespace
-- Managed by the application team
-- Associated with a specific Application resource
-- Used to define how and when components should be released
+1. ReleasePlan (RP) goes in the tenant namespace (your workspace)
+2. It maps an Application to a release action
+3. It is created by you (the application owner)
 
-To create your ReleasePlan, you'll want to:
-1. Ensure you're in the correct tenant namespace
-2. Create the ReleasePlan that references your Application and its Components
-3. Define the release strategy, including any specific requirements for building, testing, and deploying
+The process typically looks like this:
+- First, create an Application (to group your Components)
+- Then, create Components (pointing to your git repositories)
+- When ready to set up releases, create a ReleasePlan in your tenant namespace
 
-Would you like me to help you draft the ReleasePlan configuration for your specific project? If you can provide more context about your application and its components, I can give more precise guidance.
+An example might look like:
+```yaml
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: ReleasePlan
+metadata:
+  name: my-application-release-plan
+  namespace: <your-tenant-namespace>
+spec:
+  application: my-application-name
+  # Other release plan specifications
+```
 
-Is there anything specific about the ReleasePlan you're looking to create that you'd like me to clarify?
+Important reminders:
+- DO NOT create the ReleasePlan in the managed namespace
+- The ReleasePlanAdmission (RPA) will be created separately by the Platform Engineer in the managed namespace
+- The RP and RPA work together across different namespaces
+
+Would you like me to help you create a ReleasePlan for your specific project?

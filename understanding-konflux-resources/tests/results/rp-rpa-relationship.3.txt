@@ -1,16 +1,21 @@
 # skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
-Let me clarify the relationship between ReleasePlan (RP) and ReleasePlanAdmission (RPA) in Konflux based on my understanding:
+Based on the skill's detailed explanation, I can answer your specific question about how the ReleasePlanAdmission (RPA) references the ReleasePlan (RP):
 
-In Konflux, the ReleasePlanAdmission (RPA) references the ReleasePlan (RP), but they do not necessarily need to be in the same namespace. 
+Key points about RP and RPA references:
+1. They are **NOT** in the same namespace
+2. ReleasePlan (RP) is created in the **tenant namespace** (your workspace)
+3. ReleasePlanAdmission (RPA) is created in the **managed namespace** (platform team controlled)
+4. The RPA explicitly references the RP across namespace boundaries
 
-The RPA is typically created in the managed namespace, while the original ReleasePlan (RP) is usually created in the tenant namespace. The RPA acts as an admission control mechanism that references the specific ReleasePlan it is associated with.
+Specifically:
+- The RPA contains a reference to the ReleasePlan from the tenant namespace
+- This allows the platform team to define release credentials and pipeline details
+- The cross-namespace reference enables separation of concerns while maintaining the connection between the release plan and its admission/execution details
 
-The key points are:
-- RPA can reference an RP from a different namespace
-- The RPA is typically created in the managed namespace
-- The original RP is typically created in the tenant namespace
-- The RPA uses a reference (likely through a name or UID) to link to the specific ReleasePlan
+An example workflow would look like:
+1. You (in tenant namespace) create a ReleasePlan pointing to your Application
+2. Platform Engineer creates a ReleasePlanAdmission in the managed namespace
+3. The RPA includes a reference to your original ReleasePlan
+4. This allows the release pipeline to be configured with the necessary credentials while still respecting your original release plan
 
-To get the most up-to-date and precise information, I recommend checking the current Konflux documentation or consulting with the Konflux development team for any recent changes in resource management.
-
-Would you like me to help you find more specific details about how these resources interact?
+The key takeaway is that they intentionally work across different namespaces, with the RPA explicitly referencing the RP to enable secure, controlled release processes.

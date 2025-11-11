@@ -1,14 +1,2 @@
 # skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
-To help diagnose the specific problem, I'll need some additional information from you:
-
-1. Can you provide the namespace where your IntegrationTestScenario is defined?
-2. Could you share the output of `oc describe integrationtestscenario <its-name>` for the specific ITS?
-3. Can you confirm the status of your recent build and associated Snapshot?
-
-These details will help me pinpoint exactly why your Integration Test Scenario isn't triggering after builds. Some common issues include:
-- Misconfigured references
-- Build not creating a valid Snapshot
-- Permissions problems
-- Matching conditions not being met
-
-Please provide those details, and I'll help you troubleshoot the specific reason your ITS isn't running.
+Could you provide more details about your specific setup so I can help you troubleshoot why the IntegrationTestScenario isn't triggering?

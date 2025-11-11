@@ -1,37 +1,21 @@
 # skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
-I apologize for the WebSearch error. Let me provide some specific troubleshooting steps:
+I recommend you verify the following:
 
-To diagnose why your ITS is not running:
+1. Namespace Check:
+   - Run `kubectl get its -n <your-tenant-namespace>`
+   - Confirm your IntegrationTestScenario exists in the TENANT namespace
 
-1. Verify ReleasePlan Existence:
-   ```bash
-   kubectl get releaseplans -n <your-namespace>
-   ```
-   Ensure there's a ReleasePlan that references your Component and Application.
+2. Application and Component Relationship:
+   - Ensure your ITS references the exact Application name
+   - Verify the Component is part of that Application
 
-2. Check IntegrationTestScenario Status:
-   ```bash
-   kubectl get integrationtestscenarios -n <your-namespace>
-   kubectl describe integrationtestscenario <its-name>
-   ```
-   Look for any error messages or status conditions that might explain why the test is not running.
+3. Tekton Pipeline:
+   - Check that the Tekton pipeline referenced in your ITS exists
+   - Confirm the pipeline is valid and can be executed
 
-3. Check ReleasePlanAdmission:
-   ```bash
-   kubectl get releaseplanadmissions -n <your-namespace>
-   ```
-   Confirm that a ReleasePlanAdmission exists and is in a valid state.
+Could you share:
+- The namespace you're using
+- Your IntegrationTestScenario YAML
+- The Application and Component names
 
-Common Checklist:
-- [ ] ReleasePlan created
-- [ ] ReleasePlanAdmission exists
-- [ ] IntegrationTestScenario configured correctly
-- [ ] Component and Application are in the same namespace
-- [ ] Necessary permissions are set up
-
-Would you like me to help you walk through checking these specific resources? Could you provide:
-1. The namespace you're working in
-2. The names of your Component and Application
-3. The name of your IntegrationTestScenario
-
-This will help me provide more targeted assistance in diagnosing why your ITS is not running after builds complete.
+This will help me diagnose why the ITS is not running after builds complete. Snapshots are auto-created by the Integration Service, so if your builds are completing successfully, the next step should be running your defined tests.
