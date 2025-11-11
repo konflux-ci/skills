@@ -27,4 +27,4 @@ make test SKILL=understanding-konflux-resources
 4. `make test` validates results match expectations and digest matches current skill
 5. If skill content changes, tests fail until `make generate` is run again
 
-See root `Makefile` and `test.py` for implementation details.
+See root `Makefile` and `test/` directory for implementation details.

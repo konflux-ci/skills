@@ -412,7 +412,7 @@ sed -n '/^---$/,/^---$/p' your-skill-name/SKILL.md | wc -c
 - **Main Repo**: https://github.com/konflux-ci/skills
 - **Guidelines**: Read `CLAUDE.md` in the repository
 - **Examples**: Study existing skills for patterns
-- **Tests**: Review `test.py` for test framework
+- **Tests**: Review `test/` directory for test framework
 
 ### Documentation
 - **Skill Format**: Check existing skills for format examples
