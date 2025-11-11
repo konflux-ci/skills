@@ -39,6 +39,7 @@ def test_generate_result(skill_scenario, worker_home):
     result_file = results_dir / f"{scenario_name}.{sample_num}.txt"
 
     # Check if we can skip generation (file exists with matching digest)
+    should_skip = False
     if result_file.exists():
         try:
             with open(result_file) as f:
@@ -46,9 +47,13 @@ def test_generate_result(skill_scenario, worker_home):
             if first_line.startswith("# skill_digest:"):
                 file_digest = first_line.split(":", 1)[1].strip()
                 if file_digest == digest:
-                    pytest.skip("already up-to-date")
+                    should_skip = True
         except Exception:
-            pass
+            pass  # If we can't read it, we'll regenerate the result
+
+    # Skip OUTSIDE the try/except so it's not suppressed
+    if should_skip:
+        pytest.skip("already up-to-date")
 
     # Generate new result
     results_dir.mkdir(parents=True, exist_ok=True)
