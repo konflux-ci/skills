@@ -37,6 +37,33 @@ This repository contains Claude Code skills to help users work with the Konflux 
 - Tests discovery + effectiveness together (can't isolate just effectiveness)
 - Temp HOMEs persist during test run (cleaned up after)
 
+**Current Findings (understanding-konflux-resources):**
+
+Tests successfully reveal limitations in skill discovery and Claude's base knowledge:
+
+1. **Skill discovery is inconsistent**
+   - Works reliably for IntegrationTestScenario (ITS) queries
+   - Fails to trigger for ReleasePlanAdmission (RPA) queries despite "In Konflux" context
+   - Suggests description matching is unpredictable
+
+2. **Claude's base knowledge includes incorrect Konflux information**
+   - Claude believes RPA is "automatically created by system" (wrong)
+   - Skill correctly states "Platform Engineer creates RPA in managed namespace"
+   - When skill isn't invoked, Claude falls back on incorrect training data
+
+3. **Description balance challenge**
+   - Too strict: Won't trigger even with explicit Konflux context
+   - Too loose: Triggers on generic abbreviations without Konflux context
+   - Current approach: Simplified description mentioning key resource types
+
+4. **Test results: 1/6 scenarios passing, 7/18 samples**
+   - ✅ PASS: its-not-running (all 3 samples)
+   - ❌ FAIL: rpa-creation-responsibility (0/3 - skill not invoked)
+   - ❌ FAIL: rp-rpa-relationship (0/3 - missing tenant/managed terms)
+   - ❌ FAIL: negative-rp-without-konflux (0/3 - triggers without Konflux keyword)
+
+**Conclusion:** Test framework works correctly - it reveals real skill discovery limitations and demonstrates need for more reliable skill invocation mechanisms.
+
 ## Repository Structure
 
 ```
