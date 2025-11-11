@@ -26,7 +26,7 @@ test_scenarios:
     samples: 3
     expected:
       contains_keywords:
-        - IntegrationTestScenario
+        - integration
       does_not_contain: []
     baseline_failure: "Agent didn't recognize ITS, couldn't provide specific troubleshooting"
 

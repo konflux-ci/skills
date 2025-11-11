@@ -1,0 +1,7 @@
+# skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
+Could you provide me with:
+1. The namespace where your resources are located
+2. The exact name of your Application
+3. The details of your IntegrationTestScenario (if you've created one)
+
+This will help me diagnose why the ITS is not running after builds complete.

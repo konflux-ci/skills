@@ -1,21 +1,12 @@
 # skill_digest: e80c8209ad23b68350bd657d2e171ecdd9cf826b295b86a83aa85c585139552d
-I recommend you verify the following:
+To help you further, could you confirm:
+1. Can you share the `kubectl get its -n <your-tenant-namespace>` output?
+2. What Application does your ITS reference?
+3. Did your builds complete successfully?
 
-1. Namespace Check:
-   - Run `kubectl get its -n <your-tenant-namespace>`
-   - Confirm your IntegrationTestScenario exists in the TENANT namespace
+The key things to check are:
+- IntegrationTestScenario must exist in the TENANT namespace
+- It must reference your Application 
+- Snapshots must be created after builds (Konflux does this automatically)
 
-2. Application and Component Relationship:
-   - Ensure your ITS references the exact Application name
-   - Verify the Component is part of that Application
-
-3. Tekton Pipeline:
-   - Check that the Tekton pipeline referenced in your ITS exists
-   - Confirm the pipeline is valid and can be executed
-
-Could you share:
-- The namespace you're using
-- Your IntegrationTestScenario YAML
-- The Application and Component names
-
-This will help me diagnose why the ITS is not running after builds complete. Snapshots are auto-created by the Integration Service, so if your builds are completing successfully, the next step should be running your defined tests.
+Would you like me to help you verify these steps?
