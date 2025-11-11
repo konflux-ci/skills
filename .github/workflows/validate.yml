@@ -29,4 +29,4 @@ jobs:
 
       - name: Run skill tests (validation only)
         run: |
-          python3 test-runner.py --validate
+          make test
