@@ -1,22 +1,15 @@
 # skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
-Before increasing the timeout, let's first investigate **why** your pipeline is failing. Timeouts are often a symptom, not the root cause. Simply increasing the timeout might mask underlying issues like:
+Before just increasing the timeout, it's better to understand **why** your pipeline is failing. A timeout is often a symptom of an underlying issue rather than the root cause.
 
-- **Actual errors** in tasks that aren't obvious
-- **Stuck processes** waiting for resources
-- **Performance problems** that should be optimized
-- **Infrastructure issues** like image pulls, networking, or resource constraints
+Let me help you debug this systematically. I can use a specialized skill for debugging pipeline failures that will help us:
 
-I can help you debug this systematically. I have a specialized skill for debugging pipeline failures that can help identify the real issue.
+1. Identify what's actually timing out or failing
+2. Check for common issues (stuck tasks, resource problems, build errors)
+3. Examine logs to find the root cause
+4. Determine if a timeout increase is actually the right solution
 
-**What I need to know:**
-1. What type of pipeline is this? (Konflux/Tekton, GitHub Actions, GitLab CI, Jenkins, etc.)
-2. What error messages or symptoms are you seeing?
-3. Where are the pipeline logs/details located?
+Would you like me to investigate your pipeline failure? If so, I'll need to know:
+- What type of pipeline are you running? (e.g., Konflux/Tekton, GitHub Actions, GitLab CI, Jenkins, etc.)
+- Do you have access to the pipeline logs or configuration files in this directory?
 
-If this is a **Konflux/Tekton pipeline**, I can use the debugging skill to:
-- Check PipelineRun and TaskRun statuses
-- Analyze logs for actual failures
-- Identify stuck tasks (Pending, ImagePullBackOff, etc.)
-- Find resource or configuration issues
-
-Would you like me to help debug the pipeline failure, or do you have more details you can share about what's happening?
+Or if this is a Konflux/Tekton pipeline, I can start debugging right away using the specialized skill.

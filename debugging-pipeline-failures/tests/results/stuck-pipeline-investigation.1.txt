@@ -1,48 +1,85 @@
 # skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
-Based on the debugging skill, here's what you should check for a PipelineRun stuck in Running state for over an hour:
+For a PipelineRun stuck in Running state for over an hour, here's a systematic approach to diagnose the issue:
 
-## Immediate Steps
+## Immediate Investigation Steps
 
-**1. Check which TaskRuns are stuck:**
+**1. Check which TaskRuns are actually running or stuck:**
 ```bash
 kubectl get taskruns -l tekton.dev/pipelineRun=<pr-name> -n <namespace>
 ```
 
 Look for TaskRuns that are:
-- **Pending** → Resource constraints or scheduling issues
-- **Running** for too long → Possible hang or slow operation
+- **Pending** → Resource or scheduling issues
+- **Running** for too long → Timeout or hanging process
 
-**2. Identify the stuck pod and check logs:**
+**2. Examine the PipelineRun details:**
 ```bash
-# Find the pod for the stuck TaskRun
+kubectl describe pipelinerun <pr-name> -n <namespace>
+```
+
+Check for conditions, recent events, and which TaskRun is currently executing.
+
+**3. If a TaskRun is stuck in "Pending":**
+```bash
+# Find the pod
 kubectl get pods -l tekton.dev/taskRun=<tr-name> -n <namespace>
 
-# Check logs to see if there's any progress
+# Check why it's not scheduling
+kubectl describe pod <pod-name> -n <namespace>
+```
+
+Common causes:
+- Insufficient cluster resources (CPU/memory)
+- Namespace quota exceeded
+- PVC not bound (for workspace volumes)
+
+**4. If a TaskRun is stuck in "Running":**
+```bash
+# Check logs to see if it's making progress
 kubectl logs <pod-name> --all-containers=true -n <namespace>
 ```
 
-**3. Check events for clues:**
-```bash
-kubectl get events -n <namespace> --sort-by='.lastTimestamp'
+Look for:
+- Is the process actually doing work or hung?
+- Last log message timestamp
+- Network operations that might be stalled
 
-# Or filter for the specific pod
-kubectl get events --field-selector involvedObject.name=<pod-name> -n <namespace>
+**5. Check Kubernetes events:**
+```bash
+kubectl get events -n <namespace> --sort-by='.lastTimestamp' | tail -20
 ```
 
-## Common Causes for Stuck Pipelines
+Events will reveal:
+- `FailedScheduling` → Not enough resources
+- `FailedMount` → Volume/PVC problems
+- Image pull issues
 
-| Issue | What to Look For | Solution |
-|-------|------------------|----------|
-| **Pending TaskRun** | `FailedScheduling` events, resource quota errors | Check namespace quotas and node capacity |
-| **Process hanging** | Logs show no new output for extended time | May need to kill and restart; investigate what it's waiting for |
-| **Slow operation** | Logs show progress but very slow (e.g., large download) | May be normal; consider increasing timeout |
-| **Waiting for resources** | Pod in Pending state | Check PVC status, resource quotas |
+## Most Common Causes for Stuck Pipelines
 
-**4. Check timeout configuration:**
+1. **Resource constraints** - Pod waiting for available CPU/memory
+2. **Timeout not configured** - Task running indefinitely
+3. **Hanging process** - Network download stalled, waiting for input
+4. **PVC binding issues** - Workspace volume not ready
+5. **Dead node** - Pod scheduled on unresponsive node
+
+## Quick Diagnostic Command Sequence
+
+Run these in parallel to get a full picture:
+
 ```bash
-kubectl get taskrun <tr-name> -n <namespace> -o jsonpath='{.spec.timeout}'
+# Check overall status
+kubectl get pipelinerun <pr-name> -n <namespace>
+
+# See all TaskRuns and their states
+kubectl get taskruns -l tekton.dev/pipelineRun=<pr-name> -n <namespace>
+
+# Check recent events
+kubectl get events -n <namespace> --sort-by='.lastTimestamp' | tail -20
+
+# Check namespace resource quotas
+kubectl describe namespace <namespace> | grep -A5 "Resource Quotas"
 ```
 
-If no timeout is set or it's very high, the pipeline may run indefinitely.
-
-**What specific namespace and PipelineRun name are you working with?** I can help you run these diagnostic commands.
+Would you like me to help you run these commands? I'll need:
+- The PipelineRun name
+- The namespace

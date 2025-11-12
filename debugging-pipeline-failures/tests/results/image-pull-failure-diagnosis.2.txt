@@ -1,75 +1,59 @@
 # skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
-Let me guide you through debugging this ImagePullBackOff error:
+Based on the debugging guide, here's how to systematically debug your ImagePullBackOff issue:
 
-## Step 1: Identify the Failed Resources
+## Immediate Steps
 
-First, list your PipelineRuns to find the failing one:
-
-```bash
-kubectl get pipelinerun -n <your-namespace>
-```
-
-Then identify the specific failed TaskRun:
+**1. Find the failing pod and check events:**
 
 ```bash
-kubectl get taskruns -l tekton.dev/pipelineRun=<pr-name> -n <your-namespace>
+# Find your PipelineRun
+kubectl get pipelinerun -n <namespace>
+
+# Get the failed TaskRun
+kubectl get taskruns -l tekton.dev/pipelineRun=<pr-name> -n <namespace>
+
+# Find the pod
+kubectl get pods -l tekton.dev/taskRun=<tr-name> -n <namespace>
+
+# Check pod events - this will show the ImagePullBackOff details
+kubectl describe pod <pod-name> -n <namespace> | grep -A10 "Events"
 ```
 
-## Step 2: Check Pod Events (Critical for ImagePullBackOff)
+**2. The events will reveal the specific image problem. Common causes:**
 
-Find the pod associated with the failed TaskRun:
+- **Typo in image name/tag** - Check the exact image reference
+- **Image doesn't exist** - Verify the image exists in the registry
+- **Registry authentication** - Missing or incorrect imagePullSecrets
+- **Private registry access** - Network policies blocking access
+
+**3. Verify the image:**
 
 ```bash
-kubectl get pods -l tekton.dev/taskRun=<tr-name> -n <your-namespace>
+# Check what image is being pulled (look in TaskRun spec)
+kubectl get taskrun <tr-name> -n <namespace> -o yaml | grep -i image
+
+# Check ServiceAccount has imagePullSecrets
+kubectl get sa <sa-name> -n <namespace> -o yaml
 ```
 
-Then check the events - this will reveal the specific image pull error:
+## Quick Fixes
 
+**If it's an authentication issue:**
 ```bash
-kubectl describe pod <pod-name> -n <your-namespace> | grep -A10 "Events"
+# Check if imagePullSecret exists
+kubectl get secrets -n <namespace>
+
+# Add imagePullSecret to ServiceAccount if missing
+kubectl patch serviceaccount <sa-name> -n <namespace> -p '{"imagePullSecrets": [{"name": "<secret-name>"}]}'
 ```
 
-## Step 3: Common Causes & Fixes
+**If it's a typo:**
+- Correct the image name/tag in your Task or Pipeline definition
 
-**ImagePullBackOff** usually means one of these issues:
+**If the image doesn't exist:**
+- Build and push the image first
+- Or use the correct tag that exists
 
-### 1. **Image doesn't exist or wrong name/tag**
-- Check for typos in image name
-- Verify the tag exists in the registry
-- Confirm the image was actually built/pushed
-
-### 2. **Registry authentication missing**
-Check if your ServiceAccount has imagePullSecrets:
-```bash
-kubectl get sa <service-account-name> -n <your-namespace> -o yaml
-```
-
-If missing, you need to add registry credentials:
-```bash
-kubectl get secrets -n <your-namespace>  # Look for registry secrets
-```
-
-### 3. **Registry unreachable**
-- Network policies blocking access
-- Registry URL incorrect
-- Registry temporarily down
-
-### 4. **Private registry without credentials**
-You may need to create and attach an imagePullSecret:
-```bash
-kubectl create secret docker-registry <secret-name> \
-  --docker-server=<registry-url> \
-  --docker-username=<username> \
-  --docker-password=<password> \
-  --docker-email=<email> \
-  -n <your-namespace>
-```
-
-## What to Share
-
-If you can provide the output from the `kubectl describe pod` command, I can help you pinpoint the exact cause. The Events section will show messages like:
-- "Failed to pull image... repository does not exist"
-- "Failed to pull image... unauthorized"
-- "Failed to pull image... manifest unknown"
-
-Each message points to a specific fix. Would you like to share the output from these commands so I can help you diagnose further?
+Would you like me to help you run these commands? I'll need:
+1. Your namespace name
+2. The PipelineRun name (or we can list them to find it)

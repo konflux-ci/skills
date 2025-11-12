@@ -1,57 +1,90 @@
 # skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
-Based on the debugging pipeline failures guide, here's how to systematically investigate your failed PipelineRun 'component-build-xyz':
+I see that kubectl commands require approval in this environment. Let me provide you with the systematic investigation steps you should follow:
 
-## Step-by-Step Investigation
+## Investigation Steps for 'component-build-xyz'
 
-**1. Check PipelineRun Status**
+### **Phase 1: Identify Failed Component**
+
+Run these commands to understand what failed:
+
 ```bash
+# Check overall PipelineRun status
 kubectl get pipelinerun component-build-xyz -n user-tenant
-kubectl describe pipelinerun component-build-xyz -n user-tenant
-```
-This will show you the overall status, conditions, and which TaskRun(s) failed.
 
-**2. Identify Failed TaskRuns**
-```bash
+# Get detailed information
+kubectl describe pipelinerun component-build-xyz -n user-tenant
+
+# List all TaskRuns in this pipeline
 kubectl get taskruns -l tekton.dev/pipelineRun=component-build-xyz -n user-tenant
 ```
-Look for TaskRuns with `Failed` status to pinpoint which step failed.
 
-**3. Examine Logs from Failed TaskRun**
+**What to look for:**
+- Which TaskRun(s) show `Failed` status
+- The failure reason in the Conditions section
+- Timestamps to understand when it failed
+
+### **Phase 2: Analyze Failed TaskRun Logs**
+
+Once you identify the failed TaskRun (let's call it `<failed-tr-name>`):
+
 ```bash
-# First, find the pod for the failed TaskRun
+# Find the pod for the failed TaskRun
 kubectl get pods -l tekton.dev/taskRun=<failed-tr-name> -n user-tenant
 
-# Then get logs from all containers
+# Get logs from all containers
 kubectl logs <pod-name> --all-containers=true -n user-tenant
 
-# Or get logs from a specific step if you know which one failed
+# Or check specific step that failed
 kubectl logs <pod-name> -c step-<step-name> -n user-tenant
 ```
 
-**4. Check Kubernetes Events**
+**Search for:**
+- Error messages (grep for "error", "failed", "fatal")
+- Exit codes
+- The last successful operation before failure
+
+### **Phase 3: Check Kubernetes Events**
+
 ```bash
-kubectl get events -n user-tenant --sort-by='.lastTimestamp'
-```
-Look for critical events like:
-- `FailedScheduling` → Resource constraints
-- `ImagePullBackOff` → Registry/image problems
-- `FailedMount` → Volume/PVC issues
+# Get recent events sorted by time
+kubectl get events -n user-tenant --sort-by='.lastTimestamp' | tail -20
 
-**5. Get Detailed Resource Information**
+# Filter for specific pod if you found it
+kubectl get events --field-selector involvedObject.name=<pod-name> -n user-tenant
+```
+
+**Look for critical events:**
+- `ImagePullBackOff` - Image/registry issues
+- `FailedScheduling` - Resource constraints
+- `FailedMount` - Volume/PVC problems
+- `OOMKilled` - Memory limits exceeded
+
+### **Phase 4: Inspect Resource Details**
+
 ```bash
-kubectl get pipelinerun component-build-xyz -n user-tenant -o yaml
+# Get full PipelineRun YAML
+kubectl get pipelinerun component-build-xyz -n user-tenant -o yaml > pr-details.yaml
+
+# Get failed TaskRun details
+kubectl get taskrun <failed-tr-name> -n user-tenant -o yaml > tr-details.yaml
+
+# Describe the pod
+kubectl describe pod <pod-name> -n user-tenant
 ```
 
-## Quick Diagnosis
+## Common Failure Scenarios
 
-The **most common failure patterns** are:
+Based on the failure pattern, here's what to check:
 
-| If you see... | Root cause likely is... |
-|---------------|------------------------|
-| `ImagePullBackOff` in events | Wrong image name, missing registry credentials, or image doesn't exist |
-| `OOMKilled` in pod status | Memory limit too low for the build process |
-| Exit code 127 in logs | Command not found - wrong container image used |
-| TaskRun stuck in `Pending` | Resource quota exceeded or insufficient cluster resources |
-| Volume mount errors | PVC not bound or workspace misconfiguration |
+| **If you see** | **Root cause** | **Fix** |
+|----------------|----------------|---------|
+| ImagePullBackOff | Wrong image name/tag, missing credentials | Verify image exists, check ServiceAccount imagePullSecrets |
+| OOMKilled or exit code 137 | Out of memory | Increase memory limits in Task definition |
+| Exit code 127 | Command not found | Wrong container image or missing tools |
+| Timeout in status | Operation took too long | Increase timeout or optimize build |
+| Permission denied | RBAC/ServiceAccount issues | Check ServiceAccount permissions |
+| Volume mount errors | PVC not bound or misconfigured | Check PVC status: `kubectl get pvc -n user-tenant` |
 
-Run the commands above and share what you find - the error messages from the logs and events will help identify the specific root cause!
+---
+
+**Would you like me to help analyze the output once you run these commands?** Just share the results and I'll help identify the root cause and recommend the fix.

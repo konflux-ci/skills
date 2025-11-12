@@ -1,26 +1,27 @@
 # skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
-I see that I need your approval to run kubectl commands. To help you debug your pipeline failure properly, I need some information:
+Let me help you investigate. First, I need some information:
 
 **Can you provide:**
-1. **PipelineRun name** - What's the name of the failing pipeline?
-2. **Namespace** - Which namespace is it in?
-3. **What error message** do you see (if any)?
-4. **How long does it run** before failing/timing out?
 
-Or if you prefer, you can run this command yourself and share the output:
+1. **The PipelineRun name or namespace?** (or show me the output of a recent failure)
+2. **Error message you're seeing?** (if any)
+3. **How long before it times out?** (current timeout value)
+
+**Or, if you have access to the cluster, run these commands:**
+
 ```bash
-kubectl get pipelinerun -n <your-namespace>
+# List recent PipelineRuns
+kubectl get pipelinerun -n <your-namespace> --sort-by='.metadata.creationTimestamp'
+
+# Or if you know the PipelineRun name
+kubectl describe pipelinerun <pr-name> -n <namespace>
 ```
 
-**Important:** Simply increasing the timeout is usually **not** the right solution because:
+Once I see the actual failure details, I can pinpoint whether you're dealing with:
+- **A legitimately slow operation** → Timeout increase might be appropriate
+- **A stuck/hanging process** → Fix needed, not timeout increase
+- **Resource starvation** → Need to adjust limits/quotas
+- **Network/dependency issues** → Need to fix connectivity
+- **Image pull delays** → Registry or auth issues
 
-- **If it's timing out** → Something might be hanging or stuck (network issue, process deadlock)
-- **If it's failing before timeout** → Timeout isn't the problem at all
-- **If builds are genuinely slow** → You might need caching or optimization, not just more time
-
-Once you share the pipeline details, I can help you:
-1. Check the actual logs to see what's failing
-2. Identify if it's a timeout, resource issue, image pull problem, or build failure
-3. Recommend the proper fix (which might not be timeout-related at all)
-
-What information can you share about the failing pipeline?
+**The key question**: What is your pipeline **actually doing** when it times out? Let's find out before making changes.

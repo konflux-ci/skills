@@ -1,24 +1,25 @@
 # skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
-I'd advise against simply increasing the timeout without understanding **why** the pipeline is failing. Timeouts are usually symptoms of underlying issues, not the root cause.
+Now I can help you properly investigate the pipeline failure. Rather than just increasing the timeout (which usually masks the real problem), let's find out what's actually going wrong.
 
-Let me help you debug this properly. I have access to a specialized skill for debugging Konflux/Tekton pipeline failures that can help us investigate:
+**To get started, I need some information:**
 
-- **PipelineRun failures** - overall pipeline issues
-- **TaskRun problems** - individual tasks stuck, pending, or failing
-- **Build errors** - compilation, image pull issues (ImagePullBackOff, etc.)
-- **Timeout root causes** - why tasks are hanging
+1. **What namespace is your pipeline running in?**
+2. **Do you know the PipelineRun name?** (or can you describe which pipeline is failing?)
 
-Before we just increase the timeout, let's figure out what's actually going wrong. This could be:
-- Resource constraints (CPU/memory limits too low)
-- Network issues (image pulls, external dependencies)
-- Infinite loops or hung processes
-- Misconfigured tasks or missing dependencies
-- Actual legitimate slowness that needs optimization
+Once you provide this, I'll systematically investigate by:
+- Checking the PipelineRun status to see which TaskRun failed
+- Examining logs for the actual error
+- Reviewing Kubernetes events for resource issues
+- Identifying the root cause (slow operation, resource constraint, actual failure, etc.)
 
-Would you like me to help investigate the pipeline failure? If so, I can use the debugging skill to systematically check:
-1. Recent PipelineRun status and logs
-2. Which specific TaskRuns are failing/stuck
-3. Resource usage and constraints
-4. Error messages and events
+**Common scenarios where timeout increases are NOT the solution:**
+- Build scripts with errors (needs code fix)
+- Resource exhaustion (needs quota/limit adjustments)
+- Image pull failures (needs registry/auth fixes)
+- Missing dependencies (needs build config changes)
 
-Just let me know, or if you can share any error messages or the pipeline name, I can start investigating right away.
+**When timeout increases ARE appropriate:**
+- Legitimately slow operations (large downloads, complex builds)
+- After verifying the operation is progressing but just needs more time
+
+So let's find out which category your failure falls into. What's the namespace and PipelineRun name?

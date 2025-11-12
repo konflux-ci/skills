@@ -1,71 +1,15 @@
 # skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
-I need to run kubectl commands to investigate, but they require approval. Here's the systematic approach I recommend:
+I need your approval to run kubectl commands to investigate the failed PipelineRun. These commands will:
 
-## Investigation Steps for PipelineRun 'component-build-xyz'
+1. **Get the PipelineRun status** - to see the overall state and failure information
+2. **Describe the PipelineRun** - to get detailed information about conditions, failed tasks, and timestamps
 
-### **Phase 1: Identify the Failed Component**
+Once approved, I'll follow this systematic investigation process:
 
-Run these commands to get an overview:
+1. ✓ Check PipelineRun status and identify which components failed
+2. Identify the specific TaskRun(s) that failed
+3. Get logs from the failed TaskRun pods to find error messages
+4. Check Kubernetes events for additional context (image pull issues, resource constraints, etc.)
+5. Correlate all findings to identify the root cause and recommend fixes
 
-```bash
-# Check overall PipelineRun status
-kubectl get pipelinerun component-build-xyz -n user-tenant
-
-# Get detailed information including failure reason
-kubectl describe pipelinerun component-build-xyz -n user-tenant
-```
-
-This will show you:
-- Overall status (Failed/Succeeded/Running)
-- Which TaskRun failed
-- Failure conditions and reasons
-- Duration and timestamps
-
-### **Phase 2: Identify Failed TaskRuns**
-
-```bash
-# List all TaskRuns for this PipelineRun
-kubectl get taskruns -l tekton.dev/pipelineRun=component-build-xyz -n user-tenant
-```
-
-Look for TaskRuns with `STATUS` showing `Failed` or `Error`.
-
-### **Phase 3: Analyze Logs**
-
-Once you identify the failed TaskRun (let's call it `<failed-tr-name>`):
-
-```bash
-# Find the pod for the failed TaskRun
-kubectl get pods -l tekton.dev/taskRun=<failed-tr-name> -n user-tenant
-
-# Get logs from all containers
-kubectl logs <pod-name> --all-containers=true -n user-tenant
-
-# Or check specific step logs
-kubectl logs <pod-name> -c step-<step-name> -n user-tenant
-```
-
-Search logs for keywords: `error`, `failed`, `fatal`, `exit code`
-
-### **Phase 4: Check Events**
-
-```bash
-# Get recent events in the namespace
-kubectl get events -n user-tenant --sort-by='.lastTimestamp' | tail -20
-
-# Filter for events related to the specific pod
-kubectl get events --field-selector involvedObject.name=<pod-name> -n user-tenant
-```
-
-### **Phase 5: Common Failure Patterns to Check**
-
-| If you see... | It means... | Check... |
-|--------------|-------------|----------|
-| `ImagePullBackOff` | Cannot pull container image | Image name/tag, registry credentials |
-| `OOMKilled` | Out of memory | Resource limits, memory usage |
-| Exit code 127 | Command not found | Container image has required tools |
-| Exit code 1 | General failure | Application/script logs |
-| `Pending` status | Can't schedule | Resource quotas, node capacity |
-| `FailedMount` | Volume issue | PVC status, workspace config |
-
-Would you like me to run these commands to investigate? I can execute them with your approval, or you can run them yourself and share the output for me to analyze.
+Should I proceed with running these kubectl commands to investigate your failed PipelineRun?

@@ -1,46 +1,49 @@
 # skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
-Based on the debugging skill guidance, here's how to find the error in your failed build TaskRun:
+Based on the debugging guide, here's how to find the error in your failed build TaskRun:
 
-## Step-by-Step Investigation
+## Quick Steps to Find Your Error
 
-**1. Get the pod logs from your failed build TaskRun:**
-
+**1. Get the TaskRun logs** (most likely to show the error):
 ```bash
-# First, find the pod associated with your TaskRun
+# Find the pod associated with your TaskRun
 kubectl get pods -l tekton.dev/taskRun=<your-taskrun-name> -n <namespace>
 
-# Then get logs from the build step (common step names: step-build, step-buildah, step-compile)
-kubectl logs <pod-name> -c step-build -n <namespace>
-
-# If unsure which step failed, get all container logs
+# Get logs from all containers to see the error
 kubectl logs <pod-name> --all-containers=true -n <namespace>
 ```
 
-**2. Check for error keywords in the output:**
-- Look for "error", "failed", "fatal", "Error", "FAILED"
-- Check the last few lines before the failure
-- Note the exit code (1 typically means a generic error)
-
-**3. If logs don't show the issue clearly, check events:**
-
-```bash
-kubectl get events --field-selector involvedObject.name=<pod-name> -n <namespace>
-```
-
-**4. Get detailed TaskRun status:**
-
+**2. Check the TaskRun details** to see which step failed:
 ```bash
 kubectl describe taskrun <your-taskrun-name> -n <namespace>
 ```
 
-This will show you which specific step failed and any conditions/messages.
+Look for the "Status" section which will show:
+- Which step failed
+- The exit code (you mentioned exit code 1)
+- Failure reason/message
 
-## Common Build Failures with Exit Code 1
+**3. Get logs from the specific failed step** (once you identify it):
+```bash
+kubectl logs <pod-name> -c step-<step-name> -n <namespace>
+```
 
-- **Compilation errors**: Code syntax errors, missing dependencies
-- **Test failures**: Unit tests or integration tests failing
-- **Linting errors**: Code quality checks failing
-- **Missing files**: Required files not in workspace
-- **Command errors**: Build command syntax issues
+**4. Check events** for additional context:
+```bash
+kubectl get events --field-selector involvedObject.name=<pod-name> -n <namespace> --sort-by='.lastTimestamp'
+```
 
-**What's your TaskRun name and namespace?** I can help you run these commands to find the specific error.
+## What to Look For in Logs
+
+Exit code 1 typically means a general script/command failure. Search the logs for:
+- Error messages (grep for "error", "failed", "fatal")
+- The last command that executed before failure
+- Build tool specific errors (npm, maven, gradle, etc.)
+- Test failures
+- Missing files or dependencies
+
+**Need help running these commands?** If you provide me with:
+- Your TaskRun name
+- Your namespace
+- Access to run kubectl commands in your environment
+
+I can help you execute these commands and analyze the output to pinpoint the exact error.

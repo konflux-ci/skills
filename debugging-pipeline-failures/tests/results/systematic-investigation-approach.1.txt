@@ -1,27 +1,24 @@
 # skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
-I need your approval to run kubectl commands to investigate the pipeline failure. Here's my systematic debugging approach:
+I need your approval to run kubectl commands to investigate the failed PipelineRun. Here's my systematic investigation plan:
 
-## Investigation Plan
+## Investigation Steps
 
 **Phase 1: Identify Failed Component**
-1. Check PipelineRun status and overall failure details
+1. Check PipelineRun status to see overall state and failure reasons
 2. Identify which TaskRun(s) failed
+3. Examine duration and timestamps
 
-**Phase 2: Log Analysis**  
-3. Get logs from failed TaskRun pods to see specific error messages
+**Phase 2: Log Analysis**
+4. Get logs from the failed TaskRun's pod
+5. Search for error messages and exit codes
+6. Identify the last successful step before failure
 
 **Phase 3: Event Correlation**
-4. Check Kubernetes events for timing-related issues (ImagePullBackOff, resource constraints, etc.)
+7. Check Kubernetes events for issues like ImagePullBackOff, FailedMount, resource constraints
 
-**Phase 4: Root Cause Analysis**
-5. Correlate all findings to identify the root cause
+**Phase 4: Resource Inspection**
+8. Inspect PipelineRun and TaskRun YAML for configuration issues
 
-## Commands I'll Run
+Once you approve, I'll run these commands to gather the diagnostic information and identify the root cause of your pipeline failure.
 
-1. `kubectl get pipelinerun component-build-xyz -n user-tenant` - Check overall status
-2. `kubectl describe pipelinerun component-build-xyz -n user-tenant` - Get failure details
-3. `kubectl get taskruns -l tekton.dev/pipelineRun=component-build-xyz -n user-tenant` - Find failed TaskRuns
-4. `kubectl logs <pod-name> --all-containers -n user-tenant` - Get logs from failed pods
-5. `kubectl get events -n user-tenant --sort-by='.lastTimestamp'` - Check recent events
-
-Would you like me to proceed with these commands to investigate the failure?
+Would you like me to proceed with the investigation?

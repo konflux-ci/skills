@@ -1,48 +1,52 @@
 # skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
 Based on the debugging guide, here's how to find the error in your failed build TaskRun:
 
-## Step-by-Step Investigation
+## Quick Steps to Find Your Error
 
-**1. First, identify the TaskRun and its pod:**
+**1. Get the logs from your failed TaskRun:**
+
 ```bash
-# List TaskRuns to find your failed build
-kubectl get taskruns -n <namespace>
+# First, find the pod associated with your TaskRun
+kubectl get pods -l tekton.dev/taskRun=<your-taskrun-name> -n <namespace>
 
-# Find the pod associated with your TaskRun
-kubectl get pods -l tekton.dev/taskRun=<taskrun-name> -n <namespace>
-```
-
-**2. Check the logs from the failed step:**
-```bash
-# Get logs from all containers (easiest approach)
+# Then get the logs (replace with your pod name)
 kubectl logs <pod-name> --all-containers=true -n <namespace>
-
-# Or get logs from a specific build step
-kubectl logs <pod-name> -c step-build -n <namespace>
 ```
 
-**3. Look for the actual error by searching for:**
-- "error", "failed", "fatal" keywords
-- The last successful operation before failure
-- The specific exit code reason
+**2. If you know which step failed, get logs from that specific step:**
+
+```bash
+kubectl logs <pod-name> -c step-<step-name> -n <namespace>
+```
+
+**3. Check the TaskRun status for clues:**
+
+```bash
+kubectl describe taskrun <your-taskrun-name> -n <namespace>
+```
+
+Look for the `Status` section which shows:
+- Which step failed
+- Exit code details
+- Failure reasons
 
 **4. Check Kubernetes events for additional context:**
+
 ```bash
-kubectl get events --field-selector involvedObject.name=<pod-name> -n <namespace>
+kubectl get events -n <namespace> --sort-by='.lastTimestamp' | tail -20
 ```
 
 ## Common Exit Code 1 Causes
 
-- **Build script errors**: Syntax errors, failed tests, linting failures
-- **Missing dependencies**: npm/pip/maven install failures
-- **Compilation errors**: Code doesn't compile
-- **Test failures**: Unit tests failed
+Since you got exit code 1, it typically means:
+- **Build script error** - compilation failed, tests failed, linting error
+- **Command failed** - a command in your build script returned an error
+- **Missing dependency** - required tool or package not found
 
-## Quick Command to Get Everything
+The logs from step 1 will show the actual error message before the exit.
 
-```bash
-# Replace with your actual TaskRun name and namespace
-kubectl logs $(kubectl get pods -l tekton.dev/taskRun=<taskrun-name> -n <namespace> -o name) --all-containers=true -n <namespace>
-```
+**Can you provide:**
+1. Your TaskRun name and namespace?
+2. Or paste the output from `kubectl describe taskrun <name>`?
 
-**What specific TaskRun failed, and what namespace are you working in?** I can help you run the exact commands to find the error.
+This will help me pinpoint the exact error for you.

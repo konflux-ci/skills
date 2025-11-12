@@ -1,63 +1,48 @@
 # skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
-Based on the skill prompt, here's a systematic approach to debug your stuck PipelineRun:
+## Quick Diagnostic Steps
 
-## Immediate Checks for Stuck PipelineRun
-
-Since your PipelineRun has been in "Running" state for over an hour, here's what to check:
-
-### 1. Check TaskRun Status
+**1. Check TaskRun Status**
 ```bash
 kubectl get taskruns -l tekton.dev/pipelineRun=<pr-name> -n <namespace>
 ```
-This shows which TaskRuns are running, pending, or completed. Look for:
-- **Pending** TaskRuns → Resource constraint issues
-- **Running** TaskRuns → Identify which step is hanging
+This shows which TaskRuns are Pending, Running, or Completed.
 
-### 2. Identify the Stuck Pod
+**2. For Pending TaskRuns** - Resource Constraints:
 ```bash
-kubectl get pods -l tekton.dev/pipelineRun=<pr-name> -n <namespace>
-```
-Note any pods that are in "Running" state for a long time.
-
-### 3. Check Pod Logs
-```bash
-# Get logs from the stuck pod
-kubectl logs <pod-name> --all-containers=true -n <namespace>
-
-# Or check specific step if you know which one
-kubectl logs <pod-name> -c step-<step-name> -n <namespace>
-```
-Look for:
-- Last line of output (is it making progress?)
-- Network operations that may be hanging
-- Download/install steps that are stuck
-
-### 4. Check Events
-```bash
-kubectl get events -n <namespace> --sort-by='.lastTimestamp' | tail -20
-```
-Look for:
-- `FailedScheduling` → No resources available
-- `FailedMount` → Volume/PVC issues
-- Image pull problems
-
-### 5. Check Resource Constraints
-```bash
-# Check if resources are available
+# Check namespace quotas
 kubectl describe namespace <namespace> | grep -A5 "Resource Quotas"
 
-# Check node resources
-kubectl top pods -n <namespace>
+# Check node capacity
+kubectl describe node | grep -A5 "Allocated resources"
+
+# Check events
+kubectl get events -n <namespace> --sort-by='.lastTimestamp'
+```
+Look for `FailedScheduling` events.
+
+**3. For Running TaskRuns** - Progress Check:
+```bash
+# Find the pod
+kubectl get pods -l tekton.dev/taskRun=<tr-name> -n <namespace>
+
+# Check logs for the running step
+kubectl logs <pod-name> --all-containers=true -n <namespace>
+```
+Look for signs of progress or if it's hanging.
+
+**4. Check for Timeouts**:
+```bash
+kubectl get taskrun <tr-name> -n <namespace> -o jsonpath='{.spec.timeout}'
+kubectl get taskrun <tr-name> -n <namespace> -o jsonpath='{.status.startTime}'
 ```
 
-## Common Causes for Stuck Pipelines
+## Common Causes
 
-1. **Slow network operations** - Downloads timing out or very slow
-2. **Pending resource allocation** - Waiting for CPU/memory quota
-3. **Hanging build process** - Process waiting for input or deadlocked
-4. **PVC mount issues** - Workspace not mounting properly
-5. **Timeout set too high** - Process failing silently but timeout not reached
+1. **Pending TaskRun** → Insufficient resources, quota exceeded, or no available nodes
+2. **Running but hung** → Network operation timeout, process hanging, or slow build
+3. **Waiting for dependencies** → Previous task not completing, workspace/volume issues
 
-## Quick Action
-
-If you provide your PipelineRun name and namespace, I can help you run these diagnostic commands to identify the exact issue.
+Would you like me to help you run these diagnostic commands? Please provide:
+- Your PipelineRun name
+- Namespace
+- Or share the output of `kubectl get pipelinerun <pr-name> -n <namespace>`

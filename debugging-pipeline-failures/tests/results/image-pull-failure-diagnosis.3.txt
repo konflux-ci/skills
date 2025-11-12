@@ -1,95 +1,66 @@
 # skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
-## Debugging ImagePullBackOff
-
-ImagePullBackOff means Kubernetes cannot pull the container image. Here's how to diagnose and fix it:
-
-### Step 1: Identify the Failed Component
-
-First, find your failed PipelineRun and the specific TaskRun with the issue:
+### 1. Find the Failed Pod and Check Events
 
 ```bash
-# List recent PipelineRuns
-kubectl get pipelinerun -n <your-namespace>
+# Find your PipelineRun and identify the failed TaskRun
+kubectl get pipelinerun -n <namespace>
 
-# Get details of the failed PipelineRun
-kubectl describe pipelinerun <pr-name> -n <your-namespace>
+# Get TaskRuns for the failed pipeline
+kubectl get taskruns -l tekton.dev/pipelineRun=<pr-name> -n <namespace>
 
-# Find the failed TaskRun
-kubectl get taskruns -l tekton.dev/pipelineRun=<pr-name> -n <your-namespace>
+# Find the pod with ImagePullBackOff
+kubectl get pods -n <namespace> | grep ImagePullBackOff
+
+# Check events for the specific pod
+kubectl describe pod <pod-name> -n <namespace>
 ```
 
-### Step 2: Check Pod Events (Most Important!)
+Look in the Events section for details about **why** the image pull failed.
 
-The pod events will tell you exactly why the image pull failed:
+### 2. Common Root Causes
 
-```bash
-# Find the pod
-kubectl get pods -l tekton.dev/taskRun=<tr-name> -n <your-namespace>
+**Image Name/Tag Issues:**
+- Typo in image name or tag
+- Tag doesn't exist in registry
+- Wrong registry URL
 
-# Check events - this shows the specific error
-kubectl describe pod <pod-name> -n <your-namespace>
-```
+**Authentication Issues:**
+- Missing imagePullSecret on ServiceAccount
+- Invalid/expired registry credentials
+- Wrong secret referenced
 
-Look in the Events section at the bottom. You'll see one of these common causes:
+**Registry Accessibility:**
+- Registry is down or unreachable
+- Network policies blocking access
+- Private registry requires authentication
 
-### Step 3: Common Causes & Fixes
-
-**1. Image doesn't exist / Wrong name or tag**
-- **Event**: `Failed to pull image "registry.io/myimage:v1.0": image not found`
-- **Fix**: Verify the image name and tag are correct. Check if the image actually exists in the registry.
-
-**2. Missing registry authentication**
-- **Event**: `Failed to pull image: unauthorized` or `authentication required`
-- **Fix**: Add imagePullSecret to your ServiceAccount:
+### 3. Verify the Image
 
 ```bash
-# Check current ServiceAccount
-kubectl get sa <sa-name> -n <your-namespace> -o yaml
-
-# Create a docker-registry secret if needed
-kubectl create secret docker-registry my-registry-secret \
-  --docker-server=<registry-url> \
-  --docker-username=<username> \
-  --docker-password=<password> \
-  -n <your-namespace>
-
-# Patch ServiceAccount to use the secret
-kubectl patch sa <sa-name> -n <your-namespace> -p '{"imagePullSecrets": [{"name": "my-registry-secret"}]}'
-```
-
-**3. Registry is unreachable**
-- **Event**: `Failed to pull image: connection timeout` or `network error`
-- **Fix**: Check network policies, firewall rules, or if the registry is down
-
-**4. Rate limiting (common with Docker Hub)**
-- **Event**: `Too Many Requests` or `rate limit exceeded`
-- **Fix**: Authenticate with the registry or use a different registry
-
-### Step 4: Verify the Fix
-
-After making changes:
-
-```bash
-# Check the TaskRun YAML to see the image being used
-kubectl get taskrun <tr-name> -n <your-namespace> -o yaml | grep -A3 "image:"
-
-# Watch the pod status
-kubectl get pods -l tekton.dev/taskRun=<tr-name> -n <your-namespace> -w
-```
-
-### Quick Diagnostic Commands
-
-Run these to gather all relevant information:
-
-```bash
-# Get the full error details
-kubectl get events -n <your-namespace> --sort-by='.lastTimestamp' | grep -i "pull"
+# Check what image the pod is trying to pull
+kubectl get pod <pod-name> -n <namespace> -o jsonpath='{.spec.containers[*].image}'
 
 # Check if ServiceAccount has imagePullSecrets
-kubectl get sa -n <your-namespace> -o yaml
-
-# Verify the exact image reference in the failing step
-kubectl get taskrun <tr-name> -n <your-namespace> -o jsonpath='{.status.steps[*].imageID}'
+kubectl get sa <service-account-name> -n <namespace> -o yaml
 ```
 
-**What specific namespace and PipelineRun are you working with?** I can help you run these commands with the correct values.
+### 4. Fix Based on Root Cause
+
+**If image name is wrong:**
+- Correct the image reference in your Task/Pipeline definition
+
+**If authentication is missing:**
+```bash
+# Add imagePullSecret to ServiceAccount
+kubectl patch serviceaccount <sa-name> -n <namespace> -p '{"imagePullSecrets": [{"name": "<secret-name>"}]}'
+```
+
+**If credentials are invalid:**
+- Update the docker-registry secret with valid credentials
+
+Would you like me to help you investigate further? Please share:
+1. Your namespace name
+2. The PipelineRun or Pod name that's failing
+3. The output of `kubectl get pods -n <namespace>` showing the ImagePullBackOff
+
+I can then run the specific commands to identify the exact root cause.

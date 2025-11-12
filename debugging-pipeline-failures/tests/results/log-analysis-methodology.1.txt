@@ -1,36 +1,46 @@
 # skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
-I can help you debug your failed TaskRun. To find the error in a Kubernetes/Tekton TaskRun that failed with exit code 1, you'll need to examine the logs and status of the TaskRun.
+Based on the debugging guide, here's how to find the error in your failed build TaskRun:
 
-Here are the steps to diagnose the issue:
+## Quick Steps to Find the Error
 
-1. **Get the TaskRun status and recent events:**
+1. **Get the logs from the failed step:**
 ```bash
-kubectl describe taskrun <taskrun-name>
-```
-This will show you the status, conditions, and recent events that might indicate what went wrong.
+# First, find the pod associated with your TaskRun
+kubectl get pods -l tekton.dev/taskRun=<your-taskrun-name> -n <namespace>
 
-2. **Check the logs of the failed step:**
-```bash
-kubectl logs <taskrun-pod-name>
-```
-Or if you know the specific step that failed:
-```bash
-kubectl logs <taskrun-pod-name> -c step-<step-name>
+# Then get logs from the build step (or whichever step failed)
+kubectl logs <pod-name> -c step-build -n <namespace>
+
+# If you don't know which step failed, get all logs:
+kubectl logs <pod-name> --all-containers=true -n <namespace>
 ```
 
-3. **List all containers in the TaskRun pod to identify which step failed:**
+2. **Check TaskRun details to see which step failed:**
 ```bash
-kubectl get pods <taskrun-pod-name> -o jsonpath='{.spec.containers[*].name}'
+kubectl describe taskrun <your-taskrun-name> -n <namespace>
 ```
 
-4. **Get logs from all steps:**
+Look for the "Status" section which shows which step failed and the exit code.
+
+3. **Review Kubernetes events for additional context:**
 ```bash
-tkn taskrun logs <taskrun-name>
+kubectl get events --field-selector involvedObject.name=<pod-name> -n <namespace> --sort-by='.lastTimestamp'
 ```
-(if you have the `tkn` CLI installed)
 
-**Could you provide:**
-- The name of your failed TaskRun (or paste the output of `kubectl get taskruns`)
-- Or the specific error message you're seeing
+## What to Look For in the Logs
 
-I can then help you run the appropriate commands to pinpoint the exact error. If this is a Konflux/Tekton pipeline issue and you'd like systematic debugging assistance, I can also invoke the debugging-pipeline-failures skill which has specialized tools for this scenario.
+- **Error messages**: Search for keywords like "error", "failed", "fatal"
+- **The last successful operation** before the failure
+- **Exit code explanation**: 
+  - Exit code 1 = General failure (check the error message in logs)
+  - Exit code 127 = Command not found
+  - Exit code 137 = OOMKilled (out of memory)
+
+## Common Exit Code 1 Causes
+
+- Build script errors (compilation failures, test failures)
+- Missing dependencies
+- Configuration errors
+- Network issues during dependency downloads
+
+**Do you have the TaskRun name and namespace handy?** I can help you run these commands to find the specific error.

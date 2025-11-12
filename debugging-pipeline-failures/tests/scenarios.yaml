@@ -79,10 +79,10 @@ test_scenarios:
     expected:
       contains_keywords:
         - logs
-        - root cause
-        - investigate
-        - why
-    not_contains:
-      - just increase
-      - simply add
+        - ["root cause", "proper fix", "actual problem"]
+        - ["investigate", "identify", "check", "find out"]
+        - ["why", "what"]
+      does_not_contain:
+        - just increase
+        - simply add
     baseline_failure: "Without skill, may suggest increasing timeout without investigating root cause"

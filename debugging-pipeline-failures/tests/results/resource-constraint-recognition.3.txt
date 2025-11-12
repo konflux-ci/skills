@@ -1,7 +1,7 @@
 # skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
-Based on the skill loaded, here's how to debug a TaskRun stuck in Pending state:
+Based on the debugging guide, here's how to investigate a TaskRun stuck in Pending state:
 
-## Quick Diagnosis Steps
+## Quick Diagnostic Steps
 
 **1. Check the TaskRun status:**
 ```bash
@@ -9,58 +9,42 @@ kubectl get taskrun <tr-name> -n <namespace>
 kubectl describe taskrun <tr-name> -n <namespace>
 ```
 
-**2. Check for pod creation and scheduling:**
+**2. Check for resource constraint events:**
 ```bash
-# Find the pod associated with the TaskRun
-kubectl get pods -l tekton.dev/taskRun=<tr-name> -n <namespace>
-
-# If pod exists, check its status
-kubectl describe pod <pod-name> -n <namespace>
-```
-
-**3. Check Kubernetes events (most revealing):**
-```bash
-# Recent events in the namespace
 kubectl get events -n <namespace> --sort-by='.lastTimestamp'
-
-# Events specific to the TaskRun pod
-kubectl get events --field-selector involvedObject.name=<pod-name> -n <namespace>
+kubectl get events --field-selector involvedObject.name=<tr-name> -n <namespace>
 ```
 
-## Common Causes for Pending State
+Look for these critical events:
+- `FailedScheduling` → Resource constraints (CPU/memory quota exceeded or insufficient node capacity)
+- `FailedMount` → Volume/PVC issues
 
-| Cause | Event Message | Investigation |
-|-------|---------------|---------------|
-| **Resource quota exceeded** | `FailedScheduling: Insufficient cpu/memory` | `kubectl describe namespace <namespace> \| grep -A5 "Resource Quotas"` |
-| **No available nodes** | `FailedScheduling: 0/N nodes available` | `kubectl describe node \| grep -A5 "Allocated resources"` |
-| **PVC not bound** | `FailedMount: PVC not bound` | `kubectl get pvc -n <namespace>` |
-| **Image pull issues** | `ErrImagePull` or `ImagePullBackOff` | Check pod events and image name |
-| **Missing ServiceAccount** | `FailedCreate: serviceaccount not found` | `kubectl get sa -n <namespace>` |
-
-## Most Likely: Resource Constraints
-
-**Check namespace quotas:**
+**3. Check resource quotas:**
 ```bash
-kubectl describe namespace <namespace> | grep -A10 "Resource Quotas"
+kubectl describe namespace <namespace> | grep -A5 "Resource Quotas"
 ```
 
-**Check node capacity:**
+**4. Check if the pod exists:**
 ```bash
-kubectl top nodes
-kubectl describe nodes | grep -A5 "Allocated resources"
+kubectl get pods -l tekton.dev/taskRun=<tr-name> -n <namespace>
 ```
 
-**Check TaskRun resource requests:**
-```bash
-kubectl get taskrun <tr-name> -n <namespace> -o yaml | grep -A5 "resources"
-```
+If no pod exists, the TaskRun can't schedule due to resource constraints.
+
+## Common Causes for Pending TaskRuns
+
+1. **Namespace quota exceeded** - No CPU/memory quota available
+2. **Insufficient cluster resources** - No nodes with available capacity
+3. **PVC not bound** - Workspace PersistentVolumeClaim is pending
+4. **Node selector mismatch** - No nodes match the required labels
+5. **Pod security admission** - Security policies blocking pod creation
 
 ## Next Steps
 
-Once you identify the issue from the events:
-- **Quota exceeded**: Request quota increase or reduce resource requests
-- **No nodes available**: Check if nodes are full or if affinity rules are too restrictive
-- **PVC issues**: Ensure PVC exists and is bound: `kubectl get pvc -n <namespace>`
-- **Image pull**: Verify image name and registry access
+Once you identify the issue from events/quotas, you can:
+- Increase namespace resource quotas
+- Reduce resource requests in the Task definition
+- Fix PVC binding issues
+- Adjust node selectors or taints/tolerations
 
-**What's your namespace and TaskRun name?** I can help you run the specific diagnostic commands.
+**Would you like me to help you run these diagnostic commands for a specific TaskRun?** Just provide the TaskRun name and namespace.
