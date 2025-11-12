@@ -1,0 +1,66 @@
+# skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
+### 1. Find the Failed Pod and Check Events
+
+```bash
+# Find your PipelineRun and identify the failed TaskRun
+kubectl get pipelinerun -n <namespace>
+
+# Get TaskRuns for the failed pipeline
+kubectl get taskruns -l tekton.dev/pipelineRun=<pr-name> -n <namespace>
+
+# Find the pod with ImagePullBackOff
+kubectl get pods -n <namespace> | grep ImagePullBackOff
+
+# Check events for the specific pod
+kubectl describe pod <pod-name> -n <namespace>
+```
+
+Look in the Events section for details about **why** the image pull failed.
+
+### 2. Common Root Causes
+
+**Image Name/Tag Issues:**
+- Typo in image name or tag
+- Tag doesn't exist in registry
+- Wrong registry URL
+
+**Authentication Issues:**
+- Missing imagePullSecret on ServiceAccount
+- Invalid/expired registry credentials
+- Wrong secret referenced
+
+**Registry Accessibility:**
+- Registry is down or unreachable
+- Network policies blocking access
+- Private registry requires authentication
+
+### 3. Verify the Image
+
+```bash
+# Check what image the pod is trying to pull
+kubectl get pod <pod-name> -n <namespace> -o jsonpath='{.spec.containers[*].image}'
+
+# Check if ServiceAccount has imagePullSecrets
+kubectl get sa <service-account-name> -n <namespace> -o yaml
+```
+
+### 4. Fix Based on Root Cause
+
+**If image name is wrong:**
+- Correct the image reference in your Task/Pipeline definition
+
+**If authentication is missing:**
+```bash
+# Add imagePullSecret to ServiceAccount
+kubectl patch serviceaccount <sa-name> -n <namespace> -p '{"imagePullSecrets": [{"name": "<secret-name>"}]}'
+```
+
+**If credentials are invalid:**
+- Update the docker-registry secret with valid credentials
+
+Would you like me to help you investigate further? Please share:
+1. Your namespace name
+2. The PipelineRun or Pod name that's failing
+3. The output of `kubectl get pods -n <namespace>` showing the ImagePullBackOff
+
+I can then run the specific commands to identify the exact root cause.

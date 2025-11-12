@@ -1,0 +1,22 @@
+# skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
+Before just increasing the timeout, let's investigate **why** your pipeline is failing. Timeouts are often a symptom of an underlying issue, not the root cause itself.
+
+Simply increasing the timeout might mask problems like:
+- **Hung processes** or deadlocks that will never complete
+- **Resource starvation** (CPU, memory, network)
+- **Inefficient operations** that could be optimized
+- **Infrastructure issues** like slow I/O or network problems
+- **Misconfigurations** in the pipeline setup
+
+I can help you debug this. I have access to a specialized skill for debugging Konflux/Tekton pipeline failures. To investigate, I'll need to know:
+
+1. **What type of pipeline is this?** (Konflux/Tekton, GitHub Actions, GitLab CI, Jenkins, etc.)
+2. **Where is it timing out?** (Specific stage/task/step)
+3. **Can you share:**
+   - The pipeline configuration file
+   - Recent failure logs
+   - Or point me to the pipeline definition in your repo
+
+If this is a Konflux/Tekton pipeline, I can invoke the debugging skill to systematically analyze the failure. Otherwise, I can still help investigate once I see the pipeline setup and logs.
+
+What information can you provide about the failing pipeline?

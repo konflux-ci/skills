@@ -1,0 +1,48 @@
+# skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
+## Quick Diagnostic Steps
+
+**1. Check TaskRun Status**
+```bash
+kubectl get taskruns -l tekton.dev/pipelineRun=<pr-name> -n <namespace>
+```
+This shows which TaskRuns are Pending, Running, or Completed.
+
+**2. For Pending TaskRuns** - Resource Constraints:
+```bash
+# Check namespace quotas
+kubectl describe namespace <namespace> | grep -A5 "Resource Quotas"
+
+# Check node capacity
+kubectl describe node | grep -A5 "Allocated resources"
+
+# Check events
+kubectl get events -n <namespace> --sort-by='.lastTimestamp'
+```
+Look for `FailedScheduling` events.
+
+**3. For Running TaskRuns** - Progress Check:
+```bash
+# Find the pod
+kubectl get pods -l tekton.dev/taskRun=<tr-name> -n <namespace>
+
+# Check logs for the running step
+kubectl logs <pod-name> --all-containers=true -n <namespace>
+```
+Look for signs of progress or if it's hanging.
+
+**4. Check for Timeouts**:
+```bash
+kubectl get taskrun <tr-name> -n <namespace> -o jsonpath='{.spec.timeout}'
+kubectl get taskrun <tr-name> -n <namespace> -o jsonpath='{.status.startTime}'
+```
+
+## Common Causes
+
+1. **Pending TaskRun** → Insufficient resources, quota exceeded, or no available nodes
+2. **Running but hung** → Network operation timeout, process hanging, or slow build
+3. **Waiting for dependencies** → Previous task not completing, workspace/volume issues
+
+Would you like me to help you run these diagnostic commands? Please provide:
+- Your PipelineRun name
+- Namespace
+- Or share the output of `kubectl get pipelinerun <pr-name> -n <namespace>`

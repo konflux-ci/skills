@@ -1,0 +1,105 @@
+# skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
+## Debugging ImagePullBackOff Error
+
+ImagePullBackOff indicates Kubernetes cannot pull the container image. Let's investigate step by step.
+
+### Step 1: Find the Failed Pod
+
+First, identify which pipeline and pod is failing:
+
+```bash
+# List recent PipelineRuns
+kubectl get pipelinerun -n <namespace> --sort-by=.metadata.creationTimestamp
+
+# Or if you know the PipelineRun name:
+kubectl get pipelinerun <pr-name> -n <namespace>
+
+# Find the associated TaskRuns
+kubectl get taskruns -l tekton.dev/pipelineRun=<pr-name> -n <namespace>
+
+# Find the pod with the issue
+kubectl get pods -n <namespace> | grep ImagePullBackOff
+```
+
+### Step 2: Check Pod Events
+
+Once you've identified the pod, check the events for specific details:
+
+```bash
+kubectl describe pod <pod-name> -n <namespace> | grep -A10 "Events"
+```
+
+This will show you:
+- **Exact image name** that failed to pull
+- **Error reason** (authentication failed, not found, etc.)
+- **Registry** being accessed
+
+### Step 3: Common Root Causes & Fixes
+
+**A. Image Name/Tag Typo**
+- Check if the image name and tag are spelled correctly
+- Verify the image actually exists in the registry
+
+**B. Registry Authentication**
+```bash
+# Check if ServiceAccount has imagePullSecrets
+kubectl get sa <service-account-name> -n <namespace> -o yaml
+
+# Check if the secret exists
+kubectl get secrets -n <namespace>
+```
+
+**Fix**: Add imagePullSecret to your ServiceAccount:
+```yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: <sa-name>
+imagePullSecrets:
+- name: <registry-secret-name>
+```
+
+**C. Private Registry - Missing Credentials**
+```bash
+# Create a docker registry secret
+kubectl create secret docker-registry <secret-name> \
+  --docker-server=<registry-url> \
+  --docker-username=<username> \
+  --docker-password=<password> \
+  --docker-email=<email> \
+  -n <namespace>
+```
+
+**D. Image Doesn't Exist**
+- Verify the image exists in your registry
+- Check if the tag is correct (common issue: using `latest` when it doesn't exist)
+
+**E. Network/Registry Issues**
+```bash
+# Check if the registry is accessible from the cluster
+kubectl run test-pull --image=<your-image> -n <namespace> --rm -it --restart=Never
+```
+
+### Quick Diagnosis Commands
+
+Run these to gather all relevant info:
+
+```bash
+# Get full pod details
+kubectl describe pod <pod-name> -n <namespace>
+
+# Check the TaskRun spec for image references
+kubectl get taskrun <tr-name> -n <namespace> -o yaml | grep -A2 "image:"
+
+# View ServiceAccount configuration
+kubectl get sa -n <namespace> -o yaml
+```
+
+---
+
+**Next Steps:**
+1. Run the commands above with your actual namespace and resource names
+2. Share the output from `kubectl describe pod` (especially the Events section)
+3. I can help you identify the exact cause and create the appropriate fix
+
+What's your namespace and do you know the PipelineRun or pod name that's failing?

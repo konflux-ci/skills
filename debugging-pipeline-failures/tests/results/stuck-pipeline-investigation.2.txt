@@ -1,0 +1,68 @@
+# skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
+Based on the debugging guide, here's what you should check for a PipelineRun stuck in Running state for over an hour:
+
+## Immediate Checks
+
+**1. Identify which TaskRun(s) are stuck:**
+```bash
+kubectl get taskruns -l tekton.dev/pipelineRun=<pr-name> -n <namespace>
+```
+
+Look for TaskRuns that are either:
+- **Pending** → Resource constraints or scheduling issues
+- **Running** for too long → Timeout or hanging process
+
+**2. Check the stuck TaskRun's pod status:**
+```bash
+kubectl get pods -l tekton.dev/taskRun=<tr-name> -n <namespace>
+```
+
+**3. Review recent events:**
+```bash
+kubectl get events -n <namespace> --sort-by='.lastTimestamp' | tail -20
+```
+
+Look for:
+- `FailedScheduling` → Resource quota exceeded or insufficient cluster resources
+- `FailedMount` → PVC or workspace issues
+- `ImagePullBackOff` → Can't pull container image
+
+## Common Causes for Stuck Pipelines
+
+### **If TaskRun is Pending:**
+```bash
+# Check resource quotas
+kubectl describe namespace <namespace> | grep -A5 "Resource Quotas"
+
+# Check node resources
+kubectl describe node | grep -A5 "Allocated resources"
+```
+**Likely cause:** Insufficient resources to schedule the pod
+
+### **If TaskRun is Running:**
+```bash
+# Check the logs for the current step
+kubectl logs <pod-name> --all-containers=true -n <namespace>
+
+# Check which step is currently executing
+kubectl get taskrun <tr-name> -n <namespace> -o jsonpath='{.status.steps[*].name}{"\n"}{.status.steps[*].terminated}'
+```
+**Likely causes:**
+- Process hanging without output
+- Network operation stalled (downloading dependencies)
+- Timeout set too high, waiting for operation to complete
+
+### **If Pod hasn't started:**
+```bash
+kubectl describe pod <pod-name> -n <namespace>
+```
+Check the Events section for ImagePull errors or volume mount failures.
+
+## Quick Decision Path
+
+1. **TaskRuns all Pending?** → Resource/quota issue
+2. **One TaskRun Running forever?** → Check its logs for hanging process
+3. **No pod created yet?** → Image or workspace configuration problem
+4. **Pod exists but waiting?** → Check events for FailedMount/ImagePull errors
+
+What namespace and PipelineRun name are you working with? I can help you run these diagnostic commands.

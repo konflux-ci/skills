@@ -1,0 +1,58 @@
+# skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
+Based on the debugging skill loaded, here's how to find out why your TaskRun is stuck in Pending state:
+
+## Quick Diagnostic Steps
+
+**1. Check the TaskRun status and details:**
+```bash
+kubectl get taskrun <tr-name> -n <namespace>
+kubectl describe taskrun <tr-name> -n <namespace>
+```
+
+**2. Check for scheduling issues via events:**
+```bash
+# Get recent events in the namespace
+kubectl get events -n <namespace> --sort-by='.lastTimestamp' | grep <tr-name>
+
+# Or check pod events directly
+kubectl get pods -l tekton.dev/taskRun=<tr-name> -n <namespace>
+kubectl describe pod <pod-name> -n <namespace>
+```
+
+**3. Check resource quotas and constraints:**
+```bash
+# Check namespace quotas
+kubectl describe namespace <namespace> | grep -A5 "Resource Quotas"
+
+# Check node capacity
+kubectl describe node | grep -A5 "Allocated resources"
+```
+
+## Common Causes of Pending TaskRuns
+
+| Cause | What to Look For | Solution |
+|-------|------------------|----------|
+| **Resource quota exceeded** | Events: `FailedScheduling`, quota errors | Increase namespace quota or reduce resource requests |
+| **Insufficient cluster resources** | Events: `FailedScheduling` (no nodes available) | Wait for resources or scale cluster |
+| **Missing PVC/workspace** | Events: `FailedMount` or volume errors | Create required PVC or fix workspace config |
+| **Invalid ServiceAccount** | Events: permission errors | Verify ServiceAccount exists and has proper permissions |
+| **Image pull secrets missing** | Pod can't be created, image pull errors | Add imagePullSecrets to ServiceAccount |
+
+## Most Likely Issue
+
+If TaskRun is **Pending**, it typically means the underlying pod cannot be scheduled. The events will tell you exactly why:
+
+```bash
+kubectl get events --field-selector involvedObject.name=<pod-name> -n <namespace>
+```
+
+Look for messages like:
+- `0/X nodes are available: insufficient memory/cpu` → Resource constraints
+- `persistentvolumeclaim "X" not found` → Missing PVC
+- `exceeded quota` → Namespace quota limit
+
+Would you like me to help you run these commands? Please provide:
+- Your TaskRun name
+- Your namespace
+
+Or if you already have the output from any of these commands, share it and I can help interpret the results.

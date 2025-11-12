@@ -1,0 +1,85 @@
+# skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
+For a PipelineRun stuck in Running state for over an hour, here's a systematic approach to diagnose the issue:
+
+## Immediate Investigation Steps
+
+**1. Check which TaskRuns are actually running or stuck:**
+```bash
+kubectl get taskruns -l tekton.dev/pipelineRun=<pr-name> -n <namespace>
+```
+
+Look for TaskRuns that are:
+- **Pending** → Resource or scheduling issues
+- **Running** for too long → Timeout or hanging process
+
+**2. Examine the PipelineRun details:**
+```bash
+kubectl describe pipelinerun <pr-name> -n <namespace>
+```
+
+Check for conditions, recent events, and which TaskRun is currently executing.
+
+**3. If a TaskRun is stuck in "Pending":**
+```bash
+# Find the pod
+kubectl get pods -l tekton.dev/taskRun=<tr-name> -n <namespace>
+
+# Check why it's not scheduling
+kubectl describe pod <pod-name> -n <namespace>
+```
+
+Common causes:
+- Insufficient cluster resources (CPU/memory)
+- Namespace quota exceeded
+- PVC not bound (for workspace volumes)
+
+**4. If a TaskRun is stuck in "Running":**
+```bash
+# Check logs to see if it's making progress
+kubectl logs <pod-name> --all-containers=true -n <namespace>
+```
+
+Look for:
+- Is the process actually doing work or hung?
+- Last log message timestamp
+- Network operations that might be stalled
+
+**5. Check Kubernetes events:**
+```bash
+kubectl get events -n <namespace> --sort-by='.lastTimestamp' | tail -20
+```
+
+Events will reveal:
+- `FailedScheduling` → Not enough resources
+- `FailedMount` → Volume/PVC problems
+- Image pull issues
+
+## Most Common Causes for Stuck Pipelines
+
+1. **Resource constraints** - Pod waiting for available CPU/memory
+2. **Timeout not configured** - Task running indefinitely
+3. **Hanging process** - Network download stalled, waiting for input
+4. **PVC binding issues** - Workspace volume not ready
+5. **Dead node** - Pod scheduled on unresponsive node
+
+## Quick Diagnostic Command Sequence
+
+Run these in parallel to get a full picture:
+
+```bash
+# Check overall status
+kubectl get pipelinerun <pr-name> -n <namespace>
+
+# See all TaskRuns and their states
+kubectl get taskruns -l tekton.dev/pipelineRun=<pr-name> -n <namespace>
+
+# Check recent events
+kubectl get events -n <namespace> --sort-by='.lastTimestamp' | tail -20
+
+# Check namespace resource quotas
+kubectl describe namespace <namespace> | grep -A5 "Resource Quotas"
+```
+
+Would you like me to help you run these commands? I'll need:
+- The PipelineRun name
+- The namespace

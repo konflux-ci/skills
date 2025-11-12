@@ -1,0 +1,86 @@
+skill_name: debugging-pipeline-failures
+description: Validates systematic Konflux pipeline debugging methodology using standard kubectl and Tekton CLI approaches
+test_scenarios:
+  - name: systematic-investigation-approach
+    description: Validates that Claude follows systematic phases for pipeline failure investigation
+    prompt: "My PipelineRun 'component-build-xyz' in namespace 'user-tenant' failed. How do I investigate?"
+    model: sonnet
+    samples: 3
+    expected:
+      contains_keywords:
+        - kubectl
+        - pipelinerun
+        - taskrun
+        - logs
+        - events
+        - systematic
+    baseline_failure: "Without skill, may suggest random checks without systematic methodology"
+
+  - name: image-pull-failure-diagnosis
+    description: Tests diagnosis approach for ImagePullBackOff errors in build pipelines
+    prompt: "My build pipeline is failing with ImagePullBackOff. How do I debug this?"
+    model: sonnet
+    samples: 3
+    expected:
+      contains_keywords:
+        - describe pod
+        - events
+        - image
+        - registry
+        - imagePullSecrets
+    baseline_failure: "Without skill, may not check pod events or ServiceAccount imagePullSecrets"
+
+  - name: stuck-pipeline-investigation
+    description: Validates methodology for pipelines stuck in Running state
+    prompt: "My PipelineRun has been in Running state for over an hour. What should I check?"
+    model: sonnet
+    samples: 3
+    expected:
+      contains_keywords:
+        - taskrun
+        - status
+        - pending
+        - running
+        - logs
+    baseline_failure: "Without skill, may not check individual TaskRun statuses to identify stuck component"
+
+  - name: resource-constraint-recognition
+    description: Tests identification of resource exhaustion issues
+    prompt: "TaskRun is stuck in Pending state. How do I find out why?"
+    model: sonnet
+    samples: 3
+    expected:
+      contains_keywords:
+        - ["events", "describe"]
+        - ["quota", "limits", "resources"]
+        - ["FailedScheduling", "pending", "stuck", "scheduling"]
+    baseline_failure: "Without skill, may not check events for FailedScheduling or namespace quotas"
+
+  - name: log-analysis-methodology
+    description: Ensures proper log analysis approach for build failures
+    prompt: "My build TaskRun failed with exit code 1. How do I find the error?"
+    model: sonnet
+    samples: 3
+    expected:
+      contains_keywords:
+        - kubectl logs
+        - step
+        - container
+        - error
+    baseline_failure: "Without skill, may not know how to get logs from specific Tekton step containers"
+
+  - name: root-cause-vs-symptom
+    description: Validates distinction between symptoms and root causes
+    prompt: "My pipeline keeps failing. Should I just increase the timeout?"
+    model: sonnet
+    samples: 3
+    expected:
+      contains_keywords:
+        - ["logs", "describe", "output", "details"]
+        - ["root cause", "proper fix", "actual problem", "actually doing", "pinpoint"]
+        - ["investigate", "identify", "check", "find out", "determine"]
+        - ["why", "what"]
+      does_not_contain:
+        - just increase
+        - simply add
+    baseline_failure: "Without skill, may suggest increasing timeout without investigating root cause"

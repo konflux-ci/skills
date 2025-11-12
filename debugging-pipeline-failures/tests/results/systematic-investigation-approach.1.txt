@@ -1,0 +1,24 @@
+# skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
+I need your approval to run kubectl commands to investigate the failed PipelineRun. Here's my systematic investigation plan:
+
+## Investigation Steps
+
+**Phase 1: Identify Failed Component**
+1. Check PipelineRun status to see overall state and failure reasons
+2. Identify which TaskRun(s) failed
+3. Examine duration and timestamps
+
+**Phase 2: Log Analysis**
+4. Get logs from the failed TaskRun's pod
+5. Search for error messages and exit codes
+6. Identify the last successful step before failure
+
+**Phase 3: Event Correlation**
+7. Check Kubernetes events for issues like ImagePullBackOff, FailedMount, resource constraints
+
+**Phase 4: Resource Inspection**
+8. Inspect PipelineRun and TaskRun YAML for configuration issues
+
+Once you approve, I'll run these commands to gather the diagnostic information and identify the root cause of your pipeline failure.
+
+Would you like me to proceed with the investigation?
