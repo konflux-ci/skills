@@ -64,7 +64,7 @@ Add this entry to the `plugins` array:
 ```json
 {
   "name": "your-skill-name",
-  "source": "./your-skill-name",
+  "source": "./skills/your-skill-name",
   "description": "Brief description of what your skill does",
   "version": "1.0.0",
   "author": {
@@ -127,7 +127,7 @@ description: Use when [trigger]... [explanation]  # Starts with "Use when"
 **Word Count:**
 ```bash
 # Check word count
-wc -w your-skill-name/SKILL.md
+wc -w skills/your-skill-name/SKILL.md
 # Technique skills: <1,000 words
 # Reference skills: <1,500 words
 ```
@@ -135,14 +135,14 @@ wc -w your-skill-name/SKILL.md
 **Frontmatter Character Count:**
 ```bash
 # Extract and count frontmatter
-sed -n '/^---$/,/^---$/p' your-skill-name/SKILL.md | wc -c
+sed -n '/^---$/,/^---$/p' skills/your-skill-name/SKILL.md | wc -c
 # Must be <1,024 characters
 ```
 
 ### 8. Commit Your Changes
 
 ```bash
-git add your-skill-name/
+git add skills/your-skill-name/
 git add .claude-plugin/marketplace.json
 
 git commit -m "Add your-skill-name skill
@@ -218,14 +218,14 @@ Maintainers may request changes:
 **How to address:**
 ```bash
 # Make changes locally
-vi your-skill-name/SKILL.md
+vi skills/your-skill-name/SKILL.md
 
 # Re-validate
 make validate
 make test-only SKILL=your-skill-name
 
 # Commit and push
-git add your-skill-name/
+git add skills/your-skill-name/
 git commit -m "Address review feedback: [specific changes]"
 git push origin add-your-skill-name
 ```
@@ -395,13 +395,13 @@ make test-only SKILL=your-skill-name
 make generate SKILL=your-skill-name
 
 # Check word count
-wc -w your-skill-name/SKILL.md
+wc -w skills/your-skill-name/SKILL.md
 
 # Validate JSON
 python -m json.tool .claude-plugin/marketplace.json
 
 # Check frontmatter size
-sed -n '/^---$/,/^---$/p' your-skill-name/SKILL.md | wc -c
+sed -n '/^---$/,/^---$/p' skills/your-skill-name/SKILL.md | wc -c
 ```
 
 ---

@@ -7,7 +7,7 @@
   "plugins": [
     {
       "name": "understanding-konflux-resources",
-      "source": "./understanding-konflux-resources",
+      "source": "./skills/understanding-konflux-resources",
       "description": "Quick reference for Konflux CI/CD Custom Resources (RP, RPA, ITS) - helps users understand Applications, Components, Snapshots, IntegrationTestScenarios, ReleasePlans, namespace placement, common abbreviations, and confusions",
       "version": "1.0.1",
       "author": {
@@ -16,7 +16,7 @@
     },
     {
       "name": "debugging-pipeline-failures",
-      "source": "./debugging-pipeline-failures",
+      "source": "./skills/debugging-pipeline-failures",
       "description": "Use when investigating Konflux Tekton pipeline failures, PipelineRun/TaskRun issues, build failures, or CI/CD workflow problems. Provides systematic debugging methodology using standard kubectl commands for comprehensive root cause analysis in Konflux environments.",
       "version": "1.0.0",
       "author": {

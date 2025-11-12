@@ -47,9 +47,12 @@ def pytest_configure(config):
     )
 
 
-def find_skills(base_dir: Path = Path(".")) -> List[Path]:
+def find_skills(base_dir: Path = Path("skills")) -> List[Path]:
     """Find all skill directories (those containing SKILL.md)."""
     skills = []
+    # If base_dir doesn't exist, return empty list
+    if not base_dir.exists():
+        return skills
     for path in base_dir.iterdir():
         if path.is_dir() and (path / "SKILL.md").exists():
             skills.append(path)
@@ -131,9 +134,13 @@ def skills_list(request):
     skill_name = request.config.getoption("--skill")
 
     if skill_name:
+        # Handle both "skill-name" and "skills/skill-name" formats
         skill_path = Path(skill_name)
         if not skill_path.exists():
-            pytest.fail(f"Skill directory '{skill_name}' not found")
+            # Try prepending "skills/" if not found
+            skill_path = Path("skills") / skill_name
+            if not skill_path.exists():
+                pytest.fail(f"Skill directory '{skill_name}' not found")
         return [skill_path]
     else:
         return find_skills()
@@ -156,7 +163,11 @@ def pytest_generate_tests(metafunc):
 
     # Discover all skills
     if skill_filter:
-        skills = [Path(skill_filter)]
+        # Handle both "skill-name" and "skills/skill-name" formats
+        skill_path = Path(skill_filter)
+        if not skill_path.exists():
+            skill_path = Path("skills") / skill_filter
+        skills = [skill_path]
     else:
         skills = find_skills()
 

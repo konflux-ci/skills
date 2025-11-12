@@ -72,12 +72,12 @@ Tests successfully reveal limitations in skill discovery and Claude's base knowl
 .claude-plugin/
 ├── marketplace.json          # Marketplace manifest for Claude Code
 skills/
-├── understanding-konflux-resources/  # Each skill in its own directory
-│   ├── SKILL.md             # Main skill file with YAML frontmatter
-│   ├── README.md            # Skill documentation
-│   └── tests/               # Test scenarios and results (TDD artifacts)
-├── CLAUDE.md                # This file - development guidelines
-└── README.md                # Project overview and status
+└── understanding-konflux-resources/  # Each skill in its own directory
+    ├── SKILL.md             # Main skill file with YAML frontmatter
+    ├── README.md            # Skill documentation
+    └── tests/               # Test scenarios and results (TDD artifacts)
+CLAUDE.md                    # This file - development guidelines
+README.md                    # Project overview and status
 ```
 
 ## Skill Development Guidelines
@@ -134,7 +134,7 @@ Before committing a new skill, verify:
   - [ ] Test results generated and committed: `make generate SKILL=<name>`
 
 - [ ] **Integration**
-  - [ ] Skill directory created: `<skill-name>/`
+  - [ ] Skill directory created: `skills/<skill-name>/`
   - [ ] SKILL.md created with proper frontmatter
   - [ ] README.md created documenting the skill
   - [ ] Entry added to `.claude-plugin/marketplace.json`
@@ -153,7 +153,7 @@ When adding a new skill, update `.claude-plugin/marketplace.json`:
 ```json
 {
   "name": "your-skill-name",
-  "source": "your-skill-name",
+  "source": "./skills/your-skill-name",
   "description": "Same as SKILL.md description",
   "version": "1.0.0",
   "author": {
