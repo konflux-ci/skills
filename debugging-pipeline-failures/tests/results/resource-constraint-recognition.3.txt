@@ -1,0 +1,66 @@
+# skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
+Based on the skill loaded, here's how to debug a TaskRun stuck in Pending state:
+
+## Quick Diagnosis Steps
+
+**1. Check the TaskRun status:**
+```bash
+kubectl get taskrun <tr-name> -n <namespace>
+kubectl describe taskrun <tr-name> -n <namespace>
+```
+
+**2. Check for pod creation and scheduling:**
+```bash
+# Find the pod associated with the TaskRun
+kubectl get pods -l tekton.dev/taskRun=<tr-name> -n <namespace>
+
+# If pod exists, check its status
+kubectl describe pod <pod-name> -n <namespace>
+```
+
+**3. Check Kubernetes events (most revealing):**
+```bash
+# Recent events in the namespace
+kubectl get events -n <namespace> --sort-by='.lastTimestamp'
+
+# Events specific to the TaskRun pod
+kubectl get events --field-selector involvedObject.name=<pod-name> -n <namespace>
+```
+
+## Common Causes for Pending State
+
+| Cause | Event Message | Investigation |
+|-------|---------------|---------------|
+| **Resource quota exceeded** | `FailedScheduling: Insufficient cpu/memory` | `kubectl describe namespace <namespace> \| grep -A5 "Resource Quotas"` |
+| **No available nodes** | `FailedScheduling: 0/N nodes available` | `kubectl describe node \| grep -A5 "Allocated resources"` |
+| **PVC not bound** | `FailedMount: PVC not bound` | `kubectl get pvc -n <namespace>` |
+| **Image pull issues** | `ErrImagePull` or `ImagePullBackOff` | Check pod events and image name |
+| **Missing ServiceAccount** | `FailedCreate: serviceaccount not found` | `kubectl get sa -n <namespace>` |
+
+## Most Likely: Resource Constraints
+
+**Check namespace quotas:**
+```bash
+kubectl describe namespace <namespace> | grep -A10 "Resource Quotas"
+```
+
+**Check node capacity:**
+```bash
+kubectl top nodes
+kubectl describe nodes | grep -A5 "Allocated resources"
+```
+
+**Check TaskRun resource requests:**
+```bash
+kubectl get taskrun <tr-name> -n <namespace> -o yaml | grep -A5 "resources"
+```
+
+## Next Steps
+
+Once you identify the issue from the events:
+- **Quota exceeded**: Request quota increase or reduce resource requests
+- **No nodes available**: Check if nodes are full or if affinity rules are too restrictive
+- **PVC issues**: Ensure PVC exists and is bound: `kubectl get pvc -n <namespace>`
+- **Image pull**: Verify image name and registry access
+
+**What's your namespace and TaskRun name?** I can help you run the specific diagnostic commands.

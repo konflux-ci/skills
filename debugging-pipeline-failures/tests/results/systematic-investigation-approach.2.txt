@@ -1,0 +1,57 @@
+# skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
+Based on the debugging pipeline failures guide, here's how to systematically investigate your failed PipelineRun 'component-build-xyz':
+
+## Step-by-Step Investigation
+
+**1. Check PipelineRun Status**
+```bash
+kubectl get pipelinerun component-build-xyz -n user-tenant
+kubectl describe pipelinerun component-build-xyz -n user-tenant
+```
+This will show you the overall status, conditions, and which TaskRun(s) failed.
+
+**2. Identify Failed TaskRuns**
+```bash
+kubectl get taskruns -l tekton.dev/pipelineRun=component-build-xyz -n user-tenant
+```
+Look for TaskRuns with `Failed` status to pinpoint which step failed.
+
+**3. Examine Logs from Failed TaskRun**
+```bash
+# First, find the pod for the failed TaskRun
+kubectl get pods -l tekton.dev/taskRun=<failed-tr-name> -n user-tenant
+
+# Then get logs from all containers
+kubectl logs <pod-name> --all-containers=true -n user-tenant
+
+# Or get logs from a specific step if you know which one failed
+kubectl logs <pod-name> -c step-<step-name> -n user-tenant
+```
+
+**4. Check Kubernetes Events**
+```bash
+kubectl get events -n user-tenant --sort-by='.lastTimestamp'
+```
+Look for critical events like:
+- `FailedScheduling` → Resource constraints
+- `ImagePullBackOff` → Registry/image problems
+- `FailedMount` → Volume/PVC issues
+
+**5. Get Detailed Resource Information**
+```bash
+kubectl get pipelinerun component-build-xyz -n user-tenant -o yaml
+```
+
+## Quick Diagnosis
+
+The **most common failure patterns** are:
+
+| If you see... | Root cause likely is... |
+|---------------|------------------------|
+| `ImagePullBackOff` in events | Wrong image name, missing registry credentials, or image doesn't exist |
+| `OOMKilled` in pod status | Memory limit too low for the build process |
+| Exit code 127 in logs | Command not found - wrong container image used |
+| TaskRun stuck in `Pending` | Resource quota exceeded or insufficient cluster resources |
+| Volume mount errors | PVC not bound or workspace misconfiguration |
+
+Run the commands above and share what you find - the error messages from the logs and events will help identify the specific root cause!

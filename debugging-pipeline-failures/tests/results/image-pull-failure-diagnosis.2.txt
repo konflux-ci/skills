@@ -1,0 +1,75 @@
+# skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
+Let me guide you through debugging this ImagePullBackOff error:
+
+## Step 1: Identify the Failed Resources
+
+First, list your PipelineRuns to find the failing one:
+
+```bash
+kubectl get pipelinerun -n <your-namespace>
+```
+
+Then identify the specific failed TaskRun:
+
+```bash
+kubectl get taskruns -l tekton.dev/pipelineRun=<pr-name> -n <your-namespace>
+```
+
+## Step 2: Check Pod Events (Critical for ImagePullBackOff)
+
+Find the pod associated with the failed TaskRun:
+
+```bash
+kubectl get pods -l tekton.dev/taskRun=<tr-name> -n <your-namespace>
+```
+
+Then check the events - this will reveal the specific image pull error:
+
+```bash
+kubectl describe pod <pod-name> -n <your-namespace> | grep -A10 "Events"
+```
+
+## Step 3: Common Causes & Fixes
+
+**ImagePullBackOff** usually means one of these issues:
+
+### 1. **Image doesn't exist or wrong name/tag**
+- Check for typos in image name
+- Verify the tag exists in the registry
+- Confirm the image was actually built/pushed
+
+### 2. **Registry authentication missing**
+Check if your ServiceAccount has imagePullSecrets:
+```bash
+kubectl get sa <service-account-name> -n <your-namespace> -o yaml
+```
+
+If missing, you need to add registry credentials:
+```bash
+kubectl get secrets -n <your-namespace>  # Look for registry secrets
+```
+
+### 3. **Registry unreachable**
+- Network policies blocking access
+- Registry URL incorrect
+- Registry temporarily down
+
+### 4. **Private registry without credentials**
+You may need to create and attach an imagePullSecret:
+```bash
+kubectl create secret docker-registry <secret-name> \
+  --docker-server=<registry-url> \
+  --docker-username=<username> \
+  --docker-password=<password> \
+  --docker-email=<email> \
+  -n <your-namespace>
+```
+
+## What to Share
+
+If you can provide the output from the `kubectl describe pod` command, I can help you pinpoint the exact cause. The Events section will show messages like:
+- "Failed to pull image... repository does not exist"
+- "Failed to pull image... unauthorized"
+- "Failed to pull image... manifest unknown"
+
+Each message points to a specific fix. Would you like to share the output from these commands so I can help you diagnose further?

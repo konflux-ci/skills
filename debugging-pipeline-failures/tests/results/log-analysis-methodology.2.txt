@@ -1,0 +1,48 @@
+# skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
+Based on the debugging guide, here's how to find the error in your failed build TaskRun:
+
+## Step-by-Step Investigation
+
+**1. First, identify the TaskRun and its pod:**
+```bash
+# List TaskRuns to find your failed build
+kubectl get taskruns -n <namespace>
+
+# Find the pod associated with your TaskRun
+kubectl get pods -l tekton.dev/taskRun=<taskrun-name> -n <namespace>
+```
+
+**2. Check the logs from the failed step:**
+```bash
+# Get logs from all containers (easiest approach)
+kubectl logs <pod-name> --all-containers=true -n <namespace>
+
+# Or get logs from a specific build step
+kubectl logs <pod-name> -c step-build -n <namespace>
+```
+
+**3. Look for the actual error by searching for:**
+- "error", "failed", "fatal" keywords
+- The last successful operation before failure
+- The specific exit code reason
+
+**4. Check Kubernetes events for additional context:**
+```bash
+kubectl get events --field-selector involvedObject.name=<pod-name> -n <namespace>
+```
+
+## Common Exit Code 1 Causes
+
+- **Build script errors**: Syntax errors, failed tests, linting failures
+- **Missing dependencies**: npm/pip/maven install failures
+- **Compilation errors**: Code doesn't compile
+- **Test failures**: Unit tests failed
+
+## Quick Command to Get Everything
+
+```bash
+# Replace with your actual TaskRun name and namespace
+kubectl logs $(kubectl get pods -l tekton.dev/taskRun=<taskrun-name> -n <namespace> -o name) --all-containers=true -n <namespace>
+```
+
+**What specific TaskRun failed, and what namespace are you working in?** I can help you run the exact commands to find the error.

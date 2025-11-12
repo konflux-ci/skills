@@ -1,6 +1,6 @@
 ---
 name: debugging-pipeline-failures
-description: Use when investigating Konflux Tekton pipeline failures, build errors, or CI/CD workflow problems. Provides systematic methodology for diagnosing PipelineRun and TaskRun issues through log analysis, event correlation, and resource inspection in Konflux environments.
+description: Use when Konflux pipelines fail, are stuck, timeout, or show errors like ImagePullBackOff. Covers PipelineRun failures, TaskRun issues (Pending, Failed, stuck Running), build errors, and systematic debugging of Tekton pipeline problems using kubectl and logs.
 ---
 
 # Debugging Pipeline Failures

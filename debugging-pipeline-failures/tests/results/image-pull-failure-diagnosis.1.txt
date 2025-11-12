@@ -1,0 +1,53 @@
+# skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
+Based on the debugging guide, here's how to systematically troubleshoot your ImagePullBackOff issue:
+
+## Immediate Investigation Steps
+
+**1. Check the Pod Events** (most important for ImagePullBackOff):
+```bash
+# Find the failing pod
+kubectl get pods -n <namespace> | grep ImagePullBackOff
+
+# Get detailed events
+kubectl describe pod <pod-name> -n <namespace> | grep -A5 "Events"
+```
+
+**2. Identify the exact image causing the issue**:
+```bash
+kubectl describe pod <pod-name> -n <namespace> | grep -i image
+```
+
+## Common Root Causes for ImagePullBackOff
+
+1. **Typo in image name or tag** - Double-check spelling
+2. **Image doesn't exist** - Verify the image is in the registry
+3. **Missing registry credentials** - ServiceAccount needs imagePullSecrets
+4. **Registry is unreachable** - Network/firewall issues
+5. **Wrong registry URL** - Incorrect domain or path
+
+## Resolution Steps
+
+**If it's a credentials issue**:
+```bash
+# Check if ServiceAccount has imagePullSecrets
+kubectl get sa <serviceaccount-name> -n <namespace> -o yaml
+
+# Add imagePullSecret if missing
+kubectl patch serviceaccount <sa-name> -n <namespace> -p '{"imagePullSecrets": [{"name": "<secret-name>"}]}'
+```
+
+**If it's an image name issue**:
+- Check the TaskRun YAML for the correct image reference
+- Verify the image exists in your registry
+
+**Full Investigation Command**:
+```bash
+# Get complete picture
+kubectl get pipelinerun <pr-name> -n <namespace>
+kubectl get taskruns -l tekton.dev/pipelineRun=<pr-name> -n <namespace>
+kubectl get pods -n <namespace> | grep -E 'ImagePull|Error'
+```
+
+Would you like me to help you run these commands? I'll need:
+- Your namespace
+- The PipelineRun name (or I can help you find it)

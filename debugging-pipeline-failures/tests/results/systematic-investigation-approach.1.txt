@@ -1,0 +1,27 @@
+# skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
+I need your approval to run kubectl commands to investigate the pipeline failure. Here's my systematic debugging approach:
+
+## Investigation Plan
+
+**Phase 1: Identify Failed Component**
+1. Check PipelineRun status and overall failure details
+2. Identify which TaskRun(s) failed
+
+**Phase 2: Log Analysis**  
+3. Get logs from failed TaskRun pods to see specific error messages
+
+**Phase 3: Event Correlation**
+4. Check Kubernetes events for timing-related issues (ImagePullBackOff, resource constraints, etc.)
+
+**Phase 4: Root Cause Analysis**
+5. Correlate all findings to identify the root cause
+
+## Commands I'll Run
+
+1. `kubectl get pipelinerun component-build-xyz -n user-tenant` - Check overall status
+2. `kubectl describe pipelinerun component-build-xyz -n user-tenant` - Get failure details
+3. `kubectl get taskruns -l tekton.dev/pipelineRun=component-build-xyz -n user-tenant` - Find failed TaskRuns
+4. `kubectl logs <pod-name> --all-containers -n user-tenant` - Get logs from failed pods
+5. `kubectl get events -n user-tenant --sort-by='.lastTimestamp'` - Check recent events
+
+Would you like me to proceed with these commands to investigate the failure?

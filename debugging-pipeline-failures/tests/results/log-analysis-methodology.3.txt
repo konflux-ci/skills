@@ -1,0 +1,46 @@
+# skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
+Based on the debugging skill guidance, here's how to find the error in your failed build TaskRun:
+
+## Step-by-Step Investigation
+
+**1. Get the pod logs from your failed build TaskRun:**
+
+```bash
+# First, find the pod associated with your TaskRun
+kubectl get pods -l tekton.dev/taskRun=<your-taskrun-name> -n <namespace>
+
+# Then get logs from the build step (common step names: step-build, step-buildah, step-compile)
+kubectl logs <pod-name> -c step-build -n <namespace>
+
+# If unsure which step failed, get all container logs
+kubectl logs <pod-name> --all-containers=true -n <namespace>
+```
+
+**2. Check for error keywords in the output:**
+- Look for "error", "failed", "fatal", "Error", "FAILED"
+- Check the last few lines before the failure
+- Note the exit code (1 typically means a generic error)
+
+**3. If logs don't show the issue clearly, check events:**
+
+```bash
+kubectl get events --field-selector involvedObject.name=<pod-name> -n <namespace>
+```
+
+**4. Get detailed TaskRun status:**
+
+```bash
+kubectl describe taskrun <your-taskrun-name> -n <namespace>
+```
+
+This will show you which specific step failed and any conditions/messages.
+
+## Common Build Failures with Exit Code 1
+
+- **Compilation errors**: Code syntax errors, missing dependencies
+- **Test failures**: Unit tests or integration tests failing
+- **Linting errors**: Code quality checks failing
+- **Missing files**: Required files not in workspace
+- **Command errors**: Build command syntax issues
+
+**What's your TaskRun name and namespace?** I can help you run these commands to find the specific error.

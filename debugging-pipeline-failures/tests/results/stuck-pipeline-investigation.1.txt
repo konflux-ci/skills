@@ -1,0 +1,48 @@
+# skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
+Based on the debugging skill, here's what you should check for a PipelineRun stuck in Running state for over an hour:
+
+## Immediate Steps
+
+**1. Check which TaskRuns are stuck:**
+```bash
+kubectl get taskruns -l tekton.dev/pipelineRun=<pr-name> -n <namespace>
+```
+
+Look for TaskRuns that are:
+- **Pending** → Resource constraints or scheduling issues
+- **Running** for too long → Possible hang or slow operation
+
+**2. Identify the stuck pod and check logs:**
+```bash
+# Find the pod for the stuck TaskRun
+kubectl get pods -l tekton.dev/taskRun=<tr-name> -n <namespace>
+
+# Check logs to see if there's any progress
+kubectl logs <pod-name> --all-containers=true -n <namespace>
+```
+
+**3. Check events for clues:**
+```bash
+kubectl get events -n <namespace> --sort-by='.lastTimestamp'
+
+# Or filter for the specific pod
+kubectl get events --field-selector involvedObject.name=<pod-name> -n <namespace>
+```
+
+## Common Causes for Stuck Pipelines
+
+| Issue | What to Look For | Solution |
+|-------|------------------|----------|
+| **Pending TaskRun** | `FailedScheduling` events, resource quota errors | Check namespace quotas and node capacity |
+| **Process hanging** | Logs show no new output for extended time | May need to kill and restart; investigate what it's waiting for |
+| **Slow operation** | Logs show progress but very slow (e.g., large download) | May be normal; consider increasing timeout |
+| **Waiting for resources** | Pod in Pending state | Check PVC status, resource quotas |
+
+**4. Check timeout configuration:**
+```bash
+kubectl get taskrun <tr-name> -n <namespace> -o jsonpath='{.spec.timeout}'
+```
+
+If no timeout is set or it's very high, the pipeline may run indefinitely.
+
+**What specific namespace and PipelineRun name are you working with?** I can help you run these diagnostic commands.

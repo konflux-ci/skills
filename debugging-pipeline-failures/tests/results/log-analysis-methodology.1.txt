@@ -1,0 +1,36 @@
+# skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
+I can help you debug your failed TaskRun. To find the error in a Kubernetes/Tekton TaskRun that failed with exit code 1, you'll need to examine the logs and status of the TaskRun.
+
+Here are the steps to diagnose the issue:
+
+1. **Get the TaskRun status and recent events:**
+```bash
+kubectl describe taskrun <taskrun-name>
+```
+This will show you the status, conditions, and recent events that might indicate what went wrong.
+
+2. **Check the logs of the failed step:**
+```bash
+kubectl logs <taskrun-pod-name>
+```
+Or if you know the specific step that failed:
+```bash
+kubectl logs <taskrun-pod-name> -c step-<step-name>
+```
+
+3. **List all containers in the TaskRun pod to identify which step failed:**
+```bash
+kubectl get pods <taskrun-pod-name> -o jsonpath='{.spec.containers[*].name}'
+```
+
+4. **Get logs from all steps:**
+```bash
+tkn taskrun logs <taskrun-name>
+```
+(if you have the `tkn` CLI installed)
+
+**Could you provide:**
+- The name of your failed TaskRun (or paste the output of `kubectl get taskruns`)
+- Or the specific error message you're seeing
+
+I can then help you run the appropriate commands to pinpoint the exact error. If this is a Konflux/Tekton pipeline issue and you'd like systematic debugging assistance, I can also invoke the debugging-pipeline-failures skill which has specialized tools for this scenario.

@@ -1,0 +1,62 @@
+# skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
+## Commands to Run
+
+### 1. **Check the TaskRun Status**
+```bash
+kubectl get taskrun <tr-name> -n <namespace>
+kubectl describe taskrun <tr-name> -n <namespace>
+```
+
+Look for the Conditions section which will show why it's pending.
+
+### 2. **Check Events (Most Important for Pending)**
+```bash
+kubectl get events -n <namespace> --sort-by='.lastTimestamp' | grep <tr-name>
+```
+
+For pending TaskRuns, look for:
+- **`FailedScheduling`** events → Resource constraints
+- Messages about insufficient CPU/memory
+- Quota exceeded errors
+
+### 3. **Check Resource Quotas**
+```bash
+kubectl describe namespace <namespace> | grep -A5 "Resource Quotas"
+```
+
+### 4. **Check Node Capacity**
+```bash
+kubectl describe node | grep -A5 "Allocated resources"
+```
+
+### 5. **Inspect TaskRun Configuration**
+```bash
+kubectl get taskrun <tr-name> -n <namespace> -o yaml
+```
+
+Look at the `spec.resources.requests` and `spec.resources.limits` sections.
+
+## Common Causes for Pending State
+
+1. **Resource Quota Exceeded** - Namespace has reached CPU/memory limits
+2. **Insufficient Node Resources** - No nodes have enough available CPU/memory to schedule the pod
+3. **PVC Not Bound** - If the TaskRun uses a PersistentVolumeClaim that isn't ready
+4. **Node Affinity/Selector Issues** - Pod can't be scheduled on available nodes due to constraints
+
+## Quick Fix Patterns
+
+If events show **quota exceeded**:
+- Increase namespace quota or clean up old resources
+
+If events show **insufficient resources**:
+- Reduce resource requests in the Task definition
+- Add more nodes to cluster
+- Clean up completed PipelineRuns/TaskRuns
+
+If **PVC issues**:
+```bash
+kubectl get pvc -n <namespace>
+```
+Check if PVC is in "Bound" state.
+
+Would you like me to help you run these commands for a specific TaskRun? Please provide the TaskRun name and namespace.

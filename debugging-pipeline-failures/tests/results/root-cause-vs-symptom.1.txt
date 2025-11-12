@@ -1,0 +1,26 @@
+# skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
+I see that I need your approval to run kubectl commands. To help you debug your pipeline failure properly, I need some information:
+
+**Can you provide:**
+1. **PipelineRun name** - What's the name of the failing pipeline?
+2. **Namespace** - Which namespace is it in?
+3. **What error message** do you see (if any)?
+4. **How long does it run** before failing/timing out?
+
+Or if you prefer, you can run this command yourself and share the output:
+```bash
+kubectl get pipelinerun -n <your-namespace>
+```
+
+**Important:** Simply increasing the timeout is usually **not** the right solution because:
+
+- **If it's timing out** → Something might be hanging or stuck (network issue, process deadlock)
+- **If it's failing before timeout** → Timeout isn't the problem at all
+- **If builds are genuinely slow** → You might need caching or optimization, not just more time
+
+Once you share the pipeline details, I can help you:
+1. Check the actual logs to see what's failing
+2. Identify if it's a timeout, resource issue, image pull problem, or build failure
+3. Recommend the proper fix (which might not be timeout-related at all)
+
+What information can you share about the failing pipeline?
