@@ -16,17 +16,21 @@ Provides quick reference for Konflux Custom Resources (Applications, Components,
 - Where resources belong (tenant vs managed namespace)
 - Common confusions and how to avoid them
 
-**Status:** ✅ Complete (6/6 test scenarios passing)
-
 ## Installation
 
-Install from the Claude Code marketplace:
+First, add the konflux-skills marketplace (one-time setup):
+
+```bash
+claude marketplace add https://github.com/konflux-ci/skills.git
+```
+
+Then install the skill you want:
 
 ```bash
 claude skill install konflux-skills:understanding-konflux-resources
 ```
 
-Or install all skills:
+Or install all Konflux skills at once:
 
 ```bash
 claude skill install konflux-skills
