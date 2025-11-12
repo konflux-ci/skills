@@ -1,7 +1,63 @@
 # skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
-**Quick diagnostic command** to run:
+Based on the debugging-pipeline-failures skill, here's how to find out why your TaskRun is stuck in Pending state:
+
+## Quick Diagnosis Steps
+
+**1. Check the TaskRun status and conditions:**
 ```bash
-kubectl describe taskrun <taskrun-name> -n <namespace> && kubectl get events -n <namespace> --sort-by='.lastTimestamp' | tail -20
+kubectl get taskrun <tr-name> -n <namespace>
+kubectl describe taskrun <tr-name> -n <namespace>
 ```
 
-Could you share the output of `kubectl describe taskrun <taskrun-name>` or let me know what namespace and TaskRun name you're working with? I can help you identify the specific issue.
+**2. Check for pod existence and status:**
+```bash
+kubectl get pods -l tekton.dev/taskRun=<tr-name> -n <namespace>
+```
+
+**3. Check Kubernetes events (most revealing for Pending issues):**
+```bash
+kubectl get events -n <namespace> --sort-by='.lastTimestamp'
+
+# Or filter for the specific TaskRun pod
+kubectl get events --field-selector involvedObject.name=<pod-name> -n <namespace>
+```
+
+## Common Causes for Pending State
+
+The events will typically reveal one of these issues:
+
+| Event Type | Root Cause | Solution |
+|------------|------------|----------|
+| `FailedScheduling` | Resource constraints - not enough CPU/memory | Check namespace quotas and node capacity |
+| `Insufficient cpu/memory` | Node can't satisfy resource requests | Reduce resource requests or add nodes |
+| No pod exists yet | TaskRun hasn't created pod | Check PipelineRun/Task configuration |
+| PVC issues | Workspace PVC not bound | Check PVC status with `kubectl get pvc` |
+| Node selector mismatch | No nodes match selectors/taints | Review nodeSelector and tolerations |
+
+## Detailed Investigation
+
+**Check resource quotas:**
+```bash
+kubectl describe namespace <namespace> | grep -A5 "Resource Quotas"
+```
+
+**Check node capacity:**
+```bash
+kubectl describe node | grep -A5 "Allocated resources"
+```
+
+**Check PVC status (if using workspaces):**
+```bash
+kubectl get pvc -n <namespace>
+kubectl describe pvc <pvc-name> -n <namespace>
+```
+
+**Inspect TaskRun YAML for resource requests:**
+```bash
+kubectl get taskrun <tr-name> -n <namespace> -o yaml | grep -A10 "resources:"
+```
+
+Would you like me to help you run these commands? Please provide:
+- The TaskRun name
+- The namespace
+- Or share the output of `kubectl describe taskrun <tr-name>`

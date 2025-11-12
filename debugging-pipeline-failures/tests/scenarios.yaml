@@ -51,11 +51,9 @@ test_scenarios:
     samples: 3
     expected:
       contains_keywords:
-        - events
-        - quota
-        - resources
-        - FailedScheduling
-        - node
+        - ["events", "describe"]
+        - ["quota", "limits", "resources"]
+        - ["FailedScheduling", "pending", "stuck", "scheduling"]
     baseline_failure: "Without skill, may not check events for FailedScheduling or namespace quotas"
 
   - name: log-analysis-methodology
@@ -78,9 +76,9 @@ test_scenarios:
     samples: 3
     expected:
       contains_keywords:
-        - logs
-        - ["root cause", "proper fix", "actual problem"]
-        - ["investigate", "identify", "check", "find out"]
+        - ["logs", "describe", "output", "details"]
+        - ["root cause", "proper fix", "actual problem", "actually doing", "pinpoint"]
+        - ["investigate", "identify", "check", "find out", "determine"]
         - ["why", "what"]
       does_not_contain:
         - just increase

@@ -1,27 +1,22 @@
 # skill_digest: 651e129c7e0478c097161a76655c9f54e3566f5510368426e68d88fbbceb77b9
-Let me help you investigate. First, I need some information:
+Before just increasing the timeout, let's investigate **why** your pipeline is failing. Timeouts are often a symptom of an underlying issue, not the root cause itself.
 
-**Can you provide:**
+Simply increasing the timeout might mask problems like:
+- **Hung processes** or deadlocks that will never complete
+- **Resource starvation** (CPU, memory, network)
+- **Inefficient operations** that could be optimized
+- **Infrastructure issues** like slow I/O or network problems
+- **Misconfigurations** in the pipeline setup
 
-1. **The PipelineRun name or namespace?** (or show me the output of a recent failure)
-2. **Error message you're seeing?** (if any)
-3. **How long before it times out?** (current timeout value)
+I can help you debug this. I have access to a specialized skill for debugging Konflux/Tekton pipeline failures. To investigate, I'll need to know:
 
-**Or, if you have access to the cluster, run these commands:**
+1. **What type of pipeline is this?** (Konflux/Tekton, GitHub Actions, GitLab CI, Jenkins, etc.)
+2. **Where is it timing out?** (Specific stage/task/step)
+3. **Can you share:**
+   - The pipeline configuration file
+   - Recent failure logs
+   - Or point me to the pipeline definition in your repo
 
-```bash
-# List recent PipelineRuns
-kubectl get pipelinerun -n <your-namespace> --sort-by='.metadata.creationTimestamp'
+If this is a Konflux/Tekton pipeline, I can invoke the debugging skill to systematically analyze the failure. Otherwise, I can still help investigate once I see the pipeline setup and logs.
 
-# Or if you know the PipelineRun name
-kubectl describe pipelinerun <pr-name> -n <namespace>
-```
-
-Once I see the actual failure details, I can pinpoint whether you're dealing with:
-- **A legitimately slow operation** → Timeout increase might be appropriate
-- **A stuck/hanging process** → Fix needed, not timeout increase
-- **Resource starvation** → Need to adjust limits/quotas
-- **Network/dependency issues** → Need to fix connectivity
-- **Image pull delays** → Registry or auth issues
-
-**The key question**: What is your pipeline **actually doing** when it times out? Let's find out before making changes.
+What information can you provide about the failing pipeline?
