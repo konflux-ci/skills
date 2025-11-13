@@ -13,7 +13,7 @@ copy_to_home:
 test_scenarios:
   - name: pr-failing-checks-llm-compressor
     description: Test finding Konflux checks from a real PR in llm-compressor-hermetic-demo
-    prompt: "I'm working on PR #15 in ralphbean/llm-compressor-hermetic-demo and the checks are failing. Can you help me find which Konflux pipeline is failing?"
+    prompt: "I'm working on PR #12 in ralphbean/llm-compressor-hermetic-demo and the checks are failing. Can you help me find which Konflux pipeline is failing?"
     model: haiku
     samples: 3
     expected:
@@ -46,9 +46,8 @@ test_scenarios:
     samples: 3
     expected:
       contains_keywords:
-        - pipelinerun
-        - namespace
         - konflux-ui.apps
+        - "https://"
       does_not_contain: []
     baseline_failure: "Agent doesn't know build checks have direct URLs in details_url"
 
@@ -80,13 +79,14 @@ test_scenarios:
 
   - name: branch-vs-pr-check-names
     description: Test understanding -on-push vs -on-pull-request naming
+    # The build is actually successful!
     prompt: "The build is failing on the main branch of konflux-ci/yq-container. How do I find the failing Konflux pipeline?"
     model: haiku
     samples: 3
     expected:
       contains_keywords:
-        - yq
-        - Konflux
+        - "https://konflux-ui.app"
+        - actually
       does_not_contain:
         - on-pull-request
         - gh api

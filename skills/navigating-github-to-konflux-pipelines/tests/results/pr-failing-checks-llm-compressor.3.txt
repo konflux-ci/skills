@@ -1,26 +1,13 @@
 # skill_digest: f15347d6f22704568ffc3656768cb503c13f92a22a775a59d9b0fda007964bfb
-I'll help you understand the Konflux pipeline failure:
+I've found the failing Konflux pipeline for your PR. Here are the key details:
 
-1. Konflux Pipeline Details:
-   - Name: `llm-compressor-on-push`
-   - PipelineRun: `llm-compressor-on-push-zfh65`
-   - Namespace: `konflux-ai-sig-tenant`
-   - Cluster: `konflux-ui.apps.kflux-prd-rh03.nnv1.p1.openshiftapps.com`
-   - Status: Failed
+1. Check Name: "Konflux kflux-prd-rh03 / llm-compressor-on-pull"
+2. Conclusion: FAILURE
+3. PipelineRun URL: https://konflux-ui.apps.kflux-prd-rh03.nnv1.p1.openshiftapps.com/ns/konflux-ai-sig-tenant/pipelinerun/llm-compressor-on-pull-9z9gf
 
-2. Task Statuses:
-   - `init`: Succeeded (7 seconds)
-   - `clone-repository`: Succeeded (8 seconds)
-   - `prefetch-dependencies`: Succeeded (5 minutes)
-   - `llm-compressor`: Failed (40 seconds)
+Parsing the PipelineRun URL:
+- Cluster: konflux-ui.apps.kflux-prd-rh03.nnv1.p1.openshiftapps.com
+- Namespace: konflux-ai-sig-tenant
+- PipelineRun Name: llm-compressor-on-pull-9z9gf
 
-3. Failure Location:
-   - File: `/opt/app-root/src/pkg/reconciler/taskrun/taskrun.go`
-   - Line: 470
-
-Recommended Next Steps:
-1. To get more details about the failure, you can add a comment to the PR with `/ok-to-test` to re-run the pipeline.
-2. Check the detailed PipelineRun logs at the URL:
-   https://konflux-ui.apps.kflux-prd-rh03.nnv1.p1.openshiftapps.com/ns/konflux-ai-sig-tenant/pipelinerun/llm-compressor-on-push-zfh65
-
-Would you like me to help you investigate the specific failure in more detail?
+The build check for your PR has failed. To investigate further, I recommend using the debugging-pipeline-failures skill to get more details about why the pipeline failed. Would you like me to help you dig deeper into the specific failure reasons?

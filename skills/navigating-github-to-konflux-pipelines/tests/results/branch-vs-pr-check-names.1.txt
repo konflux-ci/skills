@@ -1,14 +1,15 @@
 # skill_digest: f15347d6f22704568ffc3656768cb503c13f92a22a775a59d9b0fda007964bfb
-Good news! The build on the main branch is actually passing. There are two Konflux checks:
+Good news! The build on the main branch of konflux-ci/yq-container is actually successful. Let me break down the Konflux pipeline checks:
 
-1. "Red Hat Konflux / yq-container-enterprise-contract / yq":
-   - Conclusion: Success
-   - PipelineRun: yq-container-enterprise-contract-7j4rr
+1. "yq-on-push" PipelineRun (Build Check):
+   - Status: ✅ Succeeded
+   - PipelineRun URL: https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhtap-integration-tenant/pipelinerun/yq-on-push-bfxjq
+   - Namespace: rhtap-integration-tenant
+   - Commit SHA: b588d63b2ca3279ba54bd30d5a35fbf882ce3130
 
-2. "Red Hat Konflux / yq-on-push":
-   - Conclusion: Success
-   - PipelineRun: yq-on-push-bfxjq
+2. "yq-container-enterprise-contract" (Integration Test):
+   - Status: ✅ Succeeded
+   - PipelineRun URL: https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhtap-integration-tenant/pipelinerun/yq-container-enterprise-contract-7j4rr
+   - Note: This check shows 591 successes and 73 warnings, but is still marked as passed
 
-Both checks have completed successfully. The builds, image scans, and enterprise contract checks all passed. There are some warnings in the enterprise contract check (73 warnings), but these did not cause the check to fail.
-
-If you're experiencing any specific issues or want to understand the details of these checks, I can help you dive deeper into the PipelineRun logs or investigate the warnings. Would you like me to elaborate on any part of the check results?
+Both Konflux checks on the main branch have passed successfully. There are no failing pipelines to investigate at this time. Would you like me to provide more details about the pipeline runs or explain anything specific about the checks?
