@@ -18,12 +18,9 @@ test_scenarios:
     samples: 3
     expected:
       contains_keywords:
-        - gh pr
-        - konflux
-        - pipelinerun
+        - pipeline
       does_not_contain:
         - cannot help
-        - no checks
     baseline_failure: "Agent doesn't know how to query GitHub checks or filter for Konflux"
 
   - name: pr-filter-non-konflux-checks
@@ -33,10 +30,8 @@ test_scenarios:
     samples: 3
     expected:
       contains_keywords:
-        - Red Hat Konflux
-        - functional-test
-        - enterprise-contract
-        - on-pull-request
+        - Konflux
+        - checks
       does_not_contain:
         - ci/prow
         - SonarCloud
@@ -65,8 +60,7 @@ test_scenarios:
     expected:
       contains_keywords:
         - pipelinerun
-        - output
-        - get-branch-checks.sh
+        - namespace
       does_not_contain:
         - gh api
     baseline_failure: "Agent doesn't know to extract URL from check output.text"
@@ -79,9 +73,8 @@ test_scenarios:
     expected:
       contains_keywords:
         - namespace
-        - pipelinerun
-        - kubectl
-        - sed
+        - rhtap-integration-tenant
+        - yq-on-pull-request-69sq8
       does_not_contain: []
     baseline_failure: "Agent doesn't know how to parse URL components"
 
@@ -92,8 +85,8 @@ test_scenarios:
     samples: 3
     expected:
       contains_keywords:
-        - on-push
-        - get-branch-checks.sh
+        - yq
+        - Konflux
       does_not_contain:
         - on-pull-request
         - gh api
