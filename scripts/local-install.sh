@@ -8,6 +8,9 @@ REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CLAUDE_SKILLS_DIR="${HOME}/.claude/skills"
 SKILLS_SOURCE_DIR="${REPO_DIR}/skills"
 
+# Skills to exclude from installation (test/internal skills)
+EXCLUDED_SKILLS=("self-test-skill-invocation")
+
 echo "Installing skills from ${REPO_DIR} to ${CLAUDE_SKILLS_DIR}..."
 
 # Create ~/.claude/skills/ if it doesn't exist
@@ -23,6 +26,12 @@ skipped_count=0
 # Process each skill directory
 while IFS= read -r -d '' skill_dir; do
     skill_name="$(basename "${skill_dir}")"
+
+    # Skip excluded skills
+    if [[ " ${EXCLUDED_SKILLS[*]} " =~ " ${skill_name} " ]]; then
+        continue
+    fi
+
     target_link="${CLAUDE_SKILLS_DIR}/${skill_name}"
 
     # Check if link already exists and points to the same location
