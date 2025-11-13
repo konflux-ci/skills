@@ -1,4 +1,4 @@
-.PHONY: all lint validate test test-only generate clean help install
+.PHONY: all lint validate test test-only generate clean help install local-install local-uninstall
 
 CLAUDELINT_IMAGE := ghcr.io/stbenjam/claudelint:latest
 
@@ -22,6 +22,10 @@ help:
 	@echo "  make test-only    - Run only skill tests (skip lint and generate)"
 	@echo "  make generate     - Generate test results by invoking Claude"
 	@echo "  make clean        - Remove all generated test results"
+	@echo ""
+	@echo "Development workflow:"
+	@echo "  make local-install   - Install skills to ~/.claude/skills/ via symlinks"
+	@echo "  make local-uninstall - Remove symlinked skills from ~/.claude/skills/"
 	@echo ""
 	@echo "Test runner options:"
 	@echo "  make test SKILL=<name>         - Run tests for specific skill"
@@ -74,3 +78,9 @@ clean:
 	@echo "Removing all test results..."
 	@find . -path '*/tests/results/*.txt' -type f -delete
 	@echo "✓ Test results removed"
+
+local-install:
+	@bash scripts/local-install.sh
+
+local-uninstall:
+	@bash scripts/local-uninstall.sh
