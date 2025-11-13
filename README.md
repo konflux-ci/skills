@@ -8,13 +8,37 @@ Skills are reusable knowledge modules that Claude Code can automatically invoke 
 
 ## Available Skills
 
+### debugging-pipeline-failures
+
+Systematic approach to investigate Konflux Tekton pipeline failures:
+- Debug PipelineRun and TaskRun issues
+- Analyze build failures and CI/CD workflow problems
+- Use kubectl commands for comprehensive root cause analysis
+- Resolve common pipeline states (Pending, Failed, stuck Running)
+
+### navigating-github-to-konflux-pipelines
+
+Find Konflux pipeline information from GitHub PR or branch checks:
+- Identify Konflux checks and filter out Prow/SonarCloud
+- Extract PipelineRun URLs from build and integration test checks
+- Parse URLs to get cluster, namespace, and PipelineRun names for kubectl debugging
+- Navigate from GitHub UI to Konflux pipeline details
+
 ### understanding-konflux-resources
 
-Provides quick reference for Konflux Custom Resources (Applications, Components, Snapshots, IntegrationTestScenarios, ReleasePlans, etc.):
-- Which resource to use for different tasks
+Quick reference for Konflux Custom Resources:
+- Which resource to use for different tasks (Application, Component, Snapshot, etc.)
 - Who creates each resource (user vs system)
 - Where resources belong (tenant vs managed namespace)
-- Common confusions and how to avoid them
+- Common confusions about ReleasePlans, ReleasePlanAdmissions, and IntegrationTestScenarios
+
+### working-with-provenance
+
+Trace Konflux builds from container images back to source:
+- Extract provenance attestations from container images
+- Find build logs and PipelineRun details from image references
+- Verify source commits for deployed containers
+- Navigate from artifacts back to builds and source code
 
 ## Installation
 
@@ -24,10 +48,10 @@ First, add the konflux-skills marketplace (one-time setup):
 claude marketplace add https://github.com/konflux-ci/skills.git
 ```
 
-Then install the skill you want:
+Then install individual skills:
 
 ```bash
-claude skill install konflux-skills:understanding-konflux-resources
+claude skill install konflux-skills:<skill-name>
 ```
 
 Or install all Konflux skills at once:

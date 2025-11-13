@@ -218,3 +218,54 @@ def test_all_skills_in_marketplace():
             f"Skills found but not in marketplace.json: {missing_skills}\n"
             "All production skills must be registered in .claude-plugin/marketplace.json"
         )
+
+
+@pytest.mark.test
+def test_all_skills_in_readme():
+    """
+    Validate that all production skills appear in README.md exactly once.
+
+    This ensures that every skill in marketplace.json (except test-only skills)
+    is documented in the README with a dedicated section.
+    """
+    # List of skills that should NOT be in README
+    test_only_skills = {
+        "self-test-skill-invocation",
+    }
+
+    # Load marketplace.json
+    marketplace_file = Path(".claude-plugin/marketplace.json")
+    if not marketplace_file.exists():
+        pytest.fail(f"Marketplace file not found: {marketplace_file}")
+
+    with open(marketplace_file) as f:
+        marketplace_data = json.load(f)
+
+    # Extract skill names from marketplace
+    production_skills = {
+        plugin["name"]
+        for plugin in marketplace_data.get("plugins", [])
+    } - test_only_skills
+
+    # Read README.md
+    readme_file = Path("README.md")
+    if not readme_file.exists():
+        pytest.fail(f"README.md not found: {readme_file}")
+
+    with open(readme_file) as f:
+        readme_content = f.read()
+
+    # Check each skill appears exactly once
+    errors = []
+    for skill_name in production_skills:
+        count = readme_content.count(skill_name)
+        if count == 0:
+            errors.append(f"  - '{skill_name}' missing from README.md")
+        elif count > 1:
+            errors.append(f"  - '{skill_name}' appears {count} times (expected exactly 1)")
+
+    if errors:
+        pytest.fail(
+            "README.md skill documentation issues:\n" + "\n".join(errors) + "\n\n"
+            "Each production skill must appear exactly once in README.md"
+        )
