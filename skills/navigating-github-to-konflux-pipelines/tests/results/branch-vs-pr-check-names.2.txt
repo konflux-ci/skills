@@ -1,13 +1,20 @@
-# skill_digest: 57128ce93e0cfcbcf3fb79c4b36d7d333cd97200b51043527425f7c100e06520
-I apologize for the error. This suggests that we might need to authenticate or provide more context. Let me guide you through the next steps:
+# skill_digest: f15347d6f22704568ffc3656768cb503c13f92a22a775a59d9b0fda007964bfb
+Great news! The checks on the main branch of konflux-ci/yq-container are actually passing. Let me break down the Konflux pipeline results:
 
-1. First, ensure you are logged into GitHub CLI by running `gh auth status` in your terminal.
-2. If you're not logged in, run `gh auth login` and follow the prompts.
-3. Make sure you have the correct permissions for the konflux-ci/yq-container repository.
+1. Konflux On-Push Pipeline:
+   - Name: `yq-on-push`
+   - Status: ✅ Succeeded
+   - PipelineRun: `yq-on-push-bfxjq`
+   - Namespace: `rhtap-integration-tenant`
+   - URL: https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhtap-integration-tenant/pipelinerun/yq-on-push-bfxjq
 
-Could you confirm:
-- Are you logged into GitHub CLI?
-- Do you have access to the konflux-ci/yq-container repository?
-- Can you provide the specific PR number or confirm you're looking at the main branch?
+2. Enterprise Contract Check:
+   - Name: `yq-container-enterprise-contract`
+   - Status: ✅ Succeeded
+   - PipelineRun: `yq-container-enterprise-contract-7j4rr`
+   - Namespace: `rhtap-integration-tenant`
+   - URL: https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhtap-integration-tenant/pipelinerun/yq-container-enterprise-contract-7j4rr
 
-If you can provide more details, I'll help you extract the Konflux pipeline information precisely.
+Note: The enterprise contract check shows 591 successes and 73 warnings, but the overall status is still successful.
+
+There are no failing pipelines on the main branch. Is there a specific issue you're experiencing or would you like me to provide more details about these checks?

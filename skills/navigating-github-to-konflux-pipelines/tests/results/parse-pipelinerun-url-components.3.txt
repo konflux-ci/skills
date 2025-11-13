@@ -1,29 +1,25 @@
-# skill_digest: 57128ce93e0cfcbcf3fb79c4b36d7d333cd97200b51043527425f7c100e06520
-I'll help you extract the details from the Konflux URL you provided. Let's break it down:
+# skill_digest: f15347d6f22704568ffc3656768cb503c13f92a22a775a59d9b0fda007964bfb
+I'll help you extract the cluster, namespace, and PipelineRun name from the Konflux URL you provided.
 
-URL: `https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhtap-integration-tenant/pipelinerun/yq-on-pull-request-69sq8`
+From the URL: `https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhtap-integration-tenant/pipelinerun/yq-on-pull-request-69sq8`
 
-Here's how to extract the specific components:
+I'll parse it using the script's recommended method:
 
-1. **Cluster**: 
-   `konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com`
+```bash
+url="https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhtap-integration-tenant/pipelinerun/yq-on-pull-request-69sq8"
+cluster=$(echo "$url" | sed 's|https://\([^/]*\).*|\1|')
+namespace=$(echo "$url" | sed 's|.*/ns/\([^/]*\).*|\1|')
+pipelinerun=$(echo "$url" | sed 's|.*/pipelinerun/\([^/?]*\).*|\1|')
+```
 
-2. **Namespace**: 
-   `rhtap-integration-tenant`
+Here's the breakdown:
+- **Cluster**: `konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com`
+- **Namespace**: `rhtap-integration-tenant`
+- **PipelineRun**: `yq-on-pull-request-69sq8`
 
-3. **PipelineRun Name**: 
-   `yq-on-pull-request-69sq8`
-
-You can use these directly in kubectl commands. For example:
-
+You can now use these values in kubectl commands like:
 ```bash
 kubectl get pipelinerun yq-on-pull-request-69sq8 -n rhtap-integration-tenant
 ```
 
-Or to describe the PipelineRun:
-
-```bash
-kubectl describe pipelinerun yq-on-pull-request-69sq8 -n rhtap-integration-tenant
-```
-
-Would you like me to help you with any specific kubectl commands using these details?
+Would you like me to help you debug this PipelineRun or do you need anything else?

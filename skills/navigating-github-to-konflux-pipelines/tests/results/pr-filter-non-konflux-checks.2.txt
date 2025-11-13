@@ -1,11 +1,24 @@
-# skill_digest: 57128ce93e0cfcbcf3fb79c4b36d7d333cd97200b51043527425f7c100e06520
-I apologize for the persistent errors. It seems I need more specific guidance from the skill to investigate the Konflux checks for this PR. 
+# skill_digest: f15347d6f22704568ffc3656768cb503c13f92a22a775a59d9b0fda007964bfb
+Based on the investigation, there are two Konflux checks that failed for PR #249:
 
-The navigating-github-to-konflux-pipelines skill is designed to help identify Konflux pipeline information, particularly filtering out non-Konflux checks like Prow or SonarCloud. However, I'm encountering issues executing the commands directly.
+1. **Red Hat Konflux / functional-test / oras-container**
+   - PipelineRun URL: https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhtap-integration-tenant/pipelinerun/functional-test-78db6
+   - Status: Failed
+   - Details: The functional test task failed without specific error details
 
-Could you please provide me with:
-1. The specific GitHub URL for PR #249
-2. Any error messages or status you're seeing for the checks
-3. Confirmation that you want me to help investigate the Konflux-specific pipeline checks
+2. **Red Hat Konflux / oras-container-enterprise-contract / oras-container**
+   - PipelineRun URL: https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhtap-integration-tenant/pipelinerun/oras-container-enterprise-contract-9lkhf
+   - Status: Failed
+   - Details: The verify task failed with:
+     - 327 successes
+     - 30 warnings
+     - 6 failures
 
-This will help me use the skill more effectively to assist you in identifying which Konflux checks are failing and need investigation.
+In contrast, the build check **Red Hat Konflux / oras-container-on-pull-request** passed successfully.
+
+To investigate further, you would need to:
+1. Check the detailed logs for the functional test PipelineRun
+2. Investigate the 6 failures in the enterprise contract verification
+3. Review the warnings and specific failure details in the PipelineRun URLs provided
+
+Would you like me to help you dig deeper into these specific failures?

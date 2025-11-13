@@ -66,8 +66,9 @@ test_scenarios:
       contains_keywords:
         - pipelinerun
         - output
+        - get-branch-checks.sh
+      does_not_contain:
         - gh api
-      does_not_contain: []
     baseline_failure: "Agent doesn't know to extract URL from check output.text"
 
   - name: parse-pipelinerun-url-components
@@ -92,8 +93,8 @@ test_scenarios:
     expected:
       contains_keywords:
         - on-push
-        - commits/main
-        - check-runs
+        - get-branch-checks.sh
       does_not_contain:
         - on-pull-request
+        - gh api
     baseline_failure: "Agent looks for -on-pull-request instead of -on-push for branch builds"

@@ -1,35 +1,10 @@
-# skill_digest: 57128ce93e0cfcbcf3fb79c4b36d7d333cd97200b51043527425f7c100e06520
-I apologize for the error. It seems I need to explicitly authenticate or get more context. Let me guide you through the next steps:
+# skill_digest: f15347d6f22704568ffc3656768cb503c13f92a22a775a59d9b0fda007964bfb
+To debug this further, you'll want to use the kubectl command to describe the PipelineRun in the rhtap-integration-tenant namespace. The full command would be:
 
-1. Ensure you're logged into GitHub CLI by running `gh auth login` in your terminal before our session.
-2. Verify the repository name and PR number are correct.
-
-Since I cannot directly run the command, I'll explain how to extract the PipelineRun details:
-
-1. First, get the commit SHA for the PR:
 ```bash
-gh pr view 249 --repo konflux-ci/oras-container --json headRefOid -q .headRefOid
+kubectl describe pipelinerun functional-test-78db6 -n rhtap-integration-tenant
 ```
 
-2. Then, query the check runs for the specific commit and filter for the functional test:
-```bash
-gh api repos/konflux-ci/oras-container/commits/<SHA>/check-runs \
-  --jq '.check_runs[] | select(.name | contains("functional-test")) | {name: .name, status: .status, conclusion: .conclusion, output: .output.text}'
-```
+This will give you detailed information about why the functional test failed, including any error messages, task statuses, and potential reasons for the failure.
 
-3. Extract the PipelineRun URL from the output text, typically using:
-```bash
-gh api repos/konflux-ci/oras-container/commits/<SHA>/check-runs \
-  --jq '.check_runs[] | select(.name | contains("functional-test")) | .output.text' \
-  | grep -o 'https://[^"]*konflux[^"]*pipelinerun/[^"]*' | head -1
-```
-
-The extracted URL will follow the format:
-`https://{cluster}/ns/{namespace}/pipelinerun/{name}`
-
-You'll want to:
-- Replace `<SHA>` with the actual commit SHA
-- Use the full command in your terminal with `gh` CLI
-- Ensure you're authenticated with GitHub
-
-Would you like to proceed by running these commands in your terminal? If you provide the exact commit SHA or run the authentication steps, I can help you parse the PipelineRun details.
+Would you like me to help you investigate the specific failure details of this PipelineRun?

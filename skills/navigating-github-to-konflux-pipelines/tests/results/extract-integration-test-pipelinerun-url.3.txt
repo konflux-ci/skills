@@ -1,13 +1,10 @@
-# skill_digest: 57128ce93e0cfcbcf3fb79c4b36d7d333cd97200b51043527425f7c100e06520
-I apologize for the persistent authentication issue. To proceed, I'll need you to confirm a few things:
-1. Are you logged in to GitHub CLI (`gh`)?
-2. Do you have access to the konflux-ci/oras-container repository?
-3. Would you like to provide the PipelineRun URL directly if you have it?
+# skill_digest: f15347d6f22704568ffc3656768cb503c13f92a22a775a59d9b0fda007964bfb
+Let me parse the PipelineRun URL details:
 
-The typical workflow to extract the PipelineRun details would involve:
-1. Getting the commit SHA for the PR
-2. Querying the check-runs for that commit
-3. Filtering for the 'functional-test' check
-4. Extracting the PipelineRun URL from the check output
+- **Cluster**: konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com
+- **Namespace**: rhtap-integration-tenant
+- **PipelineRun Name**: functional-test-78db6
 
-Could you help me verify your GitHub CLI authentication or provide more context about accessing the PR checks?
+To debug this further, you can use kubectl to inspect the PipelineRun in the specified cluster and namespace. The next step would be to use the debugging-pipeline-failures skill to get more details about why the functional test failed.
+
+Would you like me to help you investigate the specific failure reasons for this PipelineRun?

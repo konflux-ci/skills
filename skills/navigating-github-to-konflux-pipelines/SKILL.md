@@ -1,7 +1,7 @@
 ---
 name: navigating-github-to-konflux-pipelines
 description: Use when GitHub PR or branch has failing checks and you need to find Konflux pipeline information (cluster, namespace, PipelineRun name). Teaches gh CLI commands to identify Konflux checks (filter out Prow/SonarCloud), extract PipelineRun URLs from builds and integration tests, and parse URLs for kubectl debugging.
-allowed-tools: Bash(gh pr:*), Bash(gh api repos/*/commits/*/check-runs:*), Bash(gh repo:*), Bash(grep:*), Bash(sed:*), Bash(echo:*)
+allowed-tools: Bash(gh pr:*), Bash(gh repo:*), Bash(grep:*), Bash(sed:*), Bash(echo:*), Bash(~/.claude/skills/navigating-github-to-konflux-pipelines/scripts/get-branch-checks.sh:*)
 ---
 
 # Navigating GitHub to Konflux Pipelines
@@ -38,7 +38,9 @@ Use this skill when:
 When user mentions:
 - "PR #<number>" → IMMEDIATELY run `gh pr checks <number> --repo <owner>/<repo>`
 - "failing checks" → IMMEDIATELY run the gh command
-- "main branch failing" → IMMEDIATELY run `gh api repos/<owner>/<repo>/commits/main/check-runs`
+- "main branch failing" → IMMEDIATELY run `~/.claude/skills/navigating-github-to-konflux-pipelines/scripts/get-branch-checks.sh`
+
+**CRITICAL**: NEVER use `gh api` directly. ALWAYS use `~/.claude/skills/navigating-github-to-konflux-pipelines/scripts/get-branch-checks.sh` for branch/commit checks.
 
 **DO NOT**:
 - ❌ Say "I apologize"
@@ -88,7 +90,7 @@ You: "Ensure you're logged in..." ← WRONG
 
 **IMPORTANT**: Do NOT confuse GitHub Actions (visible in "Actions" tab, use `gh run list`) with GitHub Checks (visible in "Checks" tab, use `gh pr checks`). Konflux uses the Checks API, not Actions workflows.
 
-**Note on `gh api` usage**: This skill uses ONLY the read-only `gh api repos/OWNER/REPO/commits/REF/check-runs` endpoint for querying branch checks. Do not use `gh api` for any other endpoints.
+**IMPORTANT - Branch checks**: ALWAYS use the `get-branch-checks.sh` wrapper script for querying branch/commit checks. NEVER call `gh api` directly - the script handles the API call internally.
 
 ## Check Type Classification
 
@@ -119,21 +121,22 @@ gh pr view <pr-number> --repo <owner>/<repo> --json headRefOid -q .headRefOid
 
 ### For Branches/Commits
 
-**Note**: GitHub CLI doesn't have a built-in command for branch checks, so we use the read-only `check-runs` API endpoint:
+**Note**: GitHub CLI doesn't have a built-in command for branch checks, so we use a wrapper script around the read-only `check-runs` API endpoint:
 
 ```bash
 # Get checks for latest commit on a branch
-gh api repos/<owner>/<repo>/commits/<branch>/check-runs
+~/.claude/skills/navigating-github-to-konflux-pipelines/scripts/get-branch-checks.sh <owner> <repo> <branch>
 
 # Filter for Konflux checks
-gh api repos/<owner>/<repo>/commits/main/check-runs \
-  --jq '.check_runs[] | select(.name | ascii_downcase | contains("konflux"))'
+~/.claude/skills/navigating-github-to-konflux-pipelines/scripts/get-branch-checks.sh \
+  konflux-ci yq-container main \
+  '.check_runs[] | select(.name | ascii_downcase | contains("konflux"))'
 
 # Get checks for specific commit SHA
-gh api repos/<owner>/<repo>/commits/<sha>/check-runs
+~/.claude/skills/navigating-github-to-konflux-pipelines/scripts/get-branch-checks.sh <owner> <repo> <sha>
 ```
 
-**Security note**: Only use `gh api` for this specific read-only endpoint pattern (`repos/*/commits/*/check-runs`). Do not use for other API endpoints.
+**Security note**: The `get-branch-checks.sh` script uses the read-only GitHub API endpoint `repos/{owner}/{repo}/commits/{ref}/check-runs`. It does not modify any data.
 
 ### Infer Repo from Context
 
@@ -160,8 +163,9 @@ gh pr view <pr-number> --repo <owner>/<repo> --json statusCheckRollup \
   --jq '.statusCheckRollup[] | select(.name | endswith("-on-pull-request")) | {name: .name, url: .detailsUrl}'
 
 # For branches/commits
-gh api repos/<owner>/<repo>/commits/main/check-runs \
-  --jq '.check_runs[] | select(.name | endswith("-on-push")) | {name: .name, url: .details_url}'
+~/.claude/skills/navigating-github-to-konflux-pipelines/scripts/get-branch-checks.sh \
+  <owner> <repo> main \
+  '.check_runs[] | select(.name | endswith("-on-push")) | {name: .name, url: .details_url}'
 ```
 
 ### From Integration Test Checks
@@ -173,8 +177,9 @@ Integration test checks require extracting the URL from check output:
 sha=$(gh pr view <pr-number> --repo <owner>/<repo> --json headRefOid -q .headRefOid)
 
 # Extract PipelineRun URL from check output (contains HTML)
-gh api repos/<owner>/<repo>/commits/$sha/check-runs \
-  --jq '.check_runs[] | select(.name | ascii_downcase | contains("functional-test")) | .output.text' \
+~/.claude/skills/navigating-github-to-konflux-pipelines/scripts/get-branch-checks.sh \
+  <owner> <repo> $sha \
+  '.check_runs[] | select(.name | ascii_downcase | contains("functional-test")) | .output.text' \
   | grep -o 'https://[^"]*konflux[^"]*pipelinerun/[^"]*' | head -1
 ```
 
@@ -216,8 +221,9 @@ gh pr view 249 --repo konflux-ci/oras-container --json statusCheckRollup \
 
 # Step 4: For integration test, get commit SHA and extract URL
 sha=$(gh pr view 249 --repo konflux-ci/oras-container --json headRefOid -q .headRefOid)
-gh api repos/konflux-ci/oras-container/commits/$sha/check-runs \
-  --jq '.check_runs[] | select(.name | contains("functional-test")) | .output.text' \
+~/.claude/skills/navigating-github-to-konflux-pipelines/scripts/get-branch-checks.sh \
+  konflux-ci oras-container $sha \
+  '.check_runs[] | select(.name | contains("functional-test")) | .output.text' \
   | grep -o 'https://[^"]*pipelinerun/[^"]*'
 
 # Step 5: Parse URL for kubectl
@@ -234,8 +240,9 @@ User: "The build is failing on main in yq-container"
 
 ```bash
 # Step 1: Query checks on main branch
-gh api repos/konflux-ci/yq-container/commits/main/check-runs \
-  --jq '.check_runs[] | select(.name | ascii_downcase | contains("konflux")) | {name: .name, conclusion: .conclusion, url: .details_url}'
+~/.claude/skills/navigating-github-to-konflux-pipelines/scripts/get-branch-checks.sh \
+  konflux-ci yq-container main \
+  '.check_runs[] | select(.name | ascii_downcase | contains("konflux")) | {name: .name, conclusion: .conclusion, url: .details_url}'
 
 # Step 2: Look for -on-push check (not -on-pull-request)
 # "yq-on-push" → URL is directly in details_url
@@ -259,7 +266,7 @@ gh api repos/konflux-ci/yq-container/commits/main/check-runs \
 ## Common Confusions
 
 ### ❌ WRONG: "I don't have access to check information"
-✅ CORRECT: Try `gh pr checks` (for PRs) or `gh api repos/.../commits/.../check-runs` (for branches) first - only report errors if commands actually fail
+✅ CORRECT: Try `gh pr checks` (for PRs) or `get-branch-checks.sh` script (for branches) first - only report errors if commands actually fail
 
 ---
 

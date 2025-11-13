@@ -1,7 +1,14 @@
-# skill_digest: 57128ce93e0cfcbcf3fb79c4b36d7d333cd97200b51043527425f7c100e06520
-I apologize for the error. It seems I need more information to proceed. Could you provide me with:
-1. The full GitHub URL of the PR, or
-2. Your GitHub personal access token (if you have one configured)
-3. Confirm that you want me to investigate the failed 'yq-on-pull-request' check
+# skill_digest: f15347d6f22704568ffc3656768cb503c13f92a22a775a59d9b0fda007964bfb
+I see the PipelineRun URL directly in the check details. Let me extract it for you:
 
-The skill I loaded is designed to help extract PipelineRun information from GitHub checks, but I'll need your assistance to complete the investigation. Once you provide more details, I can help you find the specific PipelineRun URL for the failed check.
+The PipelineRun URL is:
+`https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhtap-integration-tenant/pipelinerun/yq-on-pull-request-69sq8`
+
+Breaking down the URL:
+- Cluster: konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com
+- Namespace: rhtap-integration-tenant
+- PipelineRun Name: yq-on-pull-request-69sq8
+
+Note: The check actually shows as "pass", not "fail" as you mentioned. This could mean the check has been fixed since you last checked, or there might be a misunderstanding about the check status.
+
+Would you like me to help you investigate further or provide more details about this PipelineRun?

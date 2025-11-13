@@ -1,19 +1,14 @@
-# skill_digest: 698a60556155303033282b9cf073cb725c70e1394c3c0d46d80ef450da519f4e
-From the output, I can see multiple Konflux pipeline runs for different branches and PRs. However, the most recent pipeline runs (as of 2025-11-13) appear to be successful. 
+# skill_digest: f15347d6f22704568ffc3656768cb503c13f92a22a775a59d9b0fda007964bfb
+Good news! The build on the main branch is actually passing. There are two Konflux checks:
 
-Let me help you find the specific Konflux pipeline details:
+1. "Red Hat Konflux / yq-container-enterprise-contract / yq":
+   - Conclusion: Success
+   - PipelineRun: yq-container-enterprise-contract-7j4rr
 
-1. Most recent successful pipelines:
-   - PipelineRun URL: https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhtap-integration-tenant/pipelinerun/yq-on-pull-request-m2f99
-   - Branch: konflux/mintmaker/main/lock-file-maintenance
-   - Conclusion: SUCCESS
-   - Time: 2025-11-13T02:15:32Z
+2. "Red Hat Konflux / yq-on-push":
+   - Conclusion: Success
+   - PipelineRun: yq-on-push-bfxjq
 
-2. Enterprise Contract Pipeline:
-   - Check Run URL: https://red.ht/trusted
-   - Conclusion: SUCCESS
-   - Time: 2025-11-13T02:15:52Z
+Both checks have completed successfully. The builds, image scans, and enterprise contract checks all passed. There are some warnings in the enterprise contract check (73 warnings), but these did not cause the check to fail.
 
-It seems that the build is NOT failing on the main branch, contrary to your initial statement. All recent pipeline runs appear to be successful. 
-
-Would you like me to help you investigate further? Could you provide more specific details about the failure you're experiencing?
+If you're experiencing any specific issues or want to understand the details of these checks, I can help you dive deeper into the PipelineRun logs or investigate the warnings. Would you like me to elaborate on any part of the check results?

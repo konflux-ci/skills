@@ -1,21 +1,8 @@
-# skill_digest: 57128ce93e0cfcbcf3fb79c4b36d7d333cd97200b51043527425f7c100e06520
-I apologize for the confusion. Let me clarify the situation:
+# skill_digest: f15347d6f22704568ffc3656768cb503c13f92a22a775a59d9b0fda007964bfb
+Let me parse the URL details for you:
 
-The skill for navigating GitHub to Konflux pipelines seems to be temporarily unavailable or not properly configured. In this case, I recommend the following steps to investigate the failed 'functional-test' integration test:
+- **Cluster**: konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com
+- **Namespace**: rhtap-integration-tenant
+- **PipelineRun Name**: functional-test-78db6
 
-1. Manually check the PR checks on GitHub:
-   - Go to the Pull Request #249 in the konflux-ci/oras-container repository
-   - Look for the 'functional-test' check in the Checks tab
-   - Click on the details link to view the specific pipeline run
-
-2. If you have access to the GitHub CLI, you can run:
-   ```
-   gh pr checks 249 --repo konflux-ci/oras-container
-   ```
-
-3. To get more detailed information about the PipelineRun:
-   - Check the GitHub Actions or Konflux CI interface
-   - Look for the specific PipelineRun URL in the failed check
-   - If possible, use `kubectl` to describe the PipelineRun if you have cluster access
-
-Would you like me to help you gather more specific information about the failed test? If you can provide any additional context or screenshots of the failed check, I can assist you in investigating the root cause.
+You can use these details to further investigate the failed functional test. Would you like me to help you debug the PipelineRun using kubectl?

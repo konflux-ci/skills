@@ -1,22 +1,16 @@
-# skill_digest: 57128ce93e0cfcbcf3fb79c4b36d7d333cd97200b51043527425f7c100e06520
-I apologize for the limitations. Since I cannot directly access the GitHub checks, I recommend the following steps:
+# skill_digest: f15347d6f22704568ffc3656768cb503c13f92a22a775a59d9b0fda007964bfb
+To summarize the Konflux checks for PR #249 in konflux-ci/oras-container:
 
-1. Go to the pull request page on GitHub for konflux-ci/oras-container PR #249.
-2. Look for the checks section, typically found near the bottom of the PR page.
-3. Identify checks that are specifically related to Konflux. These typically:
-   - Have names starting with "konflux-"
-   - Are related to pipeline runs
-   - May include terms like "build", "integration", or "test" in their names
+Failing Checks:
+1. Functional Test: "Red Hat Konflux / functional-test / oras-container"
+2. Enterprise Contract: "Red Hat Konflux / oras-container-enterprise-contract / oras-container"
 
-Common Konflux checks to look for include:
-- Konflux Build Pipeline
-- Konflux Integration Tests
-- Konflux Component Build
-- Konflux Release Pipeline
+Passing Check:
+- Build Pipeline: "Red Hat Konflux / oras-container-on-pull-request"
 
-If you can provide me with the specific names of the failing checks, I can help you interpret and investigate them further. The most important Konflux checks to focus on are usually:
-- Build pipelines
-- Integration test pipelines
-- Component build checks
+The PipelineRun URL for the build check is:
+`https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhtap-integration-tenant/pipelinerun/oras-container-on-pull-request-l2nxk`
 
-Would you like to share the exact names of the failing checks so I can provide more specific guidance?
+You should investigate the failures in the functional test and enterprise contract checks. These typically indicate issues with the code's functionality or compliance with enterprise contracts.
+
+Would you like me to help you dig deeper into these specific failing checks?

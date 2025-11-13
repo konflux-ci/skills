@@ -1,22 +1,26 @@
-# skill_digest: 57128ce93e0cfcbcf3fb79c4b36d7d333cd97200b51043527425f7c100e06520
-Let me help you extract the details from the Konflux URL you provided.
-
-From the URL: `https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhtap-integration-tenant/pipelinerun/yq-on-pull-request-69sq8`
-
-I'll parse out the key components:
-
-1. Cluster: `konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com`
-2. Namespace: `rhtap-integration-tenant`
-3. PipelineRun Name: `yq-on-pull-request-69sq8`
-
-You can use these details directly in kubectl commands. For example:
+# skill_digest: f15347d6f22704568ffc3656768cb503c13f92a22a775a59d9b0fda007964bfb
+Great! For your Konflux URL `https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhtap-integration-tenant/pipelinerun/yq-on-pull-request-69sq8`, I'll extract the details for you using the parsing method described in the skill documentation:
 
 ```bash
-# To describe the PipelineRun
-kubectl describe pipelinerun yq-on-pull-request-69sq8 -n rhtap-integration-tenant
+url="https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhtap-integration-tenant/pipelinerun/yq-on-pull-request-69sq8"
 
-# To get detailed information
-kubectl get pipelinerun yq-on-pull-request-69sq8 -n rhtap-integration-tenant -o yaml
+cluster=$(echo "$url" | sed 's|https://\([^/]*\).*|\1|')
+namespace=$(echo "$url" | sed 's|.*/ns/\([^/]*\).*|\1|')
+pipelinerun=$(echo "$url" | sed 's|.*/pipelinerun/\([^/?]*\).*|\1|')
+
+echo "Cluster: $cluster"
+echo "Namespace: $namespace"
+echo "PipelineRun: $pipelinerun"
 ```
 
-Would you like me to help you with any specific kubectl commands to investigate this PipelineRun?
+These values are:
+- Cluster: `konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com`
+- Namespace: `rhtap-integration-tenant`
+- PipelineRun: `yq-on-pull-request-69sq8`
+
+You can now use these with kubectl commands, for example:
+```bash
+kubectl get pipelinerun yq-on-pull-request-69sq8 -n rhtap-integration-tenant
+```
+
+Would you like me to help you investigate this PipelineRun further?

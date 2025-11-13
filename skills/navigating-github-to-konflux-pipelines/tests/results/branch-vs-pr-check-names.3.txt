@@ -1,2 +1,21 @@
-# skill_digest: 57128ce93e0cfcbcf3fb79c4b36d7d333cd97200b51043527425f7c100e06520
-Could you provide more context about the failing checks so I can help you locate the specific Konflux pipeline?
+# skill_digest: f15347d6f22704568ffc3656768cb503c13f92a22a775a59d9b0fda007964bfb
+Good news! It appears that the builds are actually successful. There are two Konflux pipelines:
+
+1. **yq-container-enterprise-contract / yq**:
+   - Status: Completed
+   - Conclusion: Success
+   - PipelineRun: [yq-container-enterprise-contract-7j4rr](https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhtap-integration-tenant/pipelinerun/yq-container-enterprise-contract-7j4rr)
+   - Note: Has 73 warnings, but overall passed
+
+2. **yq-on-push**:
+   - Status: Completed
+   - Conclusion: Success
+   - PipelineRun: [yq-on-push-bfxjq](https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhtap-integration-tenant/pipelinerun/yq-on-push-bfxjq)
+   - All tasks succeeded
+
+Despite your mention of a failing build, both Konflux pipelines for the main branch show as successful. The second pipeline (yq-on-push) includes multiple checks like security scans, build processes, and other validations, all of which passed.
+
+Would you like me to investigate further? Some potential next steps:
+1. Check if you're seeing a specific error not reflected in these pipeline runs
+2. Verify the exact commit SHA you're concerned about
+3. Look into the warnings in the enterprise-contract pipeline

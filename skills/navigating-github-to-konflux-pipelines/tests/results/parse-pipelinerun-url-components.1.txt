@@ -1,5 +1,5 @@
-# skill_digest: 57128ce93e0cfcbcf3fb79c4b36d7d333cd97200b51043527425f7c100e06520
-I'll help you extract the details from the Konflux URL. I'll use the navigating-github-to-konflux-pipelines skill to parse this URL.
+# skill_digest: f15347d6f22704568ffc3656768cb503c13f92a22a775a59d9b0fda007964bfb
+I'll help you extract the information from the Konflux URL. I'll use the navigating-github-to-konflux-pipelines skill to assist with this.
 
 <invoke name="Skill">
 <parameter name="skill">navigating-github-to-konflux-pipelines</parameter>
@@ -7,20 +7,26 @@ I'll help you extract the details from the Konflux URL. I'll use the navigating-
 
 Let me break down the URL for you:
 
-- Cluster: `apps.stone-prd-rh01.pg1f.p1.openshiftapps.com`
+- Cluster: `stone-prd-rh01.pg1f.p1.openshiftapps.com`
 - Namespace: `rhtap-integration-tenant`
-- PipelineRun Name: `yq-on-pull-request-69sq8`
+- PipelineRun name: `yq-on-pull-request-69sq8`
 
-You can use these details in kubectl commands like this:
+You can use these values in kubectl commands like this:
+
 ```bash
-kubectl get pipelinerun yq-on-pull-request-69sq8 -n rhtap-integration-tenant -o yaml
+kubectl get pipelinerun yq-on-pull-request-69sq8 -n rhtap-integration-tenant -c stone-prd-rh01.pg1f.p1.openshiftapps.com
 ```
 
-Or to describe the PipelineRun:
+To make this easier, you can set these as environment variables:
 ```bash
-kubectl describe pipelinerun yq-on-pull-request-69sq8 -n rhtap-integration-tenant
+export CLUSTER=stone-prd-rh01.pg1f.p1.openshiftapps.com
+export NAMESPACE=rhtap-integration-tenant
+export PIPELINERUN=yq-on-pull-request-69sq8
 ```
 
-Note: Ensure you're logged into the correct OpenShift cluster (using `oc login` or equivalent) before running these commands.
+Then use them in commands like:
+```bash
+kubectl get pipelinerun $PIPELINERUN -n $NAMESPACE -c $CLUSTER
+```
 
-Is there anything specific you'd like to do with this PipelineRun?
+Is there a specific kubectl command you'd like to run with these details?
