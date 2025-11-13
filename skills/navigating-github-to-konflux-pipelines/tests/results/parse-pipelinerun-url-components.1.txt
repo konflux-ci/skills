@@ -1,0 +1,26 @@
+# skill_digest: 57128ce93e0cfcbcf3fb79c4b36d7d333cd97200b51043527425f7c100e06520
+I'll help you extract the details from the Konflux URL. I'll use the navigating-github-to-konflux-pipelines skill to parse this URL.
+
+<invoke name="Skill">
+<parameter name="skill">navigating-github-to-konflux-pipelines</parameter>
+</invoke>
+
+Let me break down the URL for you:
+
+- Cluster: `apps.stone-prd-rh01.pg1f.p1.openshiftapps.com`
+- Namespace: `rhtap-integration-tenant`
+- PipelineRun Name: `yq-on-pull-request-69sq8`
+
+You can use these details in kubectl commands like this:
+```bash
+kubectl get pipelinerun yq-on-pull-request-69sq8 -n rhtap-integration-tenant -o yaml
+```
+
+Or to describe the PipelineRun:
+```bash
+kubectl describe pipelinerun yq-on-pull-request-69sq8 -n rhtap-integration-tenant
+```
+
+Note: Ensure you're logged into the correct OpenShift cluster (using `oc login` or equivalent) before running these commands.
+
+Is there anything specific you'd like to do with this PipelineRun?

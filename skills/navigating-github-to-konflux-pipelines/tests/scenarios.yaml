@@ -1,0 +1,94 @@
+# Test scenarios for navigating-github-to-konflux-pipelines skill
+# This file defines all test cases for validating the skill's behavior
+
+skill_name: navigating-github-to-konflux-pipelines
+description: Tests for GitHub check navigation and PipelineRun URL extraction
+
+# Test scenarios following TDD methodology (RED-GREEN-REFACTOR)
+test_scenarios:
+  - name: pr-failing-checks-llm-compressor
+    description: Test finding Konflux checks from a real PR in llm-compressor-hermetic-demo
+    prompt: "I'm working on PR #15 in ralphbean/llm-compressor-hermetic-demo and the checks are failing. Can you help me find which Konflux pipeline is failing?"
+    model: haiku
+    samples: 3
+    expected:
+      contains_keywords:
+        - gh pr
+        - konflux
+        - pipelinerun
+      does_not_contain:
+        - cannot help
+        - no checks
+    baseline_failure: "Agent doesn't know how to query GitHub checks or filter for Konflux"
+
+  - name: pr-filter-non-konflux-checks
+    description: Test filtering out non-Konflux checks (Prow, SonarCloud, etc)
+    prompt: "PR #249 in konflux-ci/oras-container has several failing checks. Which ones are Konflux checks I should investigate?"
+    model: haiku
+    samples: 3
+    expected:
+      contains_keywords:
+        - Red Hat Konflux
+        - functional-test
+        - enterprise-contract
+        - on-pull-request
+      does_not_contain:
+        - ci/prow
+        - SonarCloud
+        - tide
+        - dco
+    baseline_failure: "Agent includes non-Konflux checks or doesn't know how to filter"
+
+  - name: extract-build-pipelinerun-url
+    description: Test extracting PipelineRun URL from build check
+    prompt: "The build check 'yq-on-pull-request' failed on PR #206 in konflux-ci/yq-container. Can you get me the PipelineRun URL?"
+    model: haiku
+    samples: 3
+    expected:
+      contains_keywords:
+        - pipelinerun
+        - namespace
+        - konflux-ui.apps
+      does_not_contain: []
+    baseline_failure: "Agent doesn't know build checks have direct URLs in details_url"
+
+  - name: extract-integration-test-pipelinerun-url
+    description: Test extracting PipelineRun URL from integration test check
+    prompt: "The 'functional-test' integration test failed on PR #249 in konflux-ci/oras-container. How do I get the PipelineRun details?"
+    model: haiku
+    samples: 3
+    expected:
+      contains_keywords:
+        - pipelinerun
+        - output
+        - gh api
+      does_not_contain: []
+    baseline_failure: "Agent doesn't know to extract URL from check output.text"
+
+  - name: parse-pipelinerun-url-components
+    description: Test parsing cluster, namespace, and PipelineRun name from URL
+    prompt: "I have this Konflux URL: https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhtap-integration-tenant/pipelinerun/yq-on-pull-request-69sq8 - how do I extract the cluster, namespace, and PipelineRun name for kubectl commands?"
+    model: haiku
+    samples: 3
+    expected:
+      contains_keywords:
+        - namespace
+        - pipelinerun
+        - kubectl
+        - sed
+      does_not_contain: []
+    baseline_failure: "Agent doesn't know how to parse URL components"
+
+  - name: branch-vs-pr-check-names
+    description: Test understanding -on-push vs -on-pull-request naming
+    prompt: "The build is failing on the main branch of konflux-ci/yq-container. How do I find the failing Konflux pipeline?"
+    model: haiku
+    samples: 3
+    expected:
+      contains_keywords:
+        - on-push
+        - commits/main
+        - check-runs
+      does_not_contain:
+        - on-pull-request
+    baseline_failure: "Agent looks for -on-pull-request instead of -on-push for branch builds"

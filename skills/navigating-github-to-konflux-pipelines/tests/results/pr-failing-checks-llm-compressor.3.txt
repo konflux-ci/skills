@@ -1,0 +1,7 @@
+# skill_digest: 57128ce93e0cfcbcf3fb79c4b36d7d333cd97200b51043527425f7c100e06520
+I apologize for the error. It seems I need more information to proceed. Could you provide me with more context about the PR? Specifically:
+1. Do you have the full GitHub URL for the PR?
+2. Have you seen any specific error messages in the PR checks?
+3. Are you currently logged into GitHub in the CLI?
+
+The navigating-github-to-konflux-pipelines skill is designed to help extract Konflux pipeline information, but I'll need some additional details from you to move forward effectively. Could you share more information about the failing checks?

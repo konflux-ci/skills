@@ -1,0 +1,22 @@
+# skill_digest: 57128ce93e0cfcbcf3fb79c4b36d7d333cd97200b51043527425f7c100e06520
+I apologize for the limitations. Since I cannot directly access the GitHub checks, I recommend the following steps:
+
+1. Go to the pull request page on GitHub for konflux-ci/oras-container PR #249.
+2. Look for the checks section, typically found near the bottom of the PR page.
+3. Identify checks that are specifically related to Konflux. These typically:
+   - Have names starting with "konflux-"
+   - Are related to pipeline runs
+   - May include terms like "build", "integration", or "test" in their names
+
+Common Konflux checks to look for include:
+- Konflux Build Pipeline
+- Konflux Integration Tests
+- Konflux Component Build
+- Konflux Release Pipeline
+
+If you can provide me with the specific names of the failing checks, I can help you interpret and investigate them further. The most important Konflux checks to focus on are usually:
+- Build pipelines
+- Integration test pipelines
+- Component build checks
+
+Would you like to share the exact names of the failing checks so I can provide more specific guidance?

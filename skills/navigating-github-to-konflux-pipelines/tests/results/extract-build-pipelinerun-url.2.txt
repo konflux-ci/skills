@@ -1,0 +1,14 @@
+# skill_digest: 57128ce93e0cfcbcf3fb79c4b36d7d333cd97200b51043527425f7c100e06520
+I apologize for the persistent authentication issue. Since I cannot directly access the GitHub CLI in this environment, I recommend you retrieve the PipelineRun URL by:
+
+1. Going to the Pull Request page on GitHub
+2. Clicking on the "Checks" tab
+3. Finding the 'yq-on-pull-request' check
+4. Clicking on the check details, which should reveal the PipelineRun URL
+
+The typical Konflux PipelineRun URL follows this format:
+`https://{cluster}/ns/{namespace}/pipelinerun/{name}`
+
+If you can provide me with the specific URL or the details from the check, I can help you parse out the cluster, namespace, and PipelineRun name for further debugging.
+
+Would you like to share the details of the check or the PipelineRun URL you found?

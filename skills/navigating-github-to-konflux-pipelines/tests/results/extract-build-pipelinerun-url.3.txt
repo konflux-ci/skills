@@ -1,0 +1,7 @@
+# skill_digest: 57128ce93e0cfcbcf3fb79c4b36d7d333cd97200b51043527425f7c100e06520
+I apologize for the error. It seems I need more information to proceed. Could you provide me with:
+1. The full GitHub URL of the PR, or
+2. Your GitHub personal access token (if you have one configured)
+3. Confirm that you want me to investigate the failed 'yq-on-pull-request' check
+
+The skill I loaded is designed to help extract PipelineRun information from GitHub checks, but I'll need your assistance to complete the investigation. Once you provide more details, I can help you find the specific PipelineRun URL for the failed check.

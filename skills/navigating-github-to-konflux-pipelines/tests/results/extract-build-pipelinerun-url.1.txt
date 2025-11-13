@@ -1,0 +1,2 @@
+# skill_digest: 57128ce93e0cfcbcf3fb79c4b36d7d333cd97200b51043527425f7c100e06520
+Would you like me to help you retrieve the PipelineRun URL using the GitHub CLI on your local machine?

@@ -1,0 +1,24 @@
+# skill_digest: 57128ce93e0cfcbcf3fb79c4b36d7d333cd97200b51043527425f7c100e06520
+I apologize for the persistent error. This might indicate that additional authentication or configuration is needed. Let me provide you with the steps you can take:
+
+1. Ensure you are logged in to GitHub CLI:
+   ```
+   gh auth login
+   ```
+
+2. Verify you have the correct repository context:
+   ```
+   gh repo view konflux-ci/yq-container
+   ```
+
+3. If the above commands work, you can then run:
+   ```
+   gh api repos/konflux-ci/yq-container/commits/main/check-runs
+   ```
+
+These steps will help you retrieve the check runs for the main branch of the yq-container repository. The key information we're looking for are:
+- Konflux-related checks
+- Their conclusion (success/failure)
+- The details URL for the failing checks
+
+Would you like to help me troubleshoot the GitHub CLI access, or do you have additional context about the failing build that could help us investigate?

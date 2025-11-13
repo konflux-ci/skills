@@ -1,0 +1,11 @@
+# skill_digest: 57128ce93e0cfcbcf3fb79c4b36d7d333cd97200b51043527425f7c100e06520
+I apologize for the persistent errors. It seems I need more specific guidance from the skill to investigate the Konflux checks for this PR. 
+
+The navigating-github-to-konflux-pipelines skill is designed to help identify Konflux pipeline information, particularly filtering out non-Konflux checks like Prow or SonarCloud. However, I'm encountering issues executing the commands directly.
+
+Could you please provide me with:
+1. The specific GitHub URL for PR #249
+2. Any error messages or status you're seeing for the checks
+3. Confirmation that you want me to help investigate the Konflux-specific pipeline checks
+
+This will help me use the skill more effectively to assist you in identifying which Konflux checks are failing and need investigation.

@@ -1,0 +1,13 @@
+# skill_digest: 57128ce93e0cfcbcf3fb79c4b36d7d333cd97200b51043527425f7c100e06520
+I apologize for the error. This suggests that we might need to authenticate or provide more context. Let me guide you through the next steps:
+
+1. First, ensure you are logged into GitHub CLI by running `gh auth status` in your terminal.
+2. If you're not logged in, run `gh auth login` and follow the prompts.
+3. Make sure you have the correct permissions for the konflux-ci/yq-container repository.
+
+Could you confirm:
+- Are you logged into GitHub CLI?
+- Do you have access to the konflux-ci/yq-container repository?
+- Can you provide the specific PR number or confirm you're looking at the main branch?
+
+If you can provide more details, I'll help you extract the Konflux pipeline information precisely.

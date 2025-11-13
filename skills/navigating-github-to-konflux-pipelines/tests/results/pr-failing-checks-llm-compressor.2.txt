@@ -1,0 +1,12 @@
+# skill_digest: 57128ce93e0cfcbcf3fb79c4b36d7d333cd97200b51043527425f7c100e06520
+I apologize for the error. It seems I need your assistance to run the command. Could you help me by running the following commands locally and sharing the output:
+
+1. `gh pr checks 15` (in the repository directory)
+2. If that doesn't work, `gh pr view 15 --json statusCheckRollup`
+
+In the meantime, I'll explain the next steps I'll take once I have the check information:
+1. Filter for Konflux-related checks (containing "konflux" in the name)
+2. Identify which specific Konflux check is failing
+3. Extract the PipelineRun URL if possible
+
+Could you provide the output of those commands or confirm the exact steps you'd like me to take to investigate the failing checks?

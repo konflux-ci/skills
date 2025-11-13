@@ -1,0 +1,27 @@
+# skill_digest: 57128ce93e0cfcbcf3fb79c4b36d7d333cd97200b51043527425f7c100e06520
+I apologize for the restrictions. Since I cannot directly access the PR checks, I'll provide guidance on how to investigate Konflux checks:
+
+1. Konflux checks typically have specific naming patterns related to Konflux pipelines, such as:
+   - Integration tests
+   - Build checks
+   - Red Hat specific CI checks
+
+To identify Konflux-specific checks, you should:
+1. Open the PR on GitHub
+2. Look for checks with names like:
+   - `Konflux Integration Tests`
+   - `Konflux Build Pipeline`
+   - `Konflux CI` 
+   - Checks in namespaces related to Red Hat or konflux-ci
+
+Recommendations:
+- Manually open the PR #249 in the konflux-ci/oras-container repository
+- Look for checks that are marked as failed
+- Focus on checks with names indicating Konflux-specific testing or build processes
+- For detailed debugging, you'll want to click on the failed checks to see the specific error messages
+
+If you'd like me to help you investigate further, could you provide:
+1. The specific failed check names you see on the PR
+2. Any error messages from those checks
+
+I recommend using the skill to help parse the PipelineRun details once you have the specific check names.

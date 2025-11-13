@@ -22,6 +22,15 @@
       "author": {
         "name": "Gjorgji Georgievski"
       }
+    },
+    {
+      "name": "navigating-github-to-konflux-pipelines",
+      "source": "./skills/navigating-github-to-konflux-pipelines",
+      "description": "Use when GitHub PR or branch has failing checks and you need to find Konflux pipeline information (cluster, namespace, PipelineRun name). Teaches gh CLI commands to identify Konflux checks (filter out Prow/SonarCloud), extract PipelineRun URLs from builds and integration tests, and parse URLs for kubectl debugging.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Konflux CI Team"
+      }
     }
   ]
 }

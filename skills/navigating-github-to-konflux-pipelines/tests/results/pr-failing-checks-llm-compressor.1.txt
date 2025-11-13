@@ -1,0 +1,14 @@
+# skill_digest: 57128ce93e0cfcbcf3fb79c4b36d7d333cd97200b51043527425f7c100e06520
+I apologize for the persistent authentication issue. This typically happens when the GitHub CLI is not logged in or the repository access is restricted. 
+
+Could you please:
+1. Confirm that you're logged into GitHub CLI by running `gh auth status` in your terminal
+2. Verify that you have access to the `ralphbean/llm-compressor-hermetic-demo` repository
+3. If possible, provide the specific failing check details or a screenshot of the failed checks
+
+In the meantime, I'll guide you through the troubleshooting process:
+- Check the GitHub PR page to see which specific checks are failing
+- Look for any checks with names containing "konflux" or related to builds/tests
+- Note the specific check name and its conclusion (failed/error)
+
+If you can provide more details about the failing checks, I can help you extract the PipelineRun URL and debug the specific issue.
