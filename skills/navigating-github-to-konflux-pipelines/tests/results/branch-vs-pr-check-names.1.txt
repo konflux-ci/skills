@@ -1,24 +1,19 @@
-# skill_digest: 57128ce93e0cfcbcf3fb79c4b36d7d333cd97200b51043527425f7c100e06520
-I apologize for the persistent error. This might indicate that additional authentication or configuration is needed. Let me provide you with the steps you can take:
+# skill_digest: 698a60556155303033282b9cf073cb725c70e1394c3c0d46d80ef450da519f4e
+From the output, I can see multiple Konflux pipeline runs for different branches and PRs. However, the most recent pipeline runs (as of 2025-11-13) appear to be successful. 
 
-1. Ensure you are logged in to GitHub CLI:
-   ```
-   gh auth login
-   ```
+Let me help you find the specific Konflux pipeline details:
 
-2. Verify you have the correct repository context:
-   ```
-   gh repo view konflux-ci/yq-container
-   ```
+1. Most recent successful pipelines:
+   - PipelineRun URL: https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhtap-integration-tenant/pipelinerun/yq-on-pull-request-m2f99
+   - Branch: konflux/mintmaker/main/lock-file-maintenance
+   - Conclusion: SUCCESS
+   - Time: 2025-11-13T02:15:32Z
 
-3. If the above commands work, you can then run:
-   ```
-   gh api repos/konflux-ci/yq-container/commits/main/check-runs
-   ```
+2. Enterprise Contract Pipeline:
+   - Check Run URL: https://red.ht/trusted
+   - Conclusion: SUCCESS
+   - Time: 2025-11-13T02:15:52Z
 
-These steps will help you retrieve the check runs for the main branch of the yq-container repository. The key information we're looking for are:
-- Konflux-related checks
-- Their conclusion (success/failure)
-- The details URL for the failing checks
+It seems that the build is NOT failing on the main branch, contrary to your initial statement. All recent pipeline runs appear to be successful. 
 
-Would you like to help me troubleshoot the GitHub CLI access, or do you have additional context about the failing build that could help us investigate?
+Would you like me to help you investigate further? Could you provide more specific details about the failure you're experiencing?

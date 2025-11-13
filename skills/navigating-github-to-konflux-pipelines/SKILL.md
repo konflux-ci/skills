@@ -1,6 +1,7 @@
 ---
 name: navigating-github-to-konflux-pipelines
 description: Use when GitHub PR or branch has failing checks and you need to find Konflux pipeline information (cluster, namespace, PipelineRun name). Teaches gh CLI commands to identify Konflux checks (filter out Prow/SonarCloud), extract PipelineRun URLs from builds and integration tests, and parse URLs for kubectl debugging.
+allowed-tools: Bash(gh pr:*), Bash(gh api repos/*/commits/*/check-runs:*), Bash(gh repo:*), Bash(grep:*), Bash(sed:*), Bash(echo:*)
 ---
 
 # Navigating GitHub to Konflux Pipelines
@@ -85,7 +86,9 @@ You: "Ensure you're logged in..." ← WRONG
 - `tide` - Prow merge bot
 - `dco` - Developer Certificate of Origin
 
-**IMPORTANT**: Do NOT confuse GitHub Actions (visible in "Actions" tab, use `gh run list`) with GitHub Checks (visible in "Checks" tab, use `gh pr checks` or `gh api check-runs`). Konflux uses the Checks API, not Actions workflows.
+**IMPORTANT**: Do NOT confuse GitHub Actions (visible in "Actions" tab, use `gh run list`) with GitHub Checks (visible in "Checks" tab, use `gh pr checks`). Konflux uses the Checks API, not Actions workflows.
+
+**Note on `gh api` usage**: This skill uses ONLY the read-only `gh api repos/OWNER/REPO/commits/REF/check-runs` endpoint for querying branch checks. Do not use `gh api` for any other endpoints.
 
 ## Check Type Classification
 
@@ -116,6 +119,8 @@ gh pr view <pr-number> --repo <owner>/<repo> --json headRefOid -q .headRefOid
 
 ### For Branches/Commits
 
+**Note**: GitHub CLI doesn't have a built-in command for branch checks, so we use the read-only `check-runs` API endpoint:
+
 ```bash
 # Get checks for latest commit on a branch
 gh api repos/<owner>/<repo>/commits/<branch>/check-runs
@@ -127,6 +132,8 @@ gh api repos/<owner>/<repo>/commits/main/check-runs \
 # Get checks for specific commit SHA
 gh api repos/<owner>/<repo>/commits/<sha>/check-runs
 ```
+
+**Security note**: Only use `gh api` for this specific read-only endpoint pattern (`repos/*/commits/*/check-runs`). Do not use for other API endpoints.
 
 ### Infer Repo from Context
 
@@ -242,7 +249,7 @@ gh api repos/konflux-ci/yq-container/commits/main/check-runs \
 |--------|---------|-------------------|
 | "I'm unable to access the PR" | You have `gh` CLI - try it first | Run `gh pr checks <num> --repo owner/repo` |
 | "Due to authentication constraints" | Don't assume - commands might work | Try the command, show error only if it actually fails |
-| "I need more context" | PR number + repo gives you everything | Use `gh api` to get all check data |
+| "I need more context" | PR number + repo gives you everything | Use `gh pr view --json` to get all check data |
 | "Let me open browser with --web" | Programmatic access is better | Use `--json` flag for structured data |
 | "I apologize, but..." | Don't apologize, DO | Run the commands immediately |
 | "Encountering restrictions" | Assumption until proven | Try first, report actual errors if they occur |
@@ -252,7 +259,7 @@ gh api repos/konflux-ci/yq-container/commits/main/check-runs \
 ## Common Confusions
 
 ### ❌ WRONG: "I don't have access to check information"
-✅ CORRECT: Try `gh pr checks` or `gh api check-runs` first - only report errors if commands actually fail
+✅ CORRECT: Try `gh pr checks` (for PRs) or `gh api repos/.../commits/.../check-runs` (for branches) first - only report errors if commands actually fail
 
 ---
 
@@ -262,7 +269,7 @@ gh api repos/konflux-ci/yq-container/commits/main/check-runs \
 ---
 
 ### ❌ WRONG: "Let me open the PR in browser with `gh pr view --web`"
-✅ CORRECT: Use `gh pr view --json` or `gh api` for programmatic access
+✅ CORRECT: Use `gh pr view --json` for programmatic access to PR data
 
 ---
 
