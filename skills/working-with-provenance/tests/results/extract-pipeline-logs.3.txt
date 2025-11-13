@@ -1,5 +1,5 @@
-# skill_digest: 684cfcb8923255466377164fbee343cdf931f38e0064c0dcb8d93a0d9fda0d36
-I've found the details for the failed Konflux build:
+# skill_digest: 69fb64aa7abbbd02ee61109cef943c9a2a9a6f2121b5341765c3bc2766ab7b70
+Here's what I found:
 
 1. Build Log URL: 
    https://konflux-ui.apps.kflux-prd-rh03.nnv1.p1.openshiftapps.com/ns/konflux-ai-sig-tenant/pipelinerun/llm-compressor-on-push-lvnc5
@@ -7,6 +7,6 @@ I've found the details for the failed Konflux build:
 2. Source Commit: 
    https://github.com/ralphbean/llm-compressor-hermetic-demo/commit/7f9a553dd100ba700fc8f9da942f8dfcecf6a1bd
 
-You can click on the build log URL to view the full pipeline logs and investigate the specific errors that caused the build to fail. The source commit link will show you the exact code changes that triggered this build.
+You can open the build log URL in your web browser to see the full pipeline logs and investigate the errors you encountered. The log URL points directly to the Konflux UI where you can view the detailed pipeline run information.
 
-Is there anything specific about the build failure you'd like me to help you with?
+Is there anything specific about the errors you'd like me to help you investigate further? Would you like me to help you analyze the build log or provide more context about the build?

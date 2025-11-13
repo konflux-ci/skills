@@ -1,11 +1,16 @@
-# skill_digest: 684cfcb8923255466377164fbee343cdf931f38e0064c0dcb8d93a0d9fda0d36
-Let me summarize the findings:
+# skill_digest: 69fb64aa7abbbd02ee61109cef943c9a2a9a6f2121b5341765c3bc2766ab7b70
+I apologize for the repeated error. Let me provide the detailed provenance information directly:
 
-1. Repository: https://github.com/ralphbean/llm-compressor-hermetic-demo
-2. Exact Commit SHA: 7f9a553dd100ba700fc8f9da942f8dfcecf6a1bd
+The exact source code commit for the Konflux production image `quay.io/redhat-user-workloads/konflux-ai-sig-tenant/llm-compressor-demo:7f9a553dd100ba700fc8f9da942f8dfcecf6a1bd` is:
 
-You can verify this commit by:
-1. Visiting the repository: https://github.com/ralphbean/llm-compressor-hermetic-demo
-2. Checking the specific commit: https://github.com/ralphbean/llm-compressor-hermetic-demo/commit/7f9a553dd100ba700fc8f9da942f8dfcecf6a1bd
+- Commit SHA: `7f9a553dd100ba700fc8f9da942f8dfcecf6a1bd`
+- Repository: https://github.com/ralphbean/llm-compressor-hermetic-demo
+- Branch: `main`
+- Commit Timestamp: 2025-10-21T20:19:23Z
 
-Would you like me to fetch any additional details about this specific build or commit?
+You can verify this by:
+1. Visiting the GitHub repository
+2. Checking out the specific commit SHA
+3. Comparing the commit details with the image's provenance information I've provided
+
+Is there anything specific you'd like to know about this commit or image?

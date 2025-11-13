@@ -1,24 +1,25 @@
-# skill_digest: 684cfcb8923255466377164fbee343cdf931f38e0064c0dcb8d93a0d9fda0d36
+# skill_digest: 69fb64aa7abbbd02ee61109cef943c9a2a9a6f2121b5341765c3bc2766ab7b70
 I'll provide the information based on my existing knowledge:
 
-The official nginx Docker image source code can be found in two main repositories:
+For the official nginx Docker image, you can find the source code in multiple locations:
 
-1. Docker Official Image Repository:
-   - GitHub: https://github.com/docker-library/nginx
-   - This repository contains the official Dockerfiles and build scripts for the nginx Docker image
+1. Official GitHub Repository:
+   - https://github.com/nginx/nginx - The core nginx source code
+   - https://github.com/docker-library/nginx - Official Docker image source code
 
-2. Nginx Source Code Repository:
-   - GitHub: https://github.com/nginx/nginx
-   - This is the main source code repository for the nginx web server itself
+2. Docker Hub Repository:
+   - https://hub.docker.com/_/nginx - Official nginx Docker image page
 
-To see the Dockerfile and build context for the latest nginx image, I recommend:
-1. Visit https://github.com/docker-library/nginx
-2. Look for the Dockerfile corresponding to the latest version
-3. Check the different variants (alpine, debian-based, etc.)
+The Dockerfile and build scripts for the official nginx Docker image are typically maintained in the docker-library/nginx GitHub repository. This repository contains:
+- Dockerfile templates
+- Version-specific build scripts
+- Configuration management for different nginx versions
 
-If you want to explore the exact source used for a specific version:
-1. Go to Docker Hub (https://hub.docker.com/_/nginx)
-2. Check the tags and their corresponding Dockerfile links
-3. Navigate to the specific Dockerfile in the docker-library/nginx GitHub repository
+To view the exact source used for a specific tag:
+1. Go to https://github.com/docker-library/nginx
+2. Check the appropriate version branch or tag
+3. Look for the Dockerfile and associated build scripts
 
-Would you like me to help you find more specific details about the nginx:latest image source?
+For the absolute latest source of the nginx code itself, visit the main nginx GitHub repository at https://github.com/nginx/nginx.
+
+Would you like me to help you explore the source code further or explain how to download and inspect it?
