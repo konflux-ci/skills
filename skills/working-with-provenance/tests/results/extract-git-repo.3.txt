@@ -1,16 +1,13 @@
-# skill_digest: 69fb64aa7abbbd02ee61109cef943c9a2a9a6f2121b5341765c3bc2766ab7b70
-From the attestation, I can extract the key details:
+# skill_digest: 277bf232d6be393d85b2319366d2fc3272f724b211a267eafcecbb712eff0bb0
+Let me summarize the findings:
 
-The image comes from the repository:
-- Repository: https://github.com/ralphbean/llm-compressor-hermetic-demo
-- Commit SHA: 7f9a553dd100ba700fc8f9da942f8dfcecf6a1bd
+The image `quay.io/redhat-user-workloads/konflux-ai-sig-tenant/llm-compressor-demo:7f9a553dd100ba700fc8f9da942f8dfcecf6a1bd` originates from the GitHub repository:
+
+https://github.com/ralphbean/llm-compressor-hermetic-demo
+
+Specifically:
+- Repository: ralphbean/llm-compressor-hermetic-demo
+- Commit: 7f9a553dd100ba700fc8f9da942f8dfcecf6a1bd
 - Branch: main
 
-Specifically, the build metadata shows:
-- Source Repo URL: https://github.com/ralphbean/llm-compressor-hermetic-demo
-- Commit: 7f9a553dd100ba700fc8f9da942f8dfcecf6a1bd
-- Source Branch: refs/heads/main
-
-So the image was built from the GitHub repository https://github.com/ralphbean/llm-compressor-hermetic-demo, specifically from the commit 7f9a553dd100ba700fc8f9da942f8dfcecf6a1bd on the main branch.
-
-Would you like me to provide more details about the repository or the build process?
+The image was built as part of a Konflux CI pipeline and stored in the Quay.io registry under the redhat-user-workloads/konflux-ai-sig-tenant organization.

@@ -1,23 +1,25 @@
-# skill_digest: 69fb64aa7abbbd02ee61109cef943c9a2a9a6f2121b5341765c3bc2766ab7b70
-I apologize for the error. Let me explain how you can find the source code for the nginx:latest image:
+# skill_digest: 277bf232d6be393d85b2319366d2fc3272f724b211a267eafcecbb712eff0bb0
+I apologize for the error. Let me provide you with the standard ways to find the source code for the nginx Docker image:
 
-1. Official Nginx Source Code Repositories:
-   - GitHub: https://github.com/nginx/nginx
-   - Official Nginx Website: https://nginx.org/en/download.html
+1. Official GitHub Repository:
+   - The official nginx source code is maintained on GitHub at: https://github.com/nginx/nginx
+   - For the Docker image specifically, check: https://github.com/nginx/docker-nginx
 
-2. Docker Hub Nginx Image Repositories:
-   - Official Docker Hub: https://hub.docker.com/_/nginx
-   - Official GitHub Docker Library Nginx Repo: https://github.com/docker-library/nginx
+2. Docker Hub Source:
+   - Visit the official nginx Docker Hub page: https://hub.docker.com/_/nginx
+   - The "Source" link on this page will direct you to the GitHub repositories
 
-3. For the specific Dockerfile used to build the nginx:latest image, you can:
-   - Check the Docker Library Nginx GitHub repository
-   - View the Dockerfile in the official Docker Hub nginx image documentation
+3. Dockerfile Investigation:
+   - You can pull the image and inspect its Dockerfile:
+     ```bash
+     docker pull nginx:latest
+     docker run -it --entrypoint /bin/sh nginx:latest
+     cat /Dockerfile  # Inside the container
+     ```
 
-To get the exact source code and Dockerfile used for nginx:latest:
-1. Go to https://github.com/docker-library/nginx
-2. Browse the branches and tags to find the version corresponding to the latest tag
-3. Look for Dockerfiles in the repository that show how the image is built
+4. Official Nginx Website:
+   - The primary source code repository is at: https://hg.nginx.org/nginx/
 
-If you want the precise Nginx source code, visit https://github.com/nginx/nginx and explore the branches and releases.
+For the most up-to-date and official source code, I recommend checking the GitHub repositories mentioned above. The nginx:latest tag typically points to the mainline version of nginx, which is actively maintained.
 
-Would you like me to help you navigate these repositories or find more specific information about the nginx:latest image?
+Would you like me to help you explore the source code further or explain how to investigate the image's details?

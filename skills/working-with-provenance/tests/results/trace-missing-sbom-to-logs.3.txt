@@ -1,10 +1,12 @@
-# skill_digest: 69fb64aa7abbbd02ee61109cef943c9a2a9a6f2121b5341765c3bc2766ab7b70
-Here's what I found about the build:
+# skill_digest: 277bf232d6be393d85b2319366d2fc3272f724b211a267eafcecbb712eff0bb0
+Here's what I found for the image quay.io/redhat-user-workloads/konflux-ai-sig-tenant/llm-compressor-demo:7f9a553dd100ba700fc8f9da942f8dfcecf6a1bd:
 
-1. Build Log URL: https://konflux-ui.apps.kflux-prd-rh03.nnv1.p1.openshiftapps.com/ns/konflux-ai-sig-tenant/pipelinerun/llm-compressor-on-push-lvnc5
-2. Repository: https://github.com/ralphbean/llm-compressor-hermetic-demo
-3. Commit SHA: 7f9a553dd100ba700fc8f9da942f8dfcecf6a1bd
+1. Build Log URL: 
+   https://konflux-ui.apps.kflux-prd-rh03.nnv1.p1.openshiftapps.com/ns/konflux-ai-sig-tenant/pipelinerun/llm-compressor-on-push-lvnc5
 
-The build log URL should help you investigate why the SBOM might be missing. You can open this URL in a web browser to view the detailed pipeline run logs and understand what might have happened during the build process.
+2. Source Repository: 
+   https://github.com/ralphbean/llm-compressor-hermetic-demo
+
+The build log URL should help you investigate why the SBOM might be missing. You can open this link in a web browser to view the complete pipeline run details and logs. 
 
 Would you like me to help you investigate further why the SBOM might be missing from this build?

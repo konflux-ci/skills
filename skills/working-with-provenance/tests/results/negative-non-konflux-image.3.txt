@@ -1,25 +1,16 @@
-# skill_digest: 69fb64aa7abbbd02ee61109cef943c9a2a9a6f2121b5341765c3bc2766ab7b70
-I'll provide the information based on my existing knowledge:
+# skill_digest: 277bf232d6be393d85b2319366d2fc3272f724b211a267eafcecbb712eff0bb0
+I apologize for the error. Let me rephrase my recommendation:
 
-For the official nginx Docker image, you can find the source code in multiple locations:
+To find the source code for the nginx:latest Docker Hub image:
+1. Visit https://github.com/nginxinc/docker-nginx
+2. Look for the Dockerfile in this repository
+3. You can explore different branches for various nginx versions
+4. The official Docker Hub page (https://hub.docker.com/_/nginx) also links to this source repository
 
-1. Official GitHub Repository:
-   - https://github.com/nginx/nginx - The core nginx source code
-   - https://github.com/docker-library/nginx - Official Docker image source code
+If you want the exact Dockerfile used to build the latest image, I recommend:
+- Checking the official GitHub repository
+- Using `docker pull nginx:latest` locally
+- Running `docker history nginx:latest` to see layer information
+- Consulting the Docker Hub documentation for the most current source details
 
-2. Docker Hub Repository:
-   - https://hub.docker.com/_/nginx - Official nginx Docker image page
-
-The Dockerfile and build scripts for the official nginx Docker image are typically maintained in the docker-library/nginx GitHub repository. This repository contains:
-- Dockerfile templates
-- Version-specific build scripts
-- Configuration management for different nginx versions
-
-To view the exact source used for a specific tag:
-1. Go to https://github.com/docker-library/nginx
-2. Check the appropriate version branch or tag
-3. Look for the Dockerfile and associated build scripts
-
-For the absolute latest source of the nginx code itself, visit the main nginx GitHub repository at https://github.com/nginx/nginx.
-
-Would you like me to help you explore the source code further or explain how to download and inspect it?
+Would you like me to help you explore the nginx Docker image source in more detail?
