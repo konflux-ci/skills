@@ -1,0 +1,18 @@
+# skill_digest: 76305b8207b4b3a0ed28e613a4a1299deeed3be3bf27b44b2bfbdf06283e5fea
+Here's what I found for your Konflux build:
+
+1. Build Log URL: 
+   https://konflux-ui.apps.kflux-prd-rh03.nnv1.p1.openshiftapps.com/ns/konflux-ai-sig-tenant/pipelinerun/llm-compressor-on-push-lvnc5
+
+2. Source Repository: 
+   https://github.com/ralphbean/llm-compressor-hermetic-demo
+
+3. Commit SHA: 
+   7f9a553dd100ba700fc8f9da942f8dfcecf6a1bd
+
+The build log URL should help you investigate why the SBOM is missing. I recommend:
+1. Open the build log URL to check the pipeline run details
+2. Look for any SBOM-related task failures or warnings
+3. Verify if the SBOM generation step was skipped or encountered an error
+
+Would you like me to help you further investigate the missing SBOM?

@@ -1,0 +1,25 @@
+# skill_digest: 76305b8207b4b3a0ed28e613a4a1299deeed3be3bf27b44b2bfbdf06283e5fea
+I apologize for the error. Let me explain how to find the source code for the nginx:latest Docker image:
+
+1. The official Nginx Docker image source code is hosted on GitHub at: https://github.com/nginxinc/docker-nginx
+
+You can find the source code for the Dockerfile and related build scripts in this repository. Specifically:
+- The Dockerfile defines how the image is built
+- You can see different variations of the image (alpine, debian-based, etc.)
+- The repository shows the build process and configuration
+
+To explore the source code:
+1. Visit https://github.com/nginxinc/docker-nginx
+2. Browse the different directories for Dockerfile variations
+3. Check the branches and tags to match the specific version of nginx:latest
+
+If you want to clone the repository:
+```bash
+git clone https://github.com/nginxinc/docker-nginx
+```
+
+Additional resources:
+- Docker Hub page: https://hub.docker.com/_/nginx
+- Official Nginx website: https://nginx.org/
+
+Would you like me to help you explore the source code further or explain anything specific about the Nginx Docker image?

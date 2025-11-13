@@ -1,0 +1,9 @@
+# skill_digest: 76305b8207b4b3a0ed28e613a4a1299deeed3be3bf27b44b2bfbdf06283e5fea
+Here's a summary of the provenance information for the image:
+
+- **Repository**: https://github.com/ralphbean/llm-compressor-hermetic-demo
+- **Exact Commit**: 7f9a553dd100ba700fc8f9da942f8dfcecf6a1bd
+- **Full Commit Link**: https://github.com/ralphbean/llm-compressor-hermetic-demo/commit/7f9a553dd100ba700fc8f9da942f8dfcecf6a1bd
+- **Build Log URL**: https://konflux-ui.apps.kflux-prd-rh03.nnv1.p1.openshiftapps.com/ns/konflux-ai-sig-tenant/pipelinerun/llm-compressor-on-push-lvnc5
+
+You can use the commit link to view the exact source code that was used to build this image, or check the build log for more details about the build process.

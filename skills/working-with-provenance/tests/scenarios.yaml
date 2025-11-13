@@ -1,0 +1,78 @@
+# Test scenarios for working-with-provenance skill
+# This file defines all test cases for validating the skill's behavior
+
+skill_name: working-with-provenance
+description: Tests for provenance attestation navigation and artifact tracing
+
+# Test scenarios following TDD methodology (RED-GREEN-REFACTOR)
+test_scenarios:
+  - name: trace-missing-sbom-to-logs
+    description: Test ability to navigate from image to build logs for SBOM investigation
+    prompt: "This Konflux build quay.io/redhat-user-workloads/konflux-ai-sig-tenant/llm-compressor-demo:7f9a553dd100ba700fc8f9da942f8dfcecf6a1bd is missing its SBOM. Can you help me find the build logs to see what happened?"
+    model: haiku
+    samples: 3
+    expected:
+      contains_keywords:
+        - konflux-ui
+        - pipelinerun
+      does_not_contain: []
+    baseline_failure: "Agent doesn't know how to extract build log URL from provenance attestation"
+
+  - name: trace-build-to-commit
+    description: Test ability to navigate from image to source commit
+    prompt: "The latest Konflux build quay.io/redhat-user-workloads/konflux-ai-sig-tenant/llm-compressor-demo:7f9a553dd100ba700fc8f9da942f8dfcecf6a1bd isn't working as expected. Can you help me find which commit it was built from so I can see what changed?"
+    model: haiku
+    samples: 3
+    expected:
+      contains_keywords:
+        - 7f9a553dd100ba700fc8f9da942f8dfcecf6a1bd
+        - github.com
+      does_not_contain: []
+    baseline_failure: "Agent doesn't know how to extract commit SHA and repo URL from provenance"
+
+  - name: verify-image-source
+    description: Test security/compliance verification of image source
+    prompt: "I need to verify which exact source code commit this Konflux production image was built from: quay.io/redhat-user-workloads/konflux-ai-sig-tenant/llm-compressor-demo:7f9a553dd100ba700fc8f9da942f8dfcecf6a1bd"
+    model: haiku
+    samples: 3
+    expected:
+      contains_keywords:
+        - 7f9a553dd100ba700fc8f9da942f8dfcecf6a1bd
+        - llm-compressor-hermetic-demo
+      does_not_contain: []
+    baseline_failure: "Agent doesn't know provenance contains definitive source information"
+
+  - name: extract-pipeline-logs
+    description: Test quick extraction of pipeline log URL
+    prompt: "A Konflux build failed with weird errors. I have the image reference quay.io/redhat-user-workloads/konflux-ai-sig-tenant/llm-compressor-demo:7f9a553dd100ba700fc8f9da942f8dfcecf6a1bd. How do I get to the full pipeline logs?"
+    model: haiku
+    samples: 3
+    expected:
+      contains_keywords:
+        - konflux-ui
+        - pipelinerun
+      does_not_contain: []
+    baseline_failure: "Agent suggests manual UI navigation instead of using provenance"
+
+  - name: extract-git-repo
+    description: Test extraction of source repository URL
+    prompt: "I have this Konflux image quay.io/redhat-user-workloads/konflux-ai-sig-tenant/llm-compressor-demo:7f9a553dd100ba700fc8f9da942f8dfcecf6a1bd but don't know which repo it came from. How can I find out?"
+    model: haiku
+    samples: 3
+    expected:
+      contains_keywords:
+        - github.com
+        - llm-compressor-hermetic-demo
+      does_not_contain: []
+    baseline_failure: "Agent doesn't know how to extract repository URL from provenance"
+
+  - name: negative-non-konflux-image
+    description: Test that skill doesn't trigger for non-Konflux contexts
+    prompt: "How do I find the source code for this Docker Hub image: nginx:latest?"
+    model: haiku
+    samples: 3
+    expected:
+      contains_keywords: []
+      does_not_contain:
+        - cosign download attestation
+    baseline_failure: "Skill shouldn't apply to non-Konflux images"

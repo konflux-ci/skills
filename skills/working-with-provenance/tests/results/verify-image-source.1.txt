@@ -1,0 +1,10 @@
+# skill_digest: 76305b8207b4b3a0ed28e613a4a1299deeed3be3bf27b44b2bfbdf06283e5fea
+Here's a summary of the provenance details for the image:
+
+- **Commit SHA**: `7f9a553dd100ba700fc8f9da942f8dfcecf6a1bd`
+- **Repository**: https://github.com/ralphbean/llm-compressor-hermetic-demo
+- **Build Log URL**: https://konflux-ui.apps.kflux-prd-rh03.nnv1.p1.openshiftapps.com/ns/konflux-ai-sig-tenant/pipelinerun/llm-compressor-on-push-lvnc5
+
+You can use the commit link to view the exact source code that was used to build this image. The build log URL provides additional context about the build process if you need more details.
+
+Is there anything specific you'd like to know about this image or its source code?

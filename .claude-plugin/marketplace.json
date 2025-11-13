@@ -31,6 +31,15 @@
       "author": {
         "name": "Konflux CI Team"
       }
+    },
+    {
+      "name": "working-with-provenance",
+      "source": "./skills/working-with-provenance",
+      "description": "Use when tracing Konflux builds from image references, finding build logs from artifacts, or verifying source commits for container images - extracts provenance attestations to navigate from images back to builds and source code",
+      "version": "1.0.0",
+      "author": {
+        "name": "Konflux CI Team"
+      }
     }
   ]
 }
