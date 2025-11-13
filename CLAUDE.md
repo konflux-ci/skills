@@ -14,17 +14,21 @@ This repository contains Claude Code skills to help users work with the Konflux 
 1. Create N temp HOME directories (one per parallel worker)
 2. Each worker HOME contains:
    - Symlink to skill in `~/.claude/skills/`
-   - Copy of gcloud credentials (for auth)
-3. Run `claude --print --allowed-tools=Skill` with `HOME=/tmp/claude-worker-N/`
+   - Copy of `.config/gcloud` (required for Claude Code API auth)
+   - Skill-specific credentials from `copy_to_home` field (e.g., `.config/gh`)
+3. Run `claude --print --allowed-tools=<tools>` with `HOME=/tmp/claude-worker-N/`
+   - Parses `allowed-tools` from SKILL.md frontmatter
+   - Always includes `Skill` tool plus any skill-specific tools
 4. Each worker reuses its temp HOME across all test invocations
 5. Cleanup all worker HOMEs after test completion
 
 **Key insights:**
 - Isolated temp HOMEs prevent file watcher conflicts between parallel workers
 - Skills symlinked to `~/.claude/skills/` are discovered automatically
-- **CRITICAL**: Must use `--allowed-tools=Skill` flag to enable Skill tool in --print mode
-- The Skill tool is NOT enabled by default in --print mode
-- Each worker copies gcloud credentials once (not per test)
+- **Tool permissions**: Test framework parses `allowed-tools` from SKILL.md frontmatter
+- **Credentials**: Test framework copies paths from scenarios.yaml `copy_to_home` field
+- `.config/gcloud` always copied for Claude Code API authentication
+- Skill-specific credentials (gh, kubectl, etc.) declared per skill
 - Worker HOMEs persist for the duration of the test run
 
 **Benefits:**
@@ -35,7 +39,8 @@ This repository contains Claude Code skills to help users work with the Konflux 
 - ✅ Each worker reuses setup (minimal overhead per test)
 
 **Trade-offs:**
-- Copies gcloud credentials once per worker (~10MB × 8 = ~80MB)
+- Copies credentials once per worker (~10-50MB × 8 workers)
+- Skills must explicitly declare tool and credential requirements
 - Tests discovery + effectiveness together (can't isolate just effectiveness)
 - Temp HOMEs persist during test run (cleaned up after)
 
@@ -115,6 +120,9 @@ Before committing a new skill, verify:
   - [ ] `description` starts with "Use when..." and includes specific triggers
   - [ ] Total frontmatter < 1024 characters
   - [ ] Description written in third person
+  - [ ] `allowed-tools` field added if skill needs specific tools (e.g., `Bash(gh pr:*)`)
+    - Restricts tools during interactive use (security/safety)
+    - Enables same tools during test generation (consistency)
 
 - [ ] **Content Quality**
   - [ ] Core principle stated upfront
@@ -199,6 +207,12 @@ Each skill must have test scenarios in `<skill-name>/tests/scenarios.yaml`:
 skill_name: your-skill-name
 description: Brief test description
 
+# Optional: Paths to copy from real HOME to test environment HOME
+# Skills that need external credentials (gh, kubectl, etc.) should declare them here
+copy_to_home:
+  - .config/gh          # Example: GitHub CLI authentication
+  - .kube/config        # Example: kubectl cluster configuration
+
 test_scenarios:
   - name: test-name
     description: What this validates
@@ -210,6 +224,50 @@ test_scenarios:
       does_not_contain: [wrong-term]
     baseline_failure: "What failed in RED phase"
 ```
+
+**Tool Permissions (`allowed-tools` in SKILL.md frontmatter):**
+
+Skills that use specific tools should declare them in SKILL.md frontmatter using the standard `allowed-tools` field:
+
+```yaml
+---
+name: navigating-github-to-konflux-pipelines
+description: Use when GitHub PR or branch has failing checks...
+allowed-tools: Bash(gh pr:*), Bash(gh api:*), Bash(gh repo:*), Bash(grep:*), Bash(sed:*)
+---
+```
+
+**Purpose:**
+- **Interactive use**: Restricts which tools Claude can use when skill is active (security/safety)
+- **Test generation**: Test framework parses this field and enables the same tools in `--print` mode
+
+**Syntax:**
+- Use parenthetical syntax to limit command scope: `Bash(gh pr:*)`
+- Comma or space-separated list
+- Tool names must match Claude Code tool names (Bash, Read, Edit, etc.)
+
+**Credential Management (`copy_to_home` in scenarios.yaml):**
+
+Skills that need to run commands requiring external authentication (e.g., `gh`, `kubectl`) should declare required credential paths in `copy_to_home`:
+
+- `.config/gcloud` is **always copied** for Claude Code API authentication
+- Add skill-specific paths for other credentials:
+  - `.config/gh` - GitHub CLI authentication
+  - `.kube/config` - kubectl cluster configuration
+  - `.aws/credentials` - AWS CLI credentials
+  - Any other `~/` relative path needed
+
+**Example:**
+```yaml
+# Skills using gh commands need GitHub CLI auth
+copy_to_home:
+  - .config/gh
+```
+
+**Relationship between `allowed-tools` and `copy_to_home`:**
+- `allowed-tools` (SKILL.md) - **Permission** to use tools
+- `copy_to_home` (scenarios.yaml) - **Credentials** to authenticate those tools
+- Both are needed for skills using authenticated external commands
 
 **Test scenario coverage:**
 - Recognition tests (does agent know when to apply?)
