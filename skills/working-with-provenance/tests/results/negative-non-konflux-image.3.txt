@@ -1,25 +1,24 @@
-# skill_digest: 76305b8207b4b3a0ed28e613a4a1299deeed3be3bf27b44b2bfbdf06283e5fea
-I apologize for the error. Let me explain how to find the source code for the nginx:latest Docker image:
+# skill_digest: 684cfcb8923255466377164fbee343cdf931f38e0064c0dcb8d93a0d9fda0d36
+I'll provide the information based on my existing knowledge:
 
-1. The official Nginx Docker image source code is hosted on GitHub at: https://github.com/nginxinc/docker-nginx
+The official nginx Docker image source code can be found in two main repositories:
 
-You can find the source code for the Dockerfile and related build scripts in this repository. Specifically:
-- The Dockerfile defines how the image is built
-- You can see different variations of the image (alpine, debian-based, etc.)
-- The repository shows the build process and configuration
+1. Docker Official Image Repository:
+   - GitHub: https://github.com/docker-library/nginx
+   - This repository contains the official Dockerfiles and build scripts for the nginx Docker image
 
-To explore the source code:
-1. Visit https://github.com/nginxinc/docker-nginx
-2. Browse the different directories for Dockerfile variations
-3. Check the branches and tags to match the specific version of nginx:latest
+2. Nginx Source Code Repository:
+   - GitHub: https://github.com/nginx/nginx
+   - This is the main source code repository for the nginx web server itself
 
-If you want to clone the repository:
-```bash
-git clone https://github.com/nginxinc/docker-nginx
-```
+To see the Dockerfile and build context for the latest nginx image, I recommend:
+1. Visit https://github.com/docker-library/nginx
+2. Look for the Dockerfile corresponding to the latest version
+3. Check the different variants (alpine, debian-based, etc.)
 
-Additional resources:
-- Docker Hub page: https://hub.docker.com/_/nginx
-- Official Nginx website: https://nginx.org/
+If you want to explore the exact source used for a specific version:
+1. Go to Docker Hub (https://hub.docker.com/_/nginx)
+2. Check the tags and their corresponding Dockerfile links
+3. Navigate to the specific Dockerfile in the docker-library/nginx GitHub repository
 
-Would you like me to help you explore the source code further or explain anything specific about the Nginx Docker image?
+Would you like me to help you find more specific details about the nginx:latest image source?

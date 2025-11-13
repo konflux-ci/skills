@@ -1,7 +1,7 @@
 ---
 name: working-with-provenance
 description: Use when tracing Konflux builds from image references, finding build logs from artifacts, or verifying source commits for container images - extracts provenance attestations to navigate from images back to builds and source code
-allowed-tools: Bash(cosign:*), Bash(jq:*), Bash(scripts/*:*)
+allowed-tools: Bash(cosign:*), Bash(jq:*), Bash(scripts/*:*), Bash(~/.claude/skills/working-with-provenance/scripts/*:*)
 ---
 
 # Working with Provenance

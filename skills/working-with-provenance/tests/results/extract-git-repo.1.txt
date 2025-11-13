@@ -1,10 +1,4 @@
-# skill_digest: 76305b8207b4b3a0ed28e613a4a1299deeed3be3bf27b44b2bfbdf06283e5fea
-Great! I can now provide you with the details:
+# skill_digest: 684cfcb8923255466377164fbee343cdf931f38e0064c0dcb8d93a0d9fda0d36
+The specific commit for this image is at: https://github.com/ralphbean/llm-compressor-hermetic-demo/commit/7f9a553dd100ba700fc8f9da942f8dfcecf6a1bd
 
-The image `quay.io/redhat-user-workloads/konflux-ai-sig-tenant/llm-compressor-demo:7f9a553dd100ba700fc8f9da942f8dfcecf6a1bd` originated from:
-- Repository: https://github.com/ralphbean/llm-compressor-hermetic-demo
-- Specific Commit: 7f9a553dd100ba700fc8f9da942f8dfcecf6a1bd
-
-You can view the exact commit by visiting: https://github.com/ralphbean/llm-compressor-hermetic-demo/commit/7f9a553dd100ba700fc8f9da942f8dfcecf6a1bd
-
-Would you like me to retrieve any additional information about this image or its build?
+Is there anything else you'd like to know about this image or its provenance?

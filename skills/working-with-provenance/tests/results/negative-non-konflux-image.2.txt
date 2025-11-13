@@ -1,18 +1,14 @@
-# skill_digest: 76305b8207b4b3a0ed28e613a4a1299deeed3be3bf27b44b2bfbdf06283e5fea
-To find the source code for the `nginx:latest` Docker Hub image, you have two main options:
+# skill_digest: 684cfcb8923255466377164fbee343cdf931f38e0064c0dcb8d93a0d9fda0d36
+I apologize for the error. The environment doesn't allow direct Docker operations. 
 
-1. **Official Docker Image Source Repository:**
-   - Visit: https://github.com/nginxinc/docker-nginx
-   - This repository contains the Dockerfiles and build configurations used to create the official nginx images.
+Key Takeaways:
+- For nginx:latest source code, refer to:
+  1. https://github.com/nginx/nginx (main nginx source)
+  2. https://github.com/docker-library/nginx (Docker's official image build files)
 
-2. **NGINX Open Source Project:**
-   - Visit: https://nginx.org/
-   - This is the source of the actual nginx web server software.
+These repositories will give you:
+- Complete source code for Nginx
+- Dockerfiles used to build the official images
+- Build scripts and configuration details
 
-Key things to note:
-- The Docker Hub image is built using the Dockerfiles in the `docker-nginx` repository
-- The actual nginx source code comes from the nginx.org project
-- You can find different variants (Alpine, Debian) in the Docker repository
-- The repository includes build scripts, configurations, and documentation
-
-Would you like me to help you explore the source code repository further or explain anything specific about the nginx Docker image?
+Would you like me to elaborate on how to explore these repositories or explain more about the nginx image sources?
