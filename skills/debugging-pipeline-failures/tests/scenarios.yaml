@@ -1,5 +1,9 @@
 skill_name: debugging-pipeline-failures
 description: Validates systematic Konflux pipeline debugging methodology using standard kubectl and Tekton CLI approaches
+
+# Note: .config/gcloud is automatically copied for all tests (needed for Claude Code API auth)
+# Add skill-specific paths here if needed (e.g., .kube/config for kubectl)
+
 test_scenarios:
   - name: systematic-investigation-approach
     description: Validates that Claude follows systematic phases for pipeline failure investigation

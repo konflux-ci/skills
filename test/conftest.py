@@ -262,21 +262,35 @@ def invoke_claude(
     """
     # Setup worker home if needed
     skills_dir = worker_home / ".claude" / "skills"
-    if not skills_dir.exists():
-        skills_dir.mkdir(parents=True)
+    skills_dir.mkdir(parents=True, exist_ok=True)
 
-        # Symlink the skill
-        skill_link = skills_dir / skill_dir.name
-        if not skill_link.exists():
-            skill_link.symlink_to(skill_dir.absolute())
+    # Symlink the skill (if not already linked)
+    skill_link = skills_dir / skill_dir.name
+    if not skill_link.exists():
+        skill_link.symlink_to(skill_dir.absolute())
 
-        # Copy gcloud credentials (once per worker)
-        config_dir = worker_home / ".config"
-        config_dir.mkdir(exist_ok=True)
+    # Always copy gcloud credentials (required for Claude Code API authentication)
+    gcloud_source = Path.home() / ".config" / "gcloud"
+    gcloud_dest = worker_home / ".config" / "gcloud"
+    if gcloud_source.exists() and not gcloud_dest.exists():
+        gcloud_dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copytree(gcloud_source, gcloud_dest)
 
-        real_gcloud = Path.home() / ".config" / "gcloud"
-        if real_gcloud.exists() and not (config_dir / "gcloud").exists():
-            shutil.copytree(real_gcloud, config_dir / "gcloud")
+    # Copy additional paths specified in scenarios.yaml copy_to_home field
+    # (for skill-specific credentials like gh, kubectl configs, etc.)
+    scenarios_data = load_scenarios(skill_dir)
+    if scenarios_data and "copy_to_home" in scenarios_data:
+        for path_str in scenarios_data["copy_to_home"]:
+            source_path = Path.home() / path_str
+            dest_path = worker_home / path_str
+
+            # Only copy if source exists and dest doesn't (once per worker)
+            if source_path.exists() and not dest_path.exists():
+                dest_path.parent.mkdir(parents=True, exist_ok=True)
+                if source_path.is_dir():
+                    shutil.copytree(source_path, dest_path)
+                else:
+                    shutil.copy2(source_path, dest_path)
 
     # Parse skill frontmatter to get allowed-tools
     frontmatter = parse_skill_frontmatter(skill_dir)
@@ -308,15 +322,25 @@ def invoke_claude(
     env = os.environ.copy()
     env["HOME"] = str(worker_home)
 
-    result = subprocess.run(
-        cmd,
-        capture_output=True,
-        text=True,
-        check=True,
-        close_fds=True,
-        env=env,
-        cwd=str(worker_home)  # Run from worker home to avoid project CLAUDE.md
-    )
+    try:
+        result = subprocess.run(
+            cmd,
+            capture_output=True,
+            text=True,
+            check=True,
+            close_fds=True,
+            env=env,
+            cwd=str(worker_home)  # Run from worker home to avoid project CLAUDE.md
+        )
+    except subprocess.CalledProcessError as e:
+        # Log the error for debugging
+        print(f"\n=== Claude command failed ===")
+        print(f"Command: {' '.join(cmd)}")
+        print(f"Exit code: {e.returncode}")
+        print(f"STDOUT:\n{e.stdout}")
+        print(f"STDERR:\n{e.stderr}")
+        print(f"===========================\n")
+        raise
 
     # Save debug output (stderr) if present
     if result.stderr:

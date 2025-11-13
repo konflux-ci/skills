@@ -4,6 +4,11 @@
 skill_name: navigating-github-to-konflux-pipelines
 description: Tests for GitHub check navigation and PipelineRun URL extraction
 
+# Paths to copy from real HOME to test environment HOME
+# This skill needs GitHub CLI authentication to run gh commands
+copy_to_home:
+  - .config/gh
+
 # Test scenarios following TDD methodology (RED-GREEN-REFACTOR)
 test_scenarios:
   - name: pr-failing-checks-llm-compressor
