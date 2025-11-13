@@ -80,7 +80,7 @@ clean:
 	@echo "✓ Test results removed"
 
 local-install:
-	@bash scripts/local-install.sh
+	@bash hack/local-install.sh
 
 local-uninstall:
-	@bash scripts/local-uninstall.sh
+	@bash hack/local-uninstall.sh
