@@ -106,6 +106,36 @@ def load_scenarios(skill_dir: Path) -> Optional[Dict]:
         return yaml.safe_load(f)
 
 
+def parse_skill_frontmatter(skill_dir: Path) -> Optional[Dict]:
+    """
+    Parse YAML frontmatter from SKILL.md.
+
+    Returns dict with frontmatter fields, or None if not found.
+    """
+    skill_file = skill_dir / "SKILL.md"
+    if not skill_file.exists():
+        return None
+
+    with open(skill_file) as f:
+        content = f.read()
+
+    # Check for YAML frontmatter (--- at start and end)
+    if not content.startswith("---\n"):
+        return None
+
+    # Find the closing ---
+    end_marker = content.find("\n---\n", 4)
+    if end_marker == -1:
+        return None
+
+    # Extract and parse frontmatter
+    frontmatter_text = content[4:end_marker]
+    try:
+        return yaml.safe_load(frontmatter_text)
+    except yaml.YAMLError:
+        return None
+
+
 @pytest.fixture(scope="session")
 def worker_home(tmp_path_factory, request):
     """
@@ -248,13 +278,30 @@ def invoke_claude(
         if real_gcloud.exists() and not (config_dir / "gcloud").exists():
             shutil.copytree(real_gcloud, config_dir / "gcloud")
 
+    # Parse skill frontmatter to get allowed-tools
+    frontmatter = parse_skill_frontmatter(skill_dir)
+    allowed_tools = ["Skill"]  # Always include Skill tool for skill invocation
+
+    if frontmatter and "allowed-tools" in frontmatter:
+        # Parse allowed-tools field (can be string or list)
+        tools_value = frontmatter["allowed-tools"]
+        if isinstance(tools_value, str):
+            # Split by comma and strip whitespace
+            tools = [t.strip() for t in tools_value.split(",")]
+            allowed_tools.extend(tools)
+        elif isinstance(tools_value, list):
+            allowed_tools.extend(tools_value)
+
+    # Build --allowed-tools parameter
+    allowed_tools_str = ",".join(allowed_tools)
+
     # Invoke Claude with custom HOME
     cmd = [
         "claude",
         "--print",
         "--debug",
         "--model", model,
-        "--allowed-tools=Skill",  # Enable Skill tool for skill invocation
+        f"--allowed-tools={allowed_tools_str}",
         prompt
     ]
 
