@@ -4,3 +4,4 @@ pytest-xdist>=3.5.0  # Parallel test execution
 
 # Required for test scenarios
 PyYAML>=6.0
+jsonschema>=4.0.0  # Schema validation for scenarios.yaml

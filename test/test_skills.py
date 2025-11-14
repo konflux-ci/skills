@@ -269,3 +269,54 @@ def test_all_skills_in_readme():
             "README.md skill documentation issues:\n" + "\n".join(errors) + "\n\n"
             "Each production skill must appear exactly once in README.md"
         )
+
+
+@pytest.mark.test
+def test_scenarios_yaml_schema():
+    """
+    Validate all scenarios.yaml files against JSON schema.
+
+    This ensures that all test scenario files follow the expected structure
+    and contain all required fields with correct types.
+    """
+    import jsonschema
+
+    # Load the schema
+    schema_file = Path("test/scenarios-schema.json")
+    if not schema_file.exists():
+        pytest.fail(f"Schema file not found: {schema_file}")
+
+    with open(schema_file) as f:
+        schema = json.load(f)
+
+    # Find all scenarios.yaml files
+    scenarios_files = list(Path("skills").rglob("scenarios.yaml"))
+
+    if not scenarios_files:
+        pytest.fail("No scenarios.yaml files found in skills/ directory")
+
+    errors = []
+    for scenarios_file in scenarios_files:
+        with open(scenarios_file) as f:
+            try:
+                scenarios_data = yaml.safe_load(f)
+            except yaml.YAMLError as e:
+                errors.append(f"{scenarios_file}: Invalid YAML - {e}")
+                continue
+
+        # Validate against schema
+        try:
+            jsonschema.validate(instance=scenarios_data, schema=schema)
+        except jsonschema.ValidationError as e:
+            # Build a helpful error message with the path to the error
+            path = ".".join(str(p) for p in e.absolute_path) if e.absolute_path else "root"
+            errors.append(f"{scenarios_file} at '{path}': {e.message}")
+        except jsonschema.SchemaError as e:
+            pytest.fail(f"Invalid schema file: {e.message}")
+
+    if errors:
+        error_msg = "\n".join(f"  - {e}" for e in errors)
+        pytest.fail(
+            f"scenarios.yaml validation errors:\n{error_msg}\n\n"
+            "All scenarios.yaml files must conform to test/scenarios-schema.json"
+        )

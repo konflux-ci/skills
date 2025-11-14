@@ -1,0 +1,107 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Skill Test Scenarios",
+  "description": "Schema for validating scenarios.yaml files in skill test directories",
+  "type": "object",
+  "required": ["skill_name", "description", "test_scenarios"],
+  "properties": {
+    "skill_name": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Skill name using only lowercase letters, numbers, and hyphens"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Brief description of what these test scenarios validate"
+    },
+    "copy_to_home": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true,
+      "description": "Optional list of paths to copy from real HOME to test environment HOME (e.g., .config/gh, .kube/config)"
+    },
+    "test_scenarios": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "description", "prompt", "model", "samples", "expected", "baseline_failure"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$",
+            "description": "Test scenario name using only lowercase letters, numbers, and hyphens"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "description": "What this test scenario validates"
+          },
+          "prompt": {
+            "type": "string",
+            "minLength": 1,
+            "description": "User question to test the skill with"
+          },
+          "model": {
+            "type": "string",
+            "enum": ["haiku", "sonnet", "opus"],
+            "description": "Claude model to use for this test scenario"
+          },
+          "samples": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Number of result samples to generate for this scenario"
+          },
+          "expected": {
+            "type": "object",
+            "required": ["contains_keywords"],
+            "properties": {
+              "contains_keywords": {
+                "type": "array",
+                "items": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "description": "Array of keywords (OR condition - at least one must be present)"
+                    }
+                  ]
+                },
+                "description": "Keywords or phrases that must be present in the output (arrays represent OR conditions). Can be empty for negative tests."
+              },
+              "does_not_contain": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "description": "Keywords or phrases that must NOT be present in the output"
+              }
+            },
+            "additionalProperties": false,
+            "description": "Expected characteristics of the test output"
+          },
+          "baseline_failure": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Description of what failed in the RED phase (baseline test without the skill)"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
