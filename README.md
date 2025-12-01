@@ -40,6 +40,14 @@ Trace Konflux builds from container images back to source:
 - Verify source commits for deployed containers
 - Navigate from artifacts back to builds and source code
 
+### component-build-status
+
+Trigger build of Konflux Component:
+- Trigger build of a component
+- Wait for release to finish
+- Instruct Claude to perform nudging
+- Get status of a Component or Application
+
 ## Installation
 
 First, add the konflux-skills marketplace (one-time setup):
