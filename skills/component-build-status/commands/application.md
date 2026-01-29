@@ -3,16 +3,16 @@ description: Manage Konflux application
 ---
 
 ## Name
-konflux:application
+component-build-status:application
 
 ## Synopsis
 
 ```bash
-/konflux:application status <application>
+/component-build-status:application status <application>
 ```
 
 ## Description
-The `konflux:application` command to manage Konflux application.
+The `component-build-status:application` command to manage Konflux application.
 
 This command helps you:
 - List all components in the application
@@ -48,7 +48,7 @@ The command performs the following steps:
 4. **Show status for each Konflux component**:
     - Run the following Claude Code command to get status of each Konflux component from the application
     ```bash
-    /konflux:component status {component}
+    /component-build-status:component status {component}
     ```
 
 
@@ -59,7 +59,7 @@ The command performs the following steps:
 
 1. **Get status all components of the otel-main application**:
    ```bash
-   /konflux:application status otel-main
+   /component-build-status:application status otel-main
    ```
 
 ## Arguments
@@ -73,8 +73,8 @@ The command performs the following steps:
 
 ## Related Commands
 
-* `/konflux:component status <component>` - Show component status
-* `/konflux:component build <components> [--wait <duration>] [--wait-release <duration>] [--nudge]` - Trigger component build
+* `/component-build-status:component status <component>` - Show component status
+* `/component-build-status:component build <components> [--wait <duration>] [--wait-release <duration>] [--nudge]` - Trigger component build
 
 ## Additional Resources
 

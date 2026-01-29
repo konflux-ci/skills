@@ -3,17 +3,17 @@ description: Manage Konflux component
 ---
 
 ## Name
-konflux:component
+component-build-status:component
 
 ## Synopsis
 
 ```bash
-/konflux:component status <component>
-/konflux:component build <components> [--wait duration] [--nudge] [--wait-for-release release-duration]
+/component-build-status:component status <component>
+/component-build-status:component build <components> [--wait duration] [--nudge] [--wait-for-release release-duration]
 ```
 
 ## Description
-The `konflux:component` command to manage Konflux component(s).
+The `component-build-status:component` command to manage Konflux component(s).
 
 This command helps you:
 - Get status of a component - last build, commit message, snapshot and release
@@ -152,22 +152,22 @@ The command performs the following steps:
 
 1. **Get status of otel-collector-main component**:
    ```bash
-   /konflux:component status otel-collector-main
+   /component-build-status:component status otel-collector-main
    ```
 
 2. **Trigger build of the otel-collector-main component**:
    ```bash
-   /konflux:component build otel-collector-main
+   /component-build-status:component build otel-collector-main
    ```
 
 3. **Trigger build of the otel-collector-main and otel-operator-main component**:
    ```bash
-   /konflux:component build otel-collector-main otel-operator-main
+   /component-build-status:component build otel-collector-main otel-operator-main
    ```
 
 4. **Trigger build of the otel-collector-main component and wait 30 minutes to finish**:
    ```bash
-   /konflux:component build otel-collector-main --wait 30m
+   /component-build-status:component build otel-collector-main --wait 30m
    ```
 ## Arguments
 
@@ -198,7 +198,7 @@ The command performs the following steps:
 
 ## Related Commands
 
-* `/konflux:application status <application>` - Show status of all components in a Konflux application
+* `/component-build-status:application status <application>` - Show status of all components in a Konflux application
 
 
 ## Additional Resources
