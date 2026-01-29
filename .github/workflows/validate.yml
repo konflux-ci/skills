@@ -26,7 +26,7 @@ jobs:
 
       - name: Validate with claudelint
         run: |
-          docker run -v $(pwd):/workspace -w /workspace ghcr.io/stbenjam/claudelint:latest --strict
+          docker run -v $(pwd):/workspace:Z -w /workspace ghcr.io/stbenjam/claudelint:latest --strict
 
       - name: Run skill tests (validation only)
         run: |
