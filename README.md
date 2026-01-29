@@ -53,19 +53,15 @@ Trigger build of Konflux Component:
 First, add the konflux-skills marketplace (one-time setup):
 
 ```bash
-claude marketplace add https://github.com/konflux-ci/skills.git
+claude
+/plugin marketplace add https://github.com/konflux-ci/skills.git
 ```
 
 Then install individual skills:
 
 ```bash
-claude skill install konflux-skills:<skill-name>
-```
-
-Or install all Konflux skills at once:
-
-```bash
-claude skill install konflux-skills
+claude
+/plugin /install <skill-name>
 ```
 
 ## Usage
