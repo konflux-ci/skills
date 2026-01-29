@@ -11,6 +11,7 @@ Skills are reusable knowledge modules that Claude Code can automatically invoke 
 ### debugging-pipeline-failures
 
 Systematic approach to investigate Konflux Tekton pipeline failures:
+
 - Debug PipelineRun and TaskRun issues
 - Analyze build failures and CI/CD workflow problems
 - Use kubectl commands for comprehensive root cause analysis
@@ -19,6 +20,7 @@ Systematic approach to investigate Konflux Tekton pipeline failures:
 ### navigating-github-to-konflux-pipelines
 
 Find Konflux pipeline information from GitHub PR or branch checks:
+
 - Identify Konflux checks and filter out Prow/SonarCloud
 - Extract PipelineRun URLs from build and integration test checks
 - Parse URLs to get cluster, namespace, and PipelineRun names for kubectl debugging
@@ -27,6 +29,7 @@ Find Konflux pipeline information from GitHub PR or branch checks:
 ### understanding-konflux-resources
 
 Quick reference for Konflux Custom Resources:
+
 - Which resource to use for different tasks (Application, Component, Snapshot, etc.)
 - Who creates each resource (user vs system)
 - Where resources belong (tenant vs managed namespace)
@@ -35,6 +38,7 @@ Quick reference for Konflux Custom Resources:
 ### working-with-provenance
 
 Trace Konflux builds from container images back to source:
+
 - Extract provenance attestations from container images
 - Find build logs and PipelineRun details from image references
 - Verify source commits for deployed containers
@@ -43,6 +47,7 @@ Trace Konflux builds from container images back to source:
 ### component-build-status
 
 Trigger build of Konflux Component:
+
 - Trigger build of a component
 - Wait for release to finish
 - Instruct Claude to perform nudging
