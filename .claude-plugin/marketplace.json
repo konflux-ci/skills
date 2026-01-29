@@ -43,7 +43,7 @@
     },
     {
       "name": "component-build-status",
-      "source": "./plugins/component-build-status",
+      "source": "./skills/component-build-status",
       "description": "Use to trigger component builds, releases or get a component or application status"
     }
   ]
